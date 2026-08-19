@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  applyCrocodileLevelToFlip,
   collectShardRouteMaterials,
   parseCompactNumber,
   scaleShardRouteForOutput,
@@ -30,7 +31,6 @@ const strategyLabels: Record<ShardStrategy, string> = {
 export function ShardDashboard() {
   const [strategy, setStrategy] = useState<ShardStrategy>("bo-so");
   const [level, setLevel] = useState(0);
-  const [appliedLevel, setAppliedLevel] = useState(0);
   const [search, setSearch] = useState("");
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const [sort, setSort] = useState<SortKey>("profit");
@@ -41,7 +41,7 @@ export function ShardDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
-  const [selectedFlip, setSelectedFlip] = useState<ShardFlip | null>(null);
+  const [selectedShardId, setSelectedShardId] = useState<string | null>(null);
   const hasLoadedRef = useRef(false);
   const responseCacheRef = useRef(new Map<string, ShardResponseData>());
 
@@ -49,7 +49,7 @@ export function ShardDashboard() {
     const controller = new AbortController();
     const query = new URLSearchParams({
       strategy,
-      crocodileLevel: String(appliedLevel),
+      crocodileLevel: "0",
       minProfitPercent: String(minProfitPercent),
     });
     appendMarketFilters(query, filters);
@@ -90,16 +90,20 @@ export function ShardDashboard() {
         }
       });
     return () => controller.abort();
-  }, [appliedLevel, filters, minProfitPercent, strategy]);
+  }, [filters, minProfitPercent, strategy]);
 
-  const applyCrocodileLevel = (value: string) => {
-    const next = Math.min(10, Math.max(0, Number(value)));
-    if (Number.isInteger(next)) setAppliedLevel(next);
-  };
+  const levelAdjustedFlips = useMemo(
+    () => flips.map((flip) => applyCrocodileLevelToFlip(flip, level)),
+    [flips, level],
+  );
+  const selectedFlip = useMemo(
+    () => selectedShardId ? levelAdjustedFlips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
+    [levelAdjustedFlips, selectedShardId],
+  );
 
   const displayedFlips = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return flips
+    return levelAdjustedFlips
       .filter((flip) =>
         !query ||
         flip.name.toLowerCase().includes(query) ||
@@ -111,7 +115,7 @@ export function ShardDashboard() {
         if (sort === "maxFusions") return right.depth.maxProfitableFusions - left.depth.maxProfitableFusions;
         return right[sort] - left[sort];
       });
-  }, [flips, search, sort]);
+  }, [levelAdjustedFlips, search, sort]);
 
   return <>
     <div className="toolbar panel shard-controls">
@@ -119,8 +123,8 @@ export function ShardDashboard() {
         {Object.entries(strategyLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
       </select></label>
       <label className="level-control">
-        <span className="level-heading">Crocodile 等級：<strong>{level}</strong>{level !== appliedLevel ? <small>放開後套用</small> : null}</span>
-        <div className="range-scale"><input aria-label="Crocodile 等級" type="range" min="0" max="10" step="1" value={level} onChange={(event) => setLevel(Number(event.target.value))} onPointerUp={(event) => applyCrocodileLevel(event.currentTarget.value)} onPointerCancel={(event) => applyCrocodileLevel(event.currentTarget.value)} onKeyUp={(event) => applyCrocodileLevel(event.currentTarget.value)} onBlur={(event) => applyCrocodileLevel(event.currentTarget.value)} /><div className="range-scale-labels" aria-hidden="true"><span>0</span><span>10</span></div></div>
+        <span className="level-heading">Crocodile 等級：<strong>{level}</strong></span>
+        <div className="range-scale"><input aria-label="Crocodile 等級" type="range" min="0" max="10" step="1" value={level} onChange={(event) => setLevel(Number(event.target.value))} /><div className="range-scale-labels" aria-hidden="true"><span>0</span><span>10</span></div></div>
       </label>
       <div className="ev-note"><span>Reptile 路線預期產量</span><strong>× {(1 + level * 0.02).toFixed(2)}</strong><small>期望值，不保證單次結果</small></div>
     </div>
@@ -152,10 +156,10 @@ export function ShardDashboard() {
           <td>{formatCoins(flip.inputCost)}</td>
           <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)} · {formatCoins(flip.profitPerOutput)}/ea</small></span></td>
           <td className="shard-depth">{flip.depth.available ? <span className="stack"><span className="depth-summary-line"><strong className={flip.depth.maxProfitableFusions > 0 ? "positive" : "negative"}>{formatCoins(flip.depth.maxProfitableFusions)} 次 Fusion</strong><strong className={tone(flip.depth.totalProfit)}>總利潤 {formatCoins(flip.depth.totalProfit)}</strong></span><small>≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
-          <td><button className="detail-button" type="button" onClick={() => setSelectedFlip(flip)}>查看詳細</button></td>
+          <td><button className="detail-button" type="button" onClick={() => setSelectedShardId(flip.shardId)}>查看詳細</button></td>
         </tr>)}
       </tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">沒有同時符合原料與成品條件的 Fusion 路線。</div> : null}</div>}
-    {selectedFlip ? <ShardDetailModal flip={selectedFlip} onClose={() => setSelectedFlip(null)} /> : null}
+    {selectedFlip ? <ShardDetailModal flip={selectedFlip} onClose={() => setSelectedShardId(null)} /> : null}
   </>;
 }
 
@@ -188,7 +192,11 @@ function ShardDetailModal({ flip, onClose }: { flip: ShardFlip; onClose: () => v
     if (flip.route.kind !== "fusion") {
       return { route: flip.route, fusionCount: 1, expectedOutput: flip.expectedOutput, materials: collectShardRouteMaterials(flip.route), inputCost: flip.inputCost, profit: flip.profit };
     }
-    const { route, fusionCount, expectedOutput } = scaleShardRouteForOutput(flip.route, desiredOutput);
+    const { route, fusionCount, expectedOutput } = scaleShardRouteForOutput(
+      flip.route,
+      desiredOutput,
+      { useBaseOutput: true },
+    );
     const materials = collectShardRouteMaterials(route);
     const inputCost = materials.reduce((sum, material) => sum + material.quantity * material.unitCost, 0);
     const revenueAfterTax = flip.revenueAfterTax * fusionCount;

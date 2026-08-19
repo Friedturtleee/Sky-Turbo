@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateShardFlips, collectShardRouteMaterials, scaleShardRouteForOutput } from "./shards";
+import { applyCrocodileLevelToFlip, calculateShardFlips, collectShardRouteMaterials, scaleShardRouteForOutput } from "./shards";
 import type { FusionData, MarketItem } from "./types";
 
 const data: FusionData = {
@@ -50,6 +50,27 @@ describe("Shard fusion calculations", () => {
     expect(scaled.fusionCount).toBe(4);
     expect(scaled.expectedOutput).toBeCloseTo(8.8);
     expect(collectShardRouteMaterials(scaled.route).map((material) => material.quantity)).toEqual([8, 12]);
+  });
+
+  it("adjusts Crocodile output and profit with math without changing materials", () => {
+    const [baseFlip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "bo-so", 0);
+    const adjusted = applyCrocodileLevelToFlip(baseFlip!, 5);
+
+    expect(adjusted.expectedOutput).toBeCloseTo(2.2);
+    expect(adjusted.revenueAfterTax).toBeCloseTo(baseFlip!.revenueAfterTax * 1.1);
+    expect(adjusted.profit).toBeCloseTo(adjusted.revenueAfterTax - baseFlip!.inputCost);
+    expect(adjusted.route.kind === "fusion" ? adjusted.route.expectedOutput : 0).toBeCloseTo(2.2);
+    expect(adjusted.materials).toEqual(baseFlip!.materials);
+    expect(collectShardRouteMaterials(adjusted.route)).toEqual(collectShardRouteMaterials(baseFlip!.route));
+    const baseShoppingPlan = scaleShardRouteForOutput(baseFlip!.route, 11, { useBaseOutput: true });
+    const adjustedShoppingPlan = scaleShardRouteForOutput(adjusted.route, 11, { useBaseOutput: true });
+    expect(adjustedShoppingPlan.fusionCount).toBe(6);
+    expect(collectShardRouteMaterials(adjustedShoppingPlan.route)).toEqual(
+      collectShardRouteMaterials(baseShoppingPlan.route),
+    );
+    expect(adjustedShoppingPlan.expectedOutput).toBeCloseTo(13.2);
   });
 
   it("walks visible order levels to report maximum profitable final output", () => {
