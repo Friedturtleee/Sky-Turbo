@@ -24,7 +24,7 @@ export function createEmptyMarketFilters(): MarketFilterDrafts {
     volatility: emptyRange(),
     sellVolume: emptyRange(),
     buyVolume: emptyRange(),
-    totalVolume: emptyRange(),
+    totalVolume: { min: "100", max: "" },
     price: emptyRange(),
     coinsPerHour: emptyRange(),
     marginCoins: emptyRange(),
@@ -63,4 +63,3 @@ export function MarketFilterPanel({
       <button className="button subtle" type="button" onClick={() => { const empty = createEmptyMarketFilters(); setDrafts(empty); onApply(empty); }}>清除篩選</button></div>
   </div></details>;
 }
-

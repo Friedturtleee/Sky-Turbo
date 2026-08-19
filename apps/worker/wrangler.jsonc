@@ -23,7 +23,9 @@
     }
   ],
   "vars": {
-    "ALLOWED_ORIGIN": "https://sky-turbo.vercel.app",
-    "VERCEL_INGEST_URL": "https://sky-turbo.vercel.app/api/v1/internal/ingest"
+    "ALLOWED_ORIGIN": "https://bz.friedturtleee.me",
+    "VERCEL_INGEST_URL": "https://bz.friedturtleee.me/api/v1/internal/ingest",
+    "CLERK_ISSUER": "https://clerk.bz.friedturtleee.me",
+    "CLERK_JWKS_URL": "https://clerk.bz.friedturtleee.me/.well-known/jwks.json"
   }
 }

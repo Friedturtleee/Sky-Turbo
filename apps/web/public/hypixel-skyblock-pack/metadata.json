@@ -1,0 +1,40 @@
+{
+  "sources": {
+    "hypixel": "https://api.hypixel.net/v2/resources/packs",
+    "minecraft": {
+      "manifest": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
+      "version": "1.21.5",
+      "clientSha1": "b88808bbb3da8d9f453694b5d8f74a3396f1a533"
+    },
+    "skyShards": {
+      "archive": "https://github.com/Campionnn/SkyShards/archive/refs/heads/master.zip",
+      "sha1": "c72668822cae2b38e915f7a2b29bd6335f1a421c"
+    },
+    "playerHeads": "https://api.hypixel.net/v2/resources/skyblock/items"
+  },
+  "packId": "SkyBlock",
+  "deployId": "5720faaa-20f6-4469-a5b9-628cd3a79f43",
+  "packFormat": 75,
+  "sha1": "057da5a1a94851acfe357675ad0822a3c17ee747",
+  "lastUpdated": 1785869727993,
+  "itemsLastUpdated": 1786567274674,
+  "bazaarProducts": 2124,
+  "mappedItems": 2124,
+  "sourceCounts": {
+    "hypixelPack": 431,
+    "skyShards": 320,
+    "hypixelHead": 287,
+    "minecraft": 300,
+    "categoryFallback": 786,
+    "genericFallback": 0
+  },
+  "copiedTextures": {
+    "hypixel": 419,
+    "minecraft": 166,
+    "skyShards": 320,
+    "playerHeads": 286
+  },
+  "unresolvedPackModels": 31,
+  "failedHeads": 0,
+  "genericFallbackProducts": []
+}

@@ -17,8 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <div className="sidebar-foot"><span className="status-dot" />Hypixel data · 60s cache<small>Not affiliated with Hypixel.</small></div>
     </aside>
     <div className="content-shell"><header className="topbar"><Link className="mobile-brand" href="/">Sky Turbo</Link><div className="topbar-note">稅率 1.125% · CPH 為估算值</div><AuthControls /></header><main>{children}</main>
-      <footer>Charts by <a href="https://www.tradingview.com/lightweight-charts/" target="_blank" rel="noreferrer">TradingView Lightweight Charts™</a></footer>
+      <footer>Charts by <a href="https://www.tradingview.com/lightweight-charts/" target="_blank" rel="noreferrer">TradingView Lightweight Charts™</a> · Item textures © <a href="https://hypixel.net/" target="_blank" rel="noreferrer">Hypixel Inc.</a> · Not affiliated with or endorsed by Hypixel.</footer>
     </div>
   </div></AppProviders></body></html>;
 }
-

@@ -1,6 +1,6 @@
 # Sky Turbo
 
-Hypixel SkyBlock Bazaar 與 Shard Fusion 即時看盤器。介面使用繁體中文，物品名稱保留英文；所有 flip 數字均明確區分掛單與即時成交，賣出收入固定扣除 1.125% Bazaar 稅。
+Hypixel SkyBlock Bazaar 與 Shard Fusion 即時看盤器。介面使用繁體中文，物品名稱保留英文；所有 flip 數字均明確區分掛單與即時成交。
 
 ## 本機啟動
 
@@ -9,11 +9,16 @@ Hypixel SkyBlock Bazaar 與 Shard Fusion 即時看盤器。介面使用繁體中
 ```bash
 pnpm install
 pnpm sync:shards
+pnpm sync:item-icons
 pnpm dev
 
 ```
 
 開啟 `http://localhost:3000`。沒有 Clerk 或 D1 設定時也能啟動：行情直接讀取 Hypixel，書籤存於瀏覽器，歷史圖表從當下開始顯示單點資料。
+
+`pnpm sync:item-icons` 會替當下所有 Bazaar 商品產生圖示映射，不需要 API key。同步來源依序為 Hypixel 官方 SkyBlock 資源包、Items API 的玩家頭顱、Minecraft 原版材質、SkyShards 的 Shard 圖示；附魔等級與 Essence 等沒有獨立材質的項目則共用對應分類圖示。Hypixel 與 Minecraft 下載檔會驗證 SHA-1，所有實際使用的 PNG 都會保存成網站靜態檔，不需在訪客開啟頁面時連線外部圖片服務。
+
+同步完成後可查看 `apps/web/public/hypixel-skyblock-pack/metadata.json`：`mappedItems` 應與 `bazaarProducts` 相同，`genericFallbackProducts` 應為空陣列。目前產生的映射涵蓋 2,124 / 2,124 項；Bazaar 新增商品後重新執行同步即可更新。
 
 ```bash
 pnpm test
@@ -36,14 +41,6 @@ INGEST_SECRET=<與 Worker 完全相同的長隨機字串>
 # 或將真實值放進 gitignored 檔案，避免寫入 .env：
 INGEST_SECRET_FILE=.secrets/INGEST_SECRET
 
-# 一般歷史端點目前不強制 token；有 Premium+／custom-app token 才填。
-COFLNET_API_TOKEN=
-COFLNET_CONTACT=your-email-or-discord
-COFLNET_REQUESTS_PER_MINUTE=90
-COFLNET_USAGE_APPROVED=true
-```
-
-`COFLNET_USAGE_APPROVED=true` 代表已取得 SkyCofl 對此應用保存／使用資料的同意。其 API 文件禁止未經同意的資料服務、大量再散布及直接競爭用途，因此程式預設拒絕執行。`COFLNET_CONTACT` 會放入 User-Agent，避免匿名大量請求。
 
 ```bash
 # 正式補齊全部缺口
@@ -69,20 +66,3 @@ apps/worker    Cloudflare Cron、D1 market history、Clerk JWT／bookmarks
 packages/core  Bazaar／Fusion 純計算核心與測試
 scripts        固定版本的 SkyShards 資料同步工具
 ```
-
-環境變數範本在 [.env.example](./.env.example) 與 [apps/worker/.dev.vars.example](./apps/worker/.dev.vars.example)。產品範圍、公式及部署方式分別記錄於 [PROJECT_MASTER_DOCUMENT.md](./PROJECT_MASTER_DOCUMENT.md) 與 [SPECIFICATION.md](./SPECIFICATION.md)。
-
-## 正式環境資源
-
-本方案使用 Cloudflare Workers Free、D1 Free、Vercel Hobby，以及可選的 Clerk Hobby；不建立 R2、不購買網域，也不需要填信用卡。使用免費的 `workers.dev` 與 `vercel.app` 網域即可。
-
-1. 登入免費 Cloudflare 帳號後建立 D1：`pnpm --filter @sky-turbo/worker exec wrangler d1 create sky-turbo --location=apac`，把回傳 ID 寫入 `apps/worker/wrangler.jsonc`。
-2. 套用 migration：`pnpm --filter @sky-turbo/worker exec wrangler d1 migrations apply sky-turbo --remote`。
-3. 執行 `pnpm --filter @sky-turbo/worker exec wrangler secret put INGEST_SECRET`，輸入一個自行產生的長隨機值，然後部署 Worker。
-4. Vercel 選 Hobby，Root Directory 設為 `apps/web`；加入相同的 `INGEST_SECRET`，並把 `NEXT_PUBLIC_EDGE_API_URL` 設成 Worker 的 `workers.dev` URL。
-5. 將 `apps/worker/wrangler.jsonc` 的 `ALLOWED_ORIGIN` 改為 Vercel 的 `vercel.app` URL、`VERCEL_INGEST_URL` 改為 `<Vercel URL>/api/v1/internal/ingest`，再部署 Worker。
-6. Clerk 完全可選；不設定時書籤會存在瀏覽器。如需跨裝置同步，可使用不需信用卡的 Clerk Hobby。
-
-D1 使用 8 個 gzip 分區：5 分鐘資料保留 8 天、每小時資料保留 93 天、每日資料長期保留。以目前商品數估算，進入穩定 retention 後包含索引與刪除約 13,000 billed rows written／日，低於 D1 Free 的 100,000／日限制；最密集的每日切換約 29 個 D1 queries／invocation，也低於 Free 的 50 個限制。超額時免費方案會暫停查詢而不是自動扣款。
-
-此專案與 Hypixel Studios 或 Hypixel Inc. 無關，亦未受其背書。

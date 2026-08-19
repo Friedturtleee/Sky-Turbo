@@ -17,8 +17,14 @@ import {
   type CoflnetRangeKey,
 } from "./coflnet-backfill-lib";
 
-loadEnv({ path: ".env", quiet: true });
+const rootEnv = loadEnv({ path: ".env", quiet: true }).parsed;
 loadEnv({ path: ".env.local", override: true, quiet: true });
+
+// `vercel env pull` cannot export sensitive values and writes this placeholder.
+// Do not let it replace the usable local secret from the repository root.
+if (process.env.INGEST_SECRET?.trim() === "[SENSITIVE]" && rootEnv?.INGEST_SECRET?.trim()) {
+  process.env.INGEST_SECRET = rootEnv.INGEST_SECRET;
+}
 
 const HYPIXEL_BAZAAR_URL = "https://api.hypixel.net/v2/skyblock/bazaar";
 const COFLNET_BASE_URL = "https://sky.coflnet.com/api/bazaar";
@@ -140,34 +146,46 @@ async function fetchRange(
   for (let attempt = 0; attempt < 6; attempt += 1) {
     await limiter.wait();
     stats.requests += 1;
+    const requestLabel = `[request ${stats.requests}] ${productId}/${range} attempt=${attempt + 1}`;
     try {
       const response = await fetch(url, { headers, signal: AbortSignal.timeout(30_000) });
       if (response.status === 400 || response.status === 404) {
+        console.log(`${requestLabel} NO_DATA HTTP ${response.status}`);
         return { fetchedAt: Date.now(), status: "unavailable", points: [] };
       }
       if (response.status === 401 || response.status === 403) {
+        console.error(`${requestLabel} FAILED HTTP ${response.status}`);
         throw new FatalApiError(`SkyCofl authorization failed (${response.status}); check COFLNET_API_TOKEN and usage permission`);
       }
       if (response.ok) {
+        const points = normalizeCoflnetPayload(await response.json());
+        console.log(`${requestLabel} SUCCESS HTTP ${response.status} points=${points.length}`);
         return {
           fetchedAt: Date.now(),
           status: "ok",
-          points: normalizeCoflnetPayload(await response.json()),
+          points,
         };
       }
 
       if (response.status !== 429 && response.status < 500) {
+        console.error(`${requestLabel} FAILED HTTP ${response.status}`);
         throw new FatalApiError(`SkyCofl request failed (${response.status}) for ${productId}/${range}`);
       }
-      if (attempt === 5) throw new Error(`SkyCofl request exhausted retries (${response.status})`);
+      if (attempt === 5) {
+        console.error(`${requestLabel} FAILED HTTP ${response.status} retries_exhausted`);
+        throw new Error(`SkyCofl request exhausted retries (${response.status})`);
+      }
       stats.retries += 1;
       const retryAfter = retryAfterMilliseconds(response.headers.get("retry-after"));
       const delay = retryAfter ?? Math.min(30_000, 1_000 * (2 ** attempt));
+      console.warn(`${requestLabel} RETRY HTTP ${response.status} wait=${delay + 250}ms`);
       await new Promise((resolve) => setTimeout(resolve, delay + 250));
     } catch (error) {
       if (error instanceof FatalApiError || attempt === 5) throw error;
       stats.retries += 1;
-      await new Promise((resolve) => setTimeout(resolve, Math.min(30_000, 1_000 * (2 ** attempt))));
+      const delay = Math.min(30_000, 1_000 * (2 ** attempt));
+      console.warn(`${requestLabel} RETRY network_error wait=${delay}ms error=${error instanceof Error ? error.message : String(error)}`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
   throw new Error("Unreachable retry state");
@@ -221,6 +239,7 @@ async function main(): Promise<void> {
     failedRanges: 0,
     writtenProducts: 0,
   };
+  console.log("Loading existing D1 import progress...");
   const priorSummary = await readJson<ImportedHistorySummary>(storage, `${META_PATH}summary`);
   const summary: ImportedHistorySummary = priorSummary?.schemaVersion === 1 && priorSummary.provider === "coflnet"
     ? priorSummary
@@ -228,6 +247,9 @@ async function main(): Promise<void> {
 
   for (let index = 0; index < products.length; index += 1) {
     const productId = products[index]!;
+    const position = index + 1;
+    const percent = ((position / products.length) * 100).toFixed(1);
+    console.log(`[${position}/${products.length} ${percent}%] Processing ${productId}`);
     const existing = validExisting(
       await readJson<ImportedProductHistory>(storage, productPath(productId)),
       productId,
@@ -244,6 +266,7 @@ async function main(): Promise<void> {
     for (const range of REQUIRED_RANGES) {
       if (!options.refresh && record.ranges[range]) {
         stats.skippedRanges += 1;
+        console.log(`[skip] ${productId}/${range} already stored in D1`);
         continue;
       }
       try {
@@ -265,7 +288,7 @@ async function main(): Promise<void> {
       await putJson(storage!, productPath(productId), record);
       stats.writtenProducts += 1;
     }
-    const completed = index + 1;
+    const completed = position;
     if (completed === products.length || completed % 25 === 0) {
       if (!options.dryRun) {
         summary.generatedAt = Date.now();

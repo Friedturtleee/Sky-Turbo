@@ -25,12 +25,17 @@ function Featured({ item }: { item: MarketItem }) {
       .then((response) => response.json())
       .then((payload: { data?: { points?: PricePoint[] } }) => setPoints(payload.data?.points ?? []));
   }, [item.productId]);
-  const chartPoints = points.length ? points : [{ time: item.updatedAt, price: item.midpoint }];
+  const chartPoints = points.length ? points : [{
+    time: item.updatedAt,
+    price: item.midpoint,
+    buyOrderPrice: item.buyOrderPrice,
+    sellOrderPrice: item.sellOrderPrice,
+  }];
   return (
     <section className="featured-card panel">
       <div className="featured-copy">
         <span className="eyebrow">目前排序第一</span>
-        <div className="item-heading"><ItemIcon name={item.name} /><div><h2>{item.name}</h2><code>{item.productId}</code></div></div>
+        <div className="item-heading"><ItemIcon name={item.name} productId={item.productId} /><div><h2>{item.name}</h2><code>{item.productId}</code></div></div>
         <div className="metric-row">
           <div><span>Buy Order</span><strong>{formatCoins(item.buyOrderPrice)}</strong></div>
           <div><span>Sell Order</span><strong>{formatCoins(item.sellOrderPrice)}</strong></div>
@@ -97,13 +102,13 @@ export function MarketDashboard({ bookmarksOnly = false }: { bookmarksOnly?: boo
       {items[0] && !bookmarksOnly ? <Featured item={items[0]} /> : null}
       <div className="table-meta"><span>{items.length.toLocaleString()} 個物品</span><span>更新：{new Date(snapshot.updatedAt).toLocaleTimeString("zh-TW")}</span></div>
       <div className="market-table-wrap panel"><table className="market-table"><thead><tr>
-        <th>物品</th><th>價格</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th>24h / Vol.</th><th>±5% 深度</th><th aria-label="書籤" />
+        <th>物品</th><th>價格</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">24h / Vol.</th><th>±5% 深度</th><th aria-label="書籤" />
       </tr></thead><tbody>{items.slice(0, 250).map((item) => <tr key={item.productId}>
-        <td><Link className="item-cell" href={`/items/${encodeURIComponent(item.productId)}`}><ItemIcon name={item.name} /><span><strong>{item.name}</strong><code>{item.productId}</code></span></Link></td>
+        <td><Link className="item-cell" href={`/items/${encodeURIComponent(item.productId)}`}><ItemIcon name={item.name} productId={item.productId} /><span><strong>{item.name}</strong><code>{item.productId}</code></span></Link></td>
         <td><span className="stack"><strong>{formatCoins(item.midpoint)}</strong><small>{formatCoins(item.buyOrderPrice)} → {formatCoins(item.sellOrderPrice)}</small></span></td>
         <td><span className={`stack ${tone(item.marginCoins)}`}><strong>{formatCoins(item.marginCoins)}</strong><small>{formatPercent(item.marginPercent)}</small></span></td>
         <td className={tone(item.coinsPerHour)}>{formatCoins(item.coinsPerHour)}</td>
-        <td><span className="stack"><strong className={tone(item.changes?.["1d"])}>{formatPercent(item.changes?.["1d"])}</strong><small>{item.volatility?.["7d"]?.toFixed(2) ?? "累積中"}%</small></span></td>
+        <td><span className="stack change-volume"><strong className={tone(item.changes?.["1d"])}>{formatPercent(item.changes?.["1d"])}</strong><small>{item.volatility?.["7d"]?.toFixed(2) ?? "累積中"}%</small></span></td>
         <td><span className="stack"><strong>{formatCoins(item.depthWithinFivePercent.buyOrders.quantity)} / {formatCoins(item.depthWithinFivePercent.sellOffers.quantity)}</strong><small>{formatCoins(item.depthWithinFivePercent.buyOrders.notional)} / {formatCoins(item.depthWithinFivePercent.sellOffers.notional)}</small></span></td>
         <td><BookmarkButton productId={item.productId} /></td>
       </tr>)}</tbody></table>

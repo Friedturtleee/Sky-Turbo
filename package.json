@@ -15,11 +15,13 @@
     "backfill:history": "tsx scripts/backfill-coflnet.ts",
     "test": "pnpm -r --if-present test && tsx --test scripts/coflnet-backfill-lib.test.ts",
     "typecheck": "pnpm -r typecheck && tsc -p tsconfig.scripts.json",
-    "sync:shards": "node scripts/sync-skyshards.mjs"
+    "sync:shards": "node scripts/sync-skyshards.mjs",
+    "sync:item-icons": "tsx scripts/sync-hypixel-item-icons.ts"
   },
   "devDependencies": {
     "@types/node": "24.3.0",
     "dotenv": "17.4.2",
+    "fflate": "0.8.2",
     "tsx": "4.23.12",
     "typescript": "7.0.2"
   }

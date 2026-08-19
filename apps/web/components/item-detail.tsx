@@ -36,9 +36,14 @@ export function ItemDetail({ productId }: { productId: string }) {
 
   if (error) return <div className="state-card error-state">{error}</div>;
   if (!item) return <div className="state-card"><span className="spinner" />正在讀取物品市場…</div>;
-  const points = history.length ? history : [{ time: item.updatedAt, price: item.midpoint }];
+  const points = history.length ? history : [{
+    time: item.updatedAt,
+    price: item.midpoint,
+    buyOrderPrice: item.buyOrderPrice,
+    sellOrderPrice: item.sellOrderPrice,
+  }];
   return <>
-    <section className="detail-header panel"><div className="item-heading"><ItemIcon name={item.name} /><div><span className="eyebrow">Bazaar item</span><h1>{item.name}</h1><code>{item.productId}</code></div></div><BookmarkButton productId={item.productId} /></section>
+    <section className="detail-header panel"><div className="item-heading"><ItemIcon name={item.name} productId={item.productId} /><div><span className="eyebrow">Bazaar item</span><h1>{item.name}</h1><code>{item.productId}</code></div></div><BookmarkButton productId={item.productId} /></section>
     <section className="summary-grid">
       <article className="summary-card panel"><span>當前中間價</span><strong>{formatCoins(item.midpoint)}</strong><small>即買 {formatCoins(item.instantBuyPrice)} · 即賣 {formatCoins(item.instantSellPrice)}</small></article>
       <article className="summary-card panel"><span>Order Margin</span><strong className={tone(item.marginCoins)}>{formatCoins(item.marginCoins)}</strong><small>{formatPercent(item.marginPercent)}，已扣 1.125% 稅</small></article>
