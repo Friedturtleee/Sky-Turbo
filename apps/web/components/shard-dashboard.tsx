@@ -8,7 +8,7 @@ import {
   type ShardRouteNode,
   type ShardStrategy,
 } from "@sky-turbo/core";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
 import {
@@ -19,6 +19,7 @@ import {
 } from "./market-filter-panel";
 
 type SortKey = "profit" | "profitPerOutput" | "marginPercent" | "maxOutput" | "maxFusions" | "inputCost";
+type ShardResponseData = { flips: ShardFlip[]; depthModel: string };
 
 const strategyLabels: Record<ShardStrategy, string> = {
   "bo-so": "Buy Order → Sell Order",
@@ -38,34 +39,55 @@ export function ShardDashboard() {
   const [flips, setFlips] = useState<ShardFlip[]>([]);
   const [depthModel, setDepthModel] = useState("");
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
   const [selectedFlip, setSelectedFlip] = useState<ShardFlip | null>(null);
+  const hasLoadedRef = useRef(false);
+  const responseCacheRef = useRef(new Map<string, ShardResponseData>());
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    setError("");
     const query = new URLSearchParams({
       strategy,
       crocodileLevel: String(appliedLevel),
       minProfitPercent: String(minProfitPercent),
     });
     appendMarketFilters(query, filters);
-    void fetch(`/api/v1/shard-flips?${query}`, { signal: controller.signal })
+    const requestUrl = `/api/v1/shard-flips?${query}`;
+    const cached = responseCacheRef.current.get(requestUrl);
+    if (cached) {
+      setFlips(cached.flips);
+      setDepthModel(cached.depthModel);
+      hasLoadedRef.current = true;
+    }
+    const blocking = !hasLoadedRef.current;
+    setLoading(blocking);
+    setRefreshing(!blocking);
+    setError("");
+    void fetch(requestUrl, { signal: controller.signal })
       .then(async (response) => {
         const payload = (await response.json()) as {
           data?: { flips?: ShardFlip[]; depthModel?: string };
           error?: { message?: string };
         };
         if (!response.ok) throw new Error(payload.error?.message ?? "計算失敗");
-        setFlips(payload.data?.flips ?? []);
-        setDepthModel(payload.data?.depthModel ?? "");
+        const data = {
+          flips: payload.data?.flips ?? [],
+          depthModel: payload.data?.depthModel ?? "",
+        };
+        responseCacheRef.current.set(requestUrl, data);
+        hasLoadedRef.current = true;
+        setFlips(data.flips);
+        setDepthModel(data.depthModel);
       })
       .catch((reason: Error) => {
         if (reason.name !== "AbortError") setError(reason.message);
       })
       .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+          setRefreshing(false);
+        }
       });
     return () => controller.abort();
   }, [appliedLevel, filters, minProfitPercent, strategy]);
@@ -120,8 +142,8 @@ export function ShardDashboard() {
         onApply={setFilters}
       />
     </div>
-    <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線</span><span>{depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
-    {loading ? <div className="state-card"><span className="spinner" />正在篩選市場並重算替代 Fusion 路徑…</div> : error ? <div className="state-card error-state">{error}</div> :
+    <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線{refreshing ? <i className="inline-refresh"><span className="spinner" />更新中</i> : null}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
+    {loading ? <div className="state-card"><span className="spinner" />正在篩選市場並重算替代 Fusion 路徑…</div> : error && !hasLoadedRef.current ? <div className="state-card error-state">{error}</div> :
       <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>可獲利市場深度</th><th>詳細</th></tr></thead><tbody>
         {displayedFlips.slice(0, 300).map((flip) => <tr key={flip.shardId}><td><span className="stack"><strong>{flip.name}</strong><small>{flip.family} · {flip.rarity}</small></span></td>
           <td><span className={`stack change-volume ${tone(flip.change24h)}`}><strong>{formatPercent(flip.change24h)}</strong><small className="neutral">{flip.volatility7d === undefined ? "Vol. 累積中" : `Vol. ${flip.volatility7d.toFixed(2)}%`}</small></span></td>
@@ -145,7 +167,7 @@ function MinProfitControl({ value, onApply }: { value: number; onApply: (value: 
     setDraft(String(next));
     onApply(next);
   };
-  return <label className="min-profit-control"><span>Min Profit</span><span className="min-profit-input"><input type="text" inputMode="text" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /><i>%</i></span><small>預設為原料成本的 0.1%</small></label>;
+  return <label className="min-profit-control"><span>Min Profit</span><span className="min-profit-input"><input type="text" inputMode="text" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /><i>%</i></span></label>;
 }
 
 function integer(value: number): string {
