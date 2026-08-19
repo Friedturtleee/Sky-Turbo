@@ -1,6 +1,7 @@
 import fusionData from "@sky-turbo/core/fusion-data";
 import {
   calculateShardFlips,
+  parseCompactNumber,
   type FusionData,
   type MarketFilterKey,
   type MarketFilters,
@@ -23,8 +24,8 @@ function parseFilters(search: URLSearchParams): MarketFilters {
     filterKeys.flatMap((key) => {
       const minText = search.get(`${key}Min`);
       const maxText = search.get(`${key}Max`);
-      const min = minText === null || minText === "" ? undefined : Number(minText);
-      const max = maxText === null || maxText === "" ? undefined : Number(maxText);
+      const min = parseCompactNumber(minText);
+      const max = parseCompactNumber(maxText);
       if (min === undefined && max === undefined) return [];
       return [[key, {
         ...(Number.isFinite(min) ? { min } : {}),
@@ -39,12 +40,12 @@ export async function GET(request: Request) {
     const search = new URL(request.url).searchParams;
     const strategy = (search.get("strategy") ?? "bo-so") as ShardStrategy;
     const crocodileLevel = Number(search.get("crocodileLevel") ?? "0");
-    const minProfitPercent = Number(search.get("minProfitPercent") ?? "0.1");
+    const minProfitPercent = parseCompactNumber(search.get("minProfitPercent") ?? "0.1");
     if (!strategies.has(strategy)) return jsonError("不支援的交易策略", 400);
     if (!Number.isInteger(crocodileLevel) || crocodileLevel < 0 || crocodileLevel > 10) {
       return jsonError("Crocodile 等級必須為 0 到 10", 400);
     }
-    if (!Number.isFinite(minProfitPercent) || minProfitPercent < 0 || minProfitPercent > 100) {
+    if (minProfitPercent === undefined || minProfitPercent < 0 || minProfitPercent > 100) {
       return jsonError("Min Profit 必須為 0% 到 100%", 400);
     }
     const filters = parseFilters(search);

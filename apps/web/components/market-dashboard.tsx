@@ -1,6 +1,6 @@
 "use client";
 
-import type { MarketItem, MarketSnapshot, PricePoint } from "@sky-turbo/core";
+import { parseCompactNumber, type MarketItem, type MarketSnapshot, type PricePoint } from "@sky-turbo/core";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BookmarkButton } from "./bookmarks";
@@ -12,8 +12,8 @@ import { PriceChart } from "./price-chart";
 
 type SortKey = "coinsPerHour" | "marginPercent" | "marginCoins" | "volatility";
 function inRange(value: number, range: { min: string; max: string }): boolean {
-  const min = range.min === "" ? -Infinity : Number(range.min);
-  const max = range.max === "" ? Infinity : Number(range.max);
+  const min = parseCompactNumber(range.min) ?? -Infinity;
+  const max = parseCompactNumber(range.max) ?? Infinity;
   return value >= min && value <= max;
 }
 
