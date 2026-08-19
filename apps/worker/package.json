@@ -1,0 +1,22 @@
+{
+  "name": "@sky-turbo/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "wrangler types && wrangler deploy --dry-run --outdir dist",
+    "dev": "wrangler dev",
+    "lint": "wrangler types && tsc --noEmit",
+    "typecheck": "wrangler types && tsc --noEmit",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "@sky-turbo/core": "workspace:*",
+    "jose": "6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.0",
+    "typescript": "7.0.2",
+    "wrangler": "4.124.0"
+  }
+}

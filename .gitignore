@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.turbo/
+.wrangler/
+.vercel/
+.secrets/
+coverage/
+dist/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local

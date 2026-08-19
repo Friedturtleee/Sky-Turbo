@@ -1,0 +1,29 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "sky-turbo-edge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sky-turbo",
+      "database_id": "6d52a1a5-8fda-4da9-94b9-53e8baffcdfd",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://sky-turbo.vercel.app",
+    "VERCEL_INGEST_URL": "https://sky-turbo.vercel.app/api/v1/internal/ingest"
+  }
+}

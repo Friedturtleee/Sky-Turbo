@@ -1,0 +1,4 @@
+INGEST_SECRET="replace-with-a-long-random-value"
+CLERK_ISSUER="https://your-instance.clerk.accounts.dev"
+CLERK_JWKS_URL="https://your-instance.clerk.accounts.dev/.well-known/jwks.json"
+
