@@ -64,13 +64,12 @@ describe("Shard fusion calculations", () => {
     expect(adjusted.route.kind === "fusion" ? adjusted.route.expectedOutput : 0).toBeCloseTo(2.2);
     expect(adjusted.materials).toEqual(baseFlip!.materials);
     expect(collectShardRouteMaterials(adjusted.route)).toEqual(collectShardRouteMaterials(baseFlip!.route));
-    const baseShoppingPlan = scaleShardRouteForOutput(baseFlip!.route, 11, { useBaseOutput: true });
-    const adjustedShoppingPlan = scaleShardRouteForOutput(adjusted.route, 11, { useBaseOutput: true });
-    expect(adjustedShoppingPlan.fusionCount).toBe(6);
-    expect(collectShardRouteMaterials(adjustedShoppingPlan.route)).toEqual(
-      collectShardRouteMaterials(baseShoppingPlan.route),
-    );
-    expect(adjustedShoppingPlan.expectedOutput).toBeCloseTo(13.2);
+    const baseShoppingPlan = scaleShardRouteForOutput(baseFlip!.route, 11);
+    const adjustedShoppingPlan = scaleShardRouteForOutput(adjusted.route, 11);
+    expect(baseShoppingPlan.fusionCount).toBe(6);
+    expect(adjustedShoppingPlan.fusionCount).toBe(5);
+    expect(collectShardRouteMaterials(adjustedShoppingPlan.route).map((material) => material.quantity)).toEqual([10, 15]);
+    expect(adjustedShoppingPlan.expectedOutput).toBeCloseTo(11);
   });
 
   it("walks visible order levels to report maximum profitable final output", () => {
@@ -87,7 +86,78 @@ describe("Shard fusion calculations", () => {
     expect(flip?.depth.maxProfitableOutput).toBe(10);
     expect(flip?.depth.limitedBy).toContain("Gamma");
     expect(flip?.depth.materialsRequired.map((material) => material.quantity)).toEqual([10, 15]);
-    expect(flip?.depth.minProfitPercent).toBe(0.1);
+    expect(flip?.depth.minProfit).toEqual({ mode: "percent", value: 0.1 });
+  });
+
+  it("walks multiple input and output levels for the displayed single-Flip cost and profit", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 0, undefined, {
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [
+          { amount: 1, orders: 1, pricePerUnit: 11 },
+          { amount: 10, orders: 1, pricePerUnit: 20 },
+        ], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [
+          { amount: 1, orders: 1, pricePerUnit: 12 },
+          { amount: 10, orders: 1, pricePerUnit: 22 },
+        ], partial: false },
+        SHARD_GAMMA: { buyOrders: [
+          { amount: 1, orders: 1, pricePerUnit: 90 },
+          { amount: 10, orders: 1, pricePerUnit: 80 },
+        ], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.inputCost).toBe(87);
+    expect(flip?.revenueAfterTax).toBeCloseTo(168.0875);
+    expect(flip?.profit).toBeCloseTo(81.0875);
+    expect(flip?.materials.map((material) => material.unitCost)).toEqual([15.5, 56 / 3]);
+  });
+
+  it("limits depth by Min Flip Profit as a percent of max or a fixed coin floor", () => {
+    const orderBooks = {
+      SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 10 }], partial: false },
+      SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 10 }], partial: false },
+      SHARD_GAMMA: { buyOrders: [
+        { amount: 4, orders: 1, pricePerUnit: 100 },
+        { amount: 6, orders: 1, pricePerUnit: 40 },
+      ], sellOffers: [], partial: false },
+    };
+    const marketItems = [
+      market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 10, 10), market("SHARD_GAMMA", 90, 100),
+    ];
+    const [percentFlip] = calculateShardFlips(data, marketItems, "ib-is", 0, undefined, {
+      minFlipProfit: { mode: "percent", value: 50 },
+      orderBooks,
+    });
+    const [coinFlip] = calculateShardFlips(data, marketItems, "ib-is", 0, undefined, {
+      minFlipProfit: { mode: "coins", value: 30 },
+      orderBooks,
+    });
+
+    expect(percentFlip?.depth.maxFlipProfit).toBeCloseTo(147.75);
+    expect(percentFlip?.depth.maxProfitableFusions).toBe(2);
+    expect(percentFlip?.depth.limitedBy).toBe("Min Flip Profit 50%");
+    expect(coinFlip?.depth.maxProfitableFusions).toBe(2);
+    expect(coinFlip?.depth.limitedBy).toBe("Min Flip Profit 30 coins");
+  });
+
+  it("includes Crocodile EV in the fully recalculated market depth", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 5, undefined, {
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 11 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 11, orders: 1, pricePerUnit: 90 }], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.expectedOutput).toBeCloseTo(2.2);
+    expect(flip?.depth.maxProfitableFusions).toBe(5);
+    expect(flip?.depth.maxProfitableOutput).toBeCloseTo(11);
+    expect(flip?.depth.materialsRequired.map((material) => material.quantity)).toEqual([10, 15]);
   });
 
   it("excludes depth whose total profit is below the configured material-cost floor", () => {
@@ -104,6 +174,27 @@ describe("Shard fusion calculations", () => {
     expect(flip?.profit).toBeGreaterThan(0);
     expect(flip?.depth.maxProfitableFusions).toBe(0);
     expect(flip?.depth.limitedBy).toBe("Min Profit 50%");
+  });
+
+  it("accepts a fixed coin Min Profit and finds the last qualifying depth", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 40, 50),
+    ], "ib-is", 0, undefined, {
+      minProfit: { mode: "coins", value: 50 },
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 11 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [
+          { amount: 6, orders: 1, pricePerUnit: 40 },
+          { amount: 4, orders: 1, pricePerUnit: 20 },
+        ], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.depth.minProfit).toEqual({ mode: "coins", value: 50 });
+    expect(flip?.depth.maxProfitableFusions).toBe(3);
+    expect(flip?.depth.totalProfit).toBeGreaterThanOrEqual(50);
+    expect(flip?.depth.limitedBy).toBe("Min Profit 50 coins");
   });
 
   it("uses an alternate fusion route when a direct material market fails filters", () => {

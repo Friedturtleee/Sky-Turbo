@@ -5,6 +5,7 @@ import {
   type FusionData,
   type MarketFilterKey,
   type MarketFilters,
+  type MinProfitThreshold,
   type ShardOrderBook,
   type ShardStrategy,
 } from "@sky-turbo/core";
@@ -13,9 +14,7 @@ import { getBazaarResponse } from "@/lib/hypixel";
 import { getEnrichedMarketSnapshot } from "@/lib/market";
 
 const strategies = new Set<ShardStrategy>(["bo-so", "ib-so", "bo-is", "ib-is"]);
-const filterKeys: MarketFilterKey[] = [
-  "volatility", "sellVolume", "buyVolume", "totalVolume", "price", "coinsPerHour", "marginCoins", "marginPercent",
-];
+const filterKeys: MarketFilterKey[] = ["sellVolume", "buyVolume", "totalVolume"];
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
@@ -40,14 +39,46 @@ export async function GET(request: Request) {
     const search = new URL(request.url).searchParams;
     const strategy = (search.get("strategy") ?? "bo-so") as ShardStrategy;
     const crocodileLevel = Number(search.get("crocodileLevel") ?? "0");
-    const minProfitPercent = parseCompactNumber(search.get("minProfitPercent") ?? "0.1");
+    const minProfitMode = search.get("minProfitMode") ?? "percent";
+    const minProfitValue = parseCompactNumber(
+      search.get("minProfitValue") ?? search.get("minProfitPercent") ?? "0.1",
+    );
+    const minFlipProfitMode = search.get("minFlipProfitMode") ?? "coins";
+    const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "0");
     if (!strategies.has(strategy)) return jsonError("不支援的交易策略", 400);
     if (!Number.isInteger(crocodileLevel) || crocodileLevel < 0 || crocodileLevel > 10) {
       return jsonError("Crocodile 等級必須為 0 到 10", 400);
     }
-    if (minProfitPercent === undefined || minProfitPercent < 0 || minProfitPercent > 100) {
-      return jsonError("Min Profit 必須為 0% 到 100%", 400);
+    if (minProfitMode !== "percent" && minProfitMode !== "coins") {
+      return jsonError("Min Profit 單位必須為 % 或 coins", 400);
     }
+    if (
+      minProfitValue === undefined ||
+      minProfitValue < 0 ||
+      (minProfitMode === "percent" && minProfitValue > 100)
+    ) {
+      return jsonError(
+        minProfitMode === "percent" ? "Min Profit 必須為 0% 到 100%" : "Min Profit 金額必須大於或等於 0",
+        400,
+      );
+    }
+    if (minFlipProfitMode !== "percent" && minFlipProfitMode !== "coins") {
+      return jsonError("Min Flip Profit 單位必須為 % 或 coins", 400);
+    }
+    if (
+      minFlipProfitValue === undefined ||
+      minFlipProfitValue < 0 ||
+      (minFlipProfitMode === "percent" && minFlipProfitValue > 100)
+    ) {
+      return jsonError(
+        minFlipProfitMode === "percent"
+          ? "Min Flip Profit 必須為最高單次 Flip Profit 的 0% 到 100%"
+          : "Min Flip Profit 金額必須大於或等於 0",
+        400,
+      );
+    }
+    const minProfit: MinProfitThreshold = { mode: minProfitMode, value: minProfitValue };
+    const minFlipProfit: MinProfitThreshold = { mode: minFlipProfitMode, value: minFlipProfitValue };
     const filters = parseFilters(search);
     const [snapshot, bazaar] = await Promise.all([getEnrichedMarketSnapshot(), getBazaarResponse()]);
     const orderBooks = Object.fromEntries(
@@ -66,14 +97,15 @@ export async function GET(request: Request) {
       strategy,
       crocodileLevel,
       undefined,
-      { marketFilters: filters, orderBooks, minProfitPercent },
+      { marketFilters: filters, orderBooks, minProfit, minFlipProfit },
     );
     return jsonOk({
       updatedAt: snapshot.updatedAt,
       strategy,
       crocodileLevel,
       evMultiplier: 1 + crocodileLevel * 0.02,
-      minProfitPercent,
+      minProfit,
+      minFlipProfit,
       filters,
       depthModel: "依所選策略逐檔模擬 Hypixel 前 30 檔；掛單策略代表目前可見排隊深度估算，不保證成交。",
       flips,

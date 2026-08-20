@@ -4,6 +4,7 @@ import {
   type MarketFilterKey,
   type MarketFilters,
   type MarketItem,
+  type MinProfitThreshold,
   type OrderLevel,
   type ShardDepth,
   type ShardFlip,
@@ -53,6 +54,9 @@ type CostNode = { unitCost: number; path: string[]; plan: CostPlan };
 type ShardCalculationOptions = {
   marketFilters?: MarketFilters;
   orderBooks?: Record<string, ShardOrderBook>;
+  minProfit?: MinProfitThreshold;
+  minFlipProfit?: MinProfitThreshold;
+  /** @deprecated Use minProfit with an explicit mode. */
   minProfitPercent?: number;
 };
 
@@ -304,7 +308,58 @@ function integrateLevels(
   return { filled: remaining <= 1e-6, total };
 }
 
-function unavailableDepth(reason: string, minProfitPercent: number): ShardDepth {
+function priceMaterialsFromOrderBook(
+  materials: Array<{ productId: string; quantityPerFusion: number }>,
+  books: Record<string, ShardOrderBook> | undefined,
+  strategy: ShardStrategy,
+): { total: number; averageUnitCosts: Map<string, number> } | undefined {
+  if (!books) return undefined;
+  let total = 0;
+  const averageUnitCosts = new Map<string, number>();
+  for (const material of materials) {
+    const priced = integrateLevels(
+      selectedInputLevels(books[material.productId], strategy),
+      material.quantityPerFusion,
+    );
+    if (!priced.filled) return undefined;
+    total += priced.total;
+    averageUnitCosts.set(
+      material.productId,
+      material.quantityPerFusion > 0 ? priced.total / material.quantityPerFusion : 0,
+    );
+  }
+  return { total, averageUnitCosts };
+}
+
+function applyMarketUnitCosts(node: ShardRouteNode, unitCosts: Map<string, number>): ShardRouteNode {
+  if (node.kind === "market") {
+    return { ...node, unitCost: unitCosts.get(node.productId) ?? node.unitCost };
+  }
+  return {
+    ...node,
+    inputs: node.inputs.map((input) => applyMarketUnitCosts(input, unitCosts)) as [ShardRouteNode, ShardRouteNode],
+  };
+}
+
+function normalizeProfitThreshold(
+  threshold: MinProfitThreshold | undefined,
+  fallback: MinProfitThreshold,
+): MinProfitThreshold {
+  const requested = threshold ?? fallback;
+  const mode = requested.mode === "coins" ? "coins" : "percent";
+  return {
+    mode,
+    value: Number.isFinite(requested.value)
+      ? Math.max(0, mode === "percent" ? Math.min(100, requested.value) : requested.value)
+      : fallback.value,
+  };
+}
+
+function unavailableDepth(
+  reason: string,
+  minProfit: MinProfitThreshold,
+  minFlipProfit: MinProfitThreshold,
+): ShardDepth {
   return {
     available: false,
     maxProfitableFusions: 0,
@@ -312,7 +367,9 @@ function unavailableDepth(reason: string, minProfitPercent: number): ShardDepth 
     totalInputCost: 0,
     totalRevenueAfterTax: 0,
     totalProfit: 0,
-    minProfitPercent,
+    minProfit,
+    minFlipProfit,
+    maxFlipProfit: 0,
     materialsRequired: [],
     limitedBy: reason,
     partial: false,
@@ -337,15 +394,16 @@ function calculateDepth(
   strategy: ShardStrategy,
   books: Record<string, ShardOrderBook> | undefined,
   taxRate: number,
-  minProfitPercent: number,
+  minProfit: MinProfitThreshold,
+  minFlipProfit: MinProfitThreshold,
 ): ShardDepth {
-  if (!books) return unavailableDepth("尚無掛單資料", minProfitPercent);
+  if (!books) return unavailableDepth("尚無掛單資料", minProfit, minFlipProfit);
   const rates = new Map<string, number>();
   addMaterialRates(left.node, left.quantity, rates);
   addMaterialRates(right.node, right.quantity, rates);
   const outputBook = books[outputProductId];
   const outputLevels = selectedOutputLevels(outputBook, strategy);
-  if (outputLevels.length === 0) return unavailableDepth(`${outputName} 無掛單`, minProfitPercent);
+  if (outputLevels.length === 0) return unavailableDepth(`${outputName} 無掛單`, minProfit, minFlipProfit);
 
   let maximumByDepth = levelAmount(outputLevels) / expectedOutput;
   let limitingName = outputName;
@@ -353,7 +411,7 @@ function calculateDepth(
     const book = books[productId];
     const levels = selectedInputLevels(book, strategy);
     const shardName = productId.replace(/^SHARD_/, "").replaceAll("_", " ");
-    if (levels.length === 0) return unavailableDepth(`${shardName} 無掛單`, minProfitPercent);
+    if (levels.length === 0) return unavailableDepth(`${shardName} 無掛單`, minProfit, minFlipProfit);
     const capacity = levelAmount(levels) / rate;
     if (capacity < maximumByDepth) {
       maximumByDepth = capacity;
@@ -419,19 +477,91 @@ function calculateDepth(
   };
   const qualifies = (fusionCount: number): boolean => {
     const result = evaluate(fusionCount);
+    const minimum = minProfit.mode === "percent"
+      ? (result?.inputCost ?? 0) * (minProfit.value / 100)
+      : minProfit.value;
     return Boolean(
       result &&
       result.profit > 0 &&
-      result.profit + 1e-7 >= result.inputCost * (minProfitPercent / 100),
+      result.profit + 1e-7 >= minimum,
     );
   };
 
+  const marginalProfit = (fusionCount: number): number | undefined => {
+    if (fusionCount <= 0) return undefined;
+    let inputCost = 0;
+    for (const [productId, rate] of rates) {
+      const levels = selectedInputLevels(books[productId], strategy);
+      const previous = integrateLevels(levels, (fusionCount - 1) * rate);
+      const current = integrateLevels(levels, fusionCount * rate);
+      if (!previous.filled || !current.filled) return undefined;
+      inputCost += current.total - previous.total;
+    }
+    const previousOutput = integrateLevels(outputLevels, (fusionCount - 1) * expectedOutput);
+    const currentOutput = integrateLevels(outputLevels, fusionCount * expectedOutput);
+    if (!previousOutput.filled || !currentOutput.filled) return undefined;
+    return (currentOutput.total - previousOutput.total) * (1 - taxRate) - inputCost;
+  };
+  const maxFlipProfit = Math.max(0, evaluate(1)?.profit ?? 0);
+  const minFlipProfitAmount = minFlipProfit.mode === "percent"
+    ? maxFlipProfit * (minFlipProfit.value / 100)
+    : minFlipProfit.value;
+  let maximumByFlipProfit = upperBound;
+  if (minFlipProfitAmount > 0 && upperBound > 0) {
+    const flipQualifies = (fusionCount: number): boolean =>
+      (marginalProfit(fusionCount) ?? Number.NEGATIVE_INFINITY) + 1e-7 >= minFlipProfitAmount;
+    if (!flipQualifies(upperBound)) {
+      let low = 0;
+      let high = upperBound;
+      while (low < high) {
+        const middle = Math.ceil((low + high) / 2);
+        if (flipQualifies(middle)) low = middle;
+        else high = middle - 1;
+      }
+      maximumByFlipProfit = low;
+    }
+  }
+
   let best = 0;
-  if (upperBound > 0 && qualifies(upperBound)) {
-    best = upperBound;
+  if (maximumByFlipProfit > 0 && qualifies(maximumByFlipProfit)) {
+    best = maximumByFlipProfit;
+  } else if (maximumByFlipProfit > 0 && minProfit.mode === "coins" && minProfit.value > 0) {
+    // A fixed-coin floor is not a prefix predicate: small runs can be below
+    // the floor before larger runs become profitable. Locate the profit peak,
+    // then search its descending side for the last qualifying Fusion count.
+    let peakLow = 1;
+    let peakHigh = maximumByFlipProfit;
+    while (peakHigh - peakLow > 16) {
+      const third = Math.floor((peakHigh - peakLow) / 3);
+      const leftProbe = peakLow + third;
+      const rightProbe = peakHigh - third;
+      const leftProfit = evaluate(leftProbe)?.profit ?? Number.NEGATIVE_INFINITY;
+      const rightProfit = evaluate(rightProbe)?.profit ?? Number.NEGATIVE_INFINITY;
+      if (leftProfit < rightProfit) peakLow = leftProbe + 1;
+      else peakHigh = rightProbe - 1;
+    }
+    let peak = peakLow;
+    let peakProfit = Number.NEGATIVE_INFINITY;
+    for (let count = peakLow; count <= peakHigh; count += 1) {
+      const profit = evaluate(count)?.profit ?? Number.NEGATIVE_INFINITY;
+      if (profit > peakProfit) {
+        peak = count;
+        peakProfit = profit;
+      }
+    }
+    if (qualifies(peak)) {
+      let low = peak;
+      let high = maximumByFlipProfit;
+      while (low < high) {
+        const middle = Math.ceil((low + high) / 2);
+        if (qualifies(middle)) low = middle;
+        else high = middle - 1;
+      }
+      best = low;
+    }
   } else {
     let low = 0;
-    let high = upperBound;
+    let high = maximumByFlipProfit;
     while (low < high) {
       const middle = Math.ceil((low + high) / 2);
       if (qualifies(middle)) low = middle;
@@ -450,9 +580,15 @@ function calculateDepth(
     totalInputCost: totals.inputCost,
     totalRevenueAfterTax: totals.revenueAfterTax,
     totalProfit: totals.profit,
-    minProfitPercent,
+    minProfit,
+    minFlipProfit,
+    maxFlipProfit,
     materialsRequired: totals.materials,
-    limitedBy: best < upperBound ? `Min Profit ${minProfitPercent}%` : `${limitingName} 市場深度`,
+    limitedBy: best < maximumByFlipProfit
+      ? `Min Profit ${minProfit.mode === "percent" ? `${minProfit.value}%` : `${minProfit.value.toLocaleString("en-US")} coins`}`
+      : maximumByFlipProfit < upperBound
+        ? `Min Flip Profit ${minFlipProfit.mode === "percent" ? `${minFlipProfit.value}%` : `${minFlipProfit.value.toLocaleString("en-US")} coins`}`
+        : `${limitingName} 市場深度`,
     partial,
     model: "selected-side-top-30",
   };
@@ -487,7 +623,14 @@ export function calculateShardFlips(
 ): ShardFlip[] {
   const level = Math.min(10, Math.max(0, Math.trunc(crocodileLevel)));
   const filters = options.marketFilters ?? {};
-  const minProfitPercent = Math.min(100, Math.max(0, options.minProfitPercent ?? 0.1));
+  const minProfit = normalizeProfitThreshold(
+    options.minProfit,
+    { mode: "percent", value: options.minProfitPercent ?? 0.1 },
+  );
+  const minFlipProfit = normalizeProfitThreshold(
+    options.minFlipProfit,
+    { mode: "coins", value: 0 },
+  );
   const marketByProduct = new Map(market.map((item) => [item.productId, item]));
   const costs = solveUnitCosts(data, marketByProduct, strategy, filters);
   const bestCandidates = new Map<string, BestCandidate>();
@@ -542,7 +685,7 @@ export function calculateShardFlips(
   for (const candidate of bestCandidates.values()) {
     const leftInput = { node: candidate.leftCost, quantity: candidate.left.fuse_amount };
     const rightInput = { node: candidate.rightCost, quantity: candidate.right.fuse_amount };
-    const route = buildFinalRoute(
+    let route = buildFinalRoute(
       candidate.outputId,
       candidate.outputName,
       candidate.outputProductId,
@@ -553,12 +696,27 @@ export function calculateShardFlips(
       rightInput,
       data,
     );
-    const materials = collectMaterials(route.inputs);
-    const inputCost = materials.reduce(
+    let materials = collectMaterials(route.inputs);
+    const approximateInputCost = materials.reduce(
       (sum, material) => sum + material.quantityPerFusion * material.unitCost,
       0,
     );
-    const revenueAfterTax = candidate.salePrice * candidate.expectedOutput * (1 - taxRate);
+    const exactMaterialPricing = priceMaterialsFromOrderBook(materials, options.orderBooks, strategy);
+    const inputCost = exactMaterialPricing?.total ?? approximateInputCost;
+    if (exactMaterialPricing) {
+      route = applyMarketUnitCosts(route, exactMaterialPricing.averageUnitCosts) as typeof route;
+      materials = materials.map((material) => ({
+        ...material,
+        unitCost: exactMaterialPricing.averageUnitCosts.get(material.productId) ?? material.unitCost,
+      }));
+    }
+    const exactOutput = integrateLevels(
+      selectedOutputLevels(options.orderBooks?.[candidate.outputProductId], strategy),
+      candidate.expectedOutput,
+    );
+    const revenueAfterTax = (exactOutput.filled
+      ? exactOutput.total
+      : candidate.salePrice * candidate.expectedOutput) * (1 - taxRate);
     const profit = revenueAfterTax - inputCost;
     flips.push({
       shardId: candidate.outputId,
@@ -604,7 +762,8 @@ export function calculateShardFlips(
         strategy,
         options.orderBooks,
         taxRate,
-        minProfitPercent,
+        minProfit,
+        minFlipProfit,
       ),
       path: [...candidate.leftCost.path, ...candidate.rightCost.path, candidate.outputId],
     });
@@ -624,6 +783,7 @@ export function applyCrocodileLevelToFlip(flip: ShardFlip, crocodileLevel: numbe
   const revenueAfterTax = flip.revenueAfterTax * outputRatio;
   const profit = revenueAfterTax - flip.inputCost;
   const totalRevenueAfterTax = flip.depth.totalRevenueAfterTax * outputRatio;
+  const maxFlipProfit = flip.depth.maxFlipProfit + (revenueAfterTax - flip.revenueAfterTax);
   const route = flip.route.kind === "fusion"
     ? { ...flip.route, expectedOutput: flip.route.fusionCount * expectedOutput }
     : flip.route;
@@ -642,6 +802,7 @@ export function applyCrocodileLevelToFlip(flip: ShardFlip, crocodileLevel: numbe
       maxProfitableOutput: flip.depth.maxProfitableFusions * expectedOutput,
       totalRevenueAfterTax,
       totalProfit: totalRevenueAfterTax - flip.depth.totalInputCost,
+      maxFlipProfit,
     },
   };
 }

@@ -30,6 +30,8 @@ revenueAfterTax = selectedOutputPrice × expectedOutput × (1 − taxRate)
 profit = revenueAfterTax − inputCost
 ```
 
+當單次 Fusion 的需求量跨越 orderbook 多檔時，`inputCost` 與 `revenueAfterTax` 都必須逐檔消耗數量後加總，不得使用第一檔價格直接乘以全部數量。
+
 `bo` input 使用 Buy Order，`ib` input 使用 Instant Buy；`so` output 使用 Sell Order，`is` output 使用 Instant Sell。輸入的 `unitCost` 是 direct market 與可達 Fusion 路徑中的最低值。最終 route 必須至少包含一次 Fusion。
 
 原料規劃只允許完整的 Fusion 操作：中間成品不足時以 `ceil(required / baseOutput)` 增加 Fusion 次數，最後所有 Bazaar 購買量都是整數。Crocodile 不降低中間 Fusion 或原材料數量，只套用在最終 Fusion 的預期成品與稅後 Profit。
@@ -45,10 +47,11 @@ Shard 市場篩選會在最低成本求解之前執行：直接購入的葉節�
 ```text
 depthProfit(N) = depthRevenueAfterTax(N) − depthInputCost(N)
 depthProfit(N) > 0
-depthProfit(N) >= depthInputCost(N) × minProfitPercent / 100
+depthProfit(N) >= (mode = percent ? depthInputCost(N) × minProfitValue / 100 : minProfitValue)
+marginalFlipProfit(N) >= (mode = percent ? maxFlipProfit × minFlipProfitValue / 100 : minFlipProfitValue)
 ```
 
-`minProfitPercent` 預設為原料總成本的 `0.1%`。只有滿足門檻的完整 Fusion 次數會計入 `maxProfitableFusions`；預期成品為該次數乘以 `expectedOutput`。Instant 策略代表可立即消耗的掛單；Order 策略是目前可見排隊深度估算，不能視為保證成交量。任一 orderbook 達到 30 檔時標示 partial。
+Min Profit 可選原料總成本百分比或固定 coins 金額，預設為 `0.1%`。Min Flip Profit 可選最高單次 Flip Profit 的百分比或固定 coins 金額，預設 `0%`（不限制），用來排除深度後段單次利潤過低的掛單。只有同時滿足門檻的完整 Fusion 次數會計入 `maxProfitableFusions`；預期成品為該次數乘以已含 Crocodile 倍率的 `expectedOutput`。Instant 策略代表可立即消耗的掛單；Order 策略是目前可見排隊深度估算，不能視為保證成交量。任一 orderbook 達到 30 檔時標示 partial。
 
 ## Public API
 
@@ -58,7 +61,7 @@ depthProfit(N) >= depthInputCost(N) × minProfitPercent / 100
 - `GET /api/v1/market/items/:productId/orderbook`
 - `GET /api/v1/shard-flips?strategy=bo-so|ib-so|bo-is|ib-is&crocodileLevel=0..10`
 
-Shard endpoint 另接受 `volatilityMin/Max`、`sellVolumeMin/Max`、`buyVolumeMin/Max`、`totalVolumeMin/Max`、`priceMin/Max`、`coinsPerHourMin/Max`、`marginCoinsMin/Max`、`marginPercentMin/Max`，以及 `minProfitPercent`（預設 `0.1`）。
+Shard endpoint 的原料與成品篩選接受 `sellVolumeMin/Max`、`buyVolumeMin/Max`、`totalVolumeMin/Max`，三者預設皆不限制。Min Profit 使用 `minProfitMode=percent|coins` 與 `minProfitValue`（預設 `percent / 0.1`）；Min Flip Profit 使用 `minFlipProfitMode=percent|coins` 與 `minFlipProfitValue`（預設 `coins / 0`）。
 - `POST /api/v1/internal/ingest`（Bearer secret）
 
 成功 envelope 為 `{ data, error: null }`；失敗為 `{ data: null, error: { message, details? } }`。

@@ -156,6 +156,11 @@ export type FusionData = {
 
 export type ShardStrategy = "bo-so" | "ib-so" | "bo-is" | "ib-is";
 
+export type MinProfitThreshold = {
+  mode: "percent" | "coins";
+  value: number;
+};
+
 export type MarketFilterKey =
   | "volatility"
   | "sellVolume"
@@ -182,7 +187,9 @@ export type ShardDepth = {
   totalInputCost: number;
   totalRevenueAfterTax: number;
   totalProfit: number;
-  minProfitPercent: number;
+  minProfit: MinProfitThreshold;
+  minFlipProfit: MinProfitThreshold;
+  maxFlipProfit: number;
   materialsRequired: Array<{
     shardId: string;
     productId: string;

@@ -1,10 +1,11 @@
 "use client";
 
 import {
-  applyCrocodileLevelToFlip,
   collectShardRouteMaterials,
   parseCompactNumber,
   scaleShardRouteForOutput,
+  type MarketFilterKey,
+  type MinProfitThreshold,
   type ShardFlip,
   type ShardRouteNode,
   type ShardStrategy,
@@ -14,7 +15,7 @@ import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
 import {
   appendMarketFilters,
-  createEmptyMarketFilters,
+  createShardVolumeFilters,
   MarketFilterPanel,
   type MarketFilterDrafts,
 } from "./market-filter-panel";
@@ -28,14 +29,17 @@ const strategyLabels: Record<ShardStrategy, string> = {
   "bo-is": "Buy Order → Instant Sell",
   "ib-is": "Instant Buy → Instant Sell",
 };
+const shardFilterKeys: MarketFilterKey[] = ["sellVolume", "buyVolume", "totalVolume"];
+
 export function ShardDashboard() {
   const [strategy, setStrategy] = useState<ShardStrategy>("bo-so");
   const [level, setLevel] = useState(0);
   const [search, setSearch] = useState("");
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const [sort, setSort] = useState<SortKey>("profit");
-  const [minProfitPercent, setMinProfitPercent] = useState(0.1);
-  const [filters, setFilters] = useState<MarketFilterDrafts>(createEmptyMarketFilters);
+  const [minProfit, setMinProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0.1 });
+  const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0 });
+  const [filters, setFilters] = useState<MarketFilterDrafts>(createShardVolumeFilters);
   const [flips, setFlips] = useState<ShardFlip[]>([]);
   const [depthModel, setDepthModel] = useState("");
   const [loading, setLoading] = useState(true);
@@ -49,8 +53,11 @@ export function ShardDashboard() {
     const controller = new AbortController();
     const query = new URLSearchParams({
       strategy,
-      crocodileLevel: "0",
-      minProfitPercent: String(minProfitPercent),
+      crocodileLevel: String(level),
+      minProfitMode: minProfit.mode,
+      minProfitValue: String(minProfit.value),
+      minFlipProfitMode: minFlipProfit.mode,
+      minFlipProfitValue: String(minFlipProfit.value),
     });
     appendMarketFilters(query, filters);
     const requestUrl = `/api/v1/shard-flips?${query}`;
@@ -90,20 +97,16 @@ export function ShardDashboard() {
         }
       });
     return () => controller.abort();
-  }, [filters, minProfitPercent, strategy]);
+  }, [filters, level, minFlipProfit, minProfit, strategy]);
 
-  const levelAdjustedFlips = useMemo(
-    () => flips.map((flip) => applyCrocodileLevelToFlip(flip, level)),
-    [flips, level],
-  );
   const selectedFlip = useMemo(
-    () => selectedShardId ? levelAdjustedFlips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
-    [levelAdjustedFlips, selectedShardId],
+    () => selectedShardId ? flips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
+    [flips, selectedShardId],
   );
 
   const displayedFlips = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return levelAdjustedFlips
+    return flips
       .filter((flip) =>
         !query ||
         flip.name.toLowerCase().includes(query) ||
@@ -115,7 +118,7 @@ export function ShardDashboard() {
         if (sort === "maxFusions") return right.depth.maxProfitableFusions - left.depth.maxProfitableFusions;
         return right[sort] - left[sort];
       });
-  }, [levelAdjustedFlips, search, sort]);
+  }, [flips, search, sort]);
 
   return <>
     <div className="toolbar panel shard-controls">
@@ -138,11 +141,14 @@ export function ShardDashboard() {
         <option value="maxFusions">最大 Fusion 次數</option>
         <option value="inputCost">投入成本</option>
       </select></label>
-      <MinProfitControl value={minProfitPercent} onApply={setMinProfitPercent} />
+      <ProfitThresholdControl label="Min Profit" percentOption="% of cost" value={minProfit} onApply={setMinProfit} />
+      <ProfitThresholdControl label="Min Flip Profit" percentOption="% of max" value={minFlipProfit} onApply={setMinFlipProfit} />
       <MarketFilterPanel
         summary="原料＋成品篩選器"
-        explanation="條件同時套用到直接購入的所有葉節點原料與最終成品；原料不合格時會重新尋找其他 Fusion 路線。"
+        explanation="只用 Sell / Buy / Total volume 篩選，且預設不限制；條件會同時套用到直接購入的所有葉節點原料與最終成品。"
         applyLabel="套用並重算路徑"
+        visibleKeys={shardFilterKeys}
+        initialFilters={createShardVolumeFilters()}
         onApply={setFilters}
       />
     </div>
@@ -163,15 +169,30 @@ export function ShardDashboard() {
   </>;
 }
 
-function MinProfitControl({ value, onApply }: { value: number; onApply: (value: number) => void }) {
-  const [draft, setDraft] = useState(String(value));
-  const commit = () => {
+function ProfitThresholdControl({
+  label,
+  percentOption,
+  value,
+  onApply,
+}: {
+  label: string;
+  percentOption: string;
+  value: MinProfitThreshold;
+  onApply: (value: MinProfitThreshold) => void;
+}) {
+  const [draft, setDraft] = useState(String(value.value));
+  const parseDraft = (mode: MinProfitThreshold["mode"]): number => {
     const parsed = parseCompactNumber(draft);
-    const next = parsed !== undefined ? Math.min(100, Math.max(0, parsed)) : 0.1;
-    setDraft(String(next));
-    onApply(next);
+    return parsed !== undefined
+      ? Math.max(0, mode === "percent" ? Math.min(100, parsed) : parsed)
+      : mode === "percent" ? 0.1 : 0;
   };
-  return <label className="min-profit-control"><span>Min Profit</span><span className="min-profit-input"><input type="text" inputMode="text" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /><i>%</i></span></label>;
+  const commit = () => {
+    const next = parseDraft(value.mode);
+    setDraft(String(next));
+    onApply({ ...value, value: next });
+  };
+  return <label className="min-profit-control"><span>{label}</span><span className="min-profit-input"><input aria-label={`${label} 數值`} type="text" inputMode="text" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /><select aria-label={`${label} 單位`} value={value.mode} onChange={(event) => { const mode = event.target.value as MinProfitThreshold["mode"]; const next = parseDraft(mode); setDraft(String(next)); onApply({ mode, value: next }); }}><option value="percent">{percentOption}</option><option value="coins">$</option></select></span></label>;
 }
 
 function integer(value: number): string {
@@ -195,14 +216,24 @@ function ShardDetailModal({ flip, onClose }: { flip: ShardFlip; onClose: () => v
     const { route, fusionCount, expectedOutput } = scaleShardRouteForOutput(
       flip.route,
       desiredOutput,
-      { useBaseOutput: true },
     );
     const materials = collectShardRouteMaterials(route);
     const inputCost = materials.reduce((sum, material) => sum + material.quantity * material.unitCost, 0);
     const revenueAfterTax = flip.revenueAfterTax * fusionCount;
     return { route, fusionCount, expectedOutput, materials, inputCost, profit: revenueAfterTax - inputCost };
   }, [desiredOutput, flip]);
-  const minimumProfit = flip.depth.totalInputCost * (flip.depth.minProfitPercent / 100);
+  const minimumProfit = flip.depth.minProfit.mode === "percent"
+    ? flip.depth.totalInputCost * (flip.depth.minProfit.value / 100)
+    : flip.depth.minProfit.value;
+  const minimumProfitLabel = flip.depth.minProfit.mode === "percent"
+    ? `${flip.depth.minProfit.value}% × 原料成本`
+    : `${formatCoins(flip.depth.minProfit.value)} coins`;
+  const minimumFlipProfit = flip.depth.minFlipProfit.mode === "percent"
+    ? flip.depth.maxFlipProfit * (flip.depth.minFlipProfit.value / 100)
+    : flip.depth.minFlipProfit.value;
+  const minimumFlipProfitLabel = flip.depth.minFlipProfit.mode === "percent"
+    ? `${flip.depth.minFlipProfit.value}% × 最高單次 ${formatCoins(flip.depth.maxFlipProfit)}`
+    : `${formatCoins(flip.depth.minFlipProfit.value)} coins`;
   return <div className="detail-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="shard-detail-modal panel" role="dialog" aria-modal="true" aria-labelledby="shard-detail-title">
     <header><div><span className="eyebrow">Fusion detail</span><h2 id="shard-detail-title">{flip.name}</h2><code>{flip.productId}</code></div><button type="button" aria-label="關閉" onClick={onClose}>×</button></header>
     <div className="detail-profit-grid"><div><span>最大 Fusion</span><strong>{integer(flip.depth.maxProfitableFusions)} 次</strong></div><div><span>預期成品</span><strong>{flip.depth.maxProfitableOutput.toFixed(2)}</strong></div><div><span>原料總成本</span><strong>{formatCoins(flip.depth.totalInputCost)}</strong></div><div><span>深度總 Profit</span><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong></div></div>
@@ -210,6 +241,6 @@ function ShardDetailModal({ flip, onClose }: { flip: ShardFlip; onClose: () => v
     <div className="detail-columns"><article><div className="modal-section-title"><div><span className="eyebrow">Scaled route for requested output</span><h3>合成路徑</h3></div><small>Crocodile 僅計入最終產量與 Profit</small></div><ul className="route-tree"><RouteTree node={scaled.route} /></ul></article>
       <article><div className="modal-section-title"><div><span className="eyebrow">For requested output</span><h3>本次需求原料</h3></div><small>所有數量均為整數</small></div><div className="material-total-list custom-materials">{scaled.materials.map((material) => <div key={material.productId}><span><strong>{material.name}</strong><code>{material.productId}</code></span><span><strong>{integer(material.quantity)} 個</strong><small>約 {formatCoins(material.quantity * material.unitCost)}</small></span></div>)}</div>
         <div className="modal-section-title depth-material-title"><div><span className="eyebrow">Buy to exhaust profitable depth</span><h3>清空獲利深度原料</h3></div></div><div className="material-total-list">{flip.depth.materialsRequired.length ? flip.depth.materialsRequired.map((material) => <div key={material.productId}><span><strong>{material.name}</strong><code>{material.productId}</code></span><span><strong>{integer(material.quantity)} 個</strong><small>約 {formatCoins(material.estimatedCost)}</small></span></div>) : <p>目前沒有符合 Min Profit 的可執行深度。</p>}</div></article></div>
-    <footer><span>Min Profit：{flip.depth.minProfitPercent}% × 原料成本 = {formatCoins(minimumProfit)}</span><span>限制：{flip.depth.limitedBy}{flip.depth.partial ? "（Hypixel 前 30 檔）" : ""}</span></footer>
+    <footer><span>Min Profit：{minimumProfitLabel} = {formatCoins(minimumProfit)}</span><span>Min Flip Profit：{minimumFlipProfitLabel} = {formatCoins(minimumFlipProfit)}</span><span>限制：{flip.depth.limitedBy}{flip.depth.partial ? "（Hypixel 前 30 檔）" : ""}</span></footer>
   </section></div>;
 }
