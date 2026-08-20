@@ -143,6 +143,24 @@ describe("Shard fusion calculations", () => {
     expect(coinFlip?.depth.limitedBy).toBe("Min Flip Profit 30 coins");
   });
 
+  it("caps profitable depth by the configured maximum Fusion clicks", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 0, undefined, {
+      maxFusions: 2,
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 11 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 10, orders: 1, pricePerUnit: 90 }], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.depth.maxFusionLimit).toBe(2);
+    expect(flip?.depth.maxProfitableFusions).toBe(2);
+    expect(flip?.depth.maxProfitableOutput).toBe(4);
+    expect(flip?.depth.limitedBy).toBe("Max Fusion 2");
+  });
+
   it("includes Crocodile EV in the fully recalculated market depth", () => {
     const [flip] = calculateShardFlips(data, [
       market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),

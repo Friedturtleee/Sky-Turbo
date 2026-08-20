@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { AppProviders } from "@/components/app-providers";
 import { AuthControls } from "@/components/auth-controls";
 import "./globals.css";
+import "./shard-controls.css";
 
 export const metadata: Metadata = {
   title: { default: "Sky Turbo", template: "%s · Sky Turbo" },

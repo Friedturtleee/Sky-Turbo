@@ -33,12 +33,13 @@ const shardFilterKeys: MarketFilterKey[] = ["sellVolume", "buyVolume", "totalVol
 
 export function ShardDashboard() {
   const [strategy, setStrategy] = useState<ShardStrategy>("bo-so");
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(10);
   const [search, setSearch] = useState("");
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const [sort, setSort] = useState<SortKey>("profit");
   const [minProfit, setMinProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0.1 });
   const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0 });
+  const [maxFusions, setMaxFusions] = useState<number | undefined>(undefined);
   const [filters, setFilters] = useState<MarketFilterDrafts>(createShardVolumeFilters);
   const [flips, setFlips] = useState<ShardFlip[]>([]);
   const [depthModel, setDepthModel] = useState("");
@@ -59,6 +60,7 @@ export function ShardDashboard() {
       minFlipProfitMode: minFlipProfit.mode,
       minFlipProfitValue: String(minFlipProfit.value),
     });
+    if (maxFusions !== undefined) query.set("maxFusions", String(maxFusions));
     appendMarketFilters(query, filters);
     const requestUrl = `/api/v1/shard-flips?${query}`;
     const cached = responseCacheRef.current.get(requestUrl);
@@ -97,7 +99,7 @@ export function ShardDashboard() {
         }
       });
     return () => controller.abort();
-  }, [filters, level, minFlipProfit, minProfit, strategy]);
+  }, [filters, level, maxFusions, minFlipProfit, minProfit, strategy]);
 
   const selectedFlip = useMemo(
     () => selectedShardId ? flips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
@@ -141,6 +143,7 @@ export function ShardDashboard() {
         <option value="maxFusions">最大 Fusion 次數</option>
         <option value="inputCost">投入成本</option>
       </select></label>
+      <MaxFusionControl value={maxFusions} onApply={setMaxFusions} />
       <ProfitThresholdControl label="Min Profit" percentOption="% of cost" value={minProfit} onApply={setMinProfit} />
       <ProfitThresholdControl label="Min Flip Profit" percentOption="% of max" value={minFlipProfit} onApply={setMinFlipProfit} />
       <MarketFilterPanel
@@ -167,6 +170,17 @@ export function ShardDashboard() {
       </tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">沒有同時符合原料與成品條件的 Fusion 路線。</div> : null}</div>}
     {selectedFlip ? <ShardDetailModal flip={selectedFlip} onClose={() => setSelectedShardId(null)} /> : null}
   </>;
+}
+
+function MaxFusionControl({ value, onApply }: { value?: number; onApply: (value?: number) => void }) {
+  const [draft, setDraft] = useState(value === undefined ? "" : String(value));
+  const commit = () => {
+    const parsed = parseCompactNumber(draft);
+    const next = parsed === undefined ? undefined : Math.max(0, Math.floor(parsed));
+    setDraft(next === undefined ? "" : String(next));
+    onApply(next);
+  };
+  return <label className="max-fusion-control"><span>Max Fusion</span><input aria-label="Max Fusion 次數" type="text" inputMode="numeric" placeholder="不限" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>;
 }
 
 function ProfitThresholdControl({

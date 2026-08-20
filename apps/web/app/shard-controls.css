@@ -1,0 +1,197 @@
+/* Shard toolbar refinements live separately because globals.css is intentionally compact. */
+.toolbar.shard-filter-toolbar {
+  grid-template-columns:
+    minmax(210px, 1.1fr)
+    minmax(168px, 0.65fr)
+    minmax(125px, 0.45fr)
+    repeat(2, minmax(190px, 0.7fr))
+    auto;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(145deg, #13161a, #101215);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
+}
+
+.shard-filter-toolbar label > span:first-child,
+.shard-controls label > span:first-child {
+  color: #888e97;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.toolbar input,
+.toolbar select,
+.filters summary {
+  border-color: #30353c;
+  background-color: #0c0f12;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.toolbar input:hover,
+.toolbar select:hover,
+.filters summary:hover {
+  border-color: #484f59;
+  background-color: #11151a;
+}
+
+.toolbar input:focus,
+.toolbar select:focus {
+  border-color: #63d99a;
+  box-shadow: 0 0 0 3px rgba(99, 217, 154, 0.1);
+}
+
+.toolbar select {
+  appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 20 20'%3E%3Cpath fill='%239da3ab' d='m5.4 7.5 4.6 4.6 4.6-4.6 1.4 1.4-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+}
+
+.toolbar select option {
+  background: #101318;
+  color: #eceef1;
+}
+
+.max-fusion-control {
+  min-width: 125px;
+}
+
+.max-fusion-control input {
+  width: 100%;
+}
+
+.max-fusion-control input::placeholder {
+  color: #626973;
+}
+
+.min-profit-control {
+  min-width: 190px;
+}
+
+.min-profit-input {
+  border-radius: 7px;
+  transition: box-shadow 0.16s ease;
+}
+
+.min-profit-input:focus-within {
+  box-shadow: 0 0 0 3px rgba(99, 217, 154, 0.1);
+}
+
+.min-profit-input:focus-within input,
+.min-profit-input:focus-within select {
+  box-shadow: none;
+}
+
+.filters summary {
+  gap: 10px;
+  justify-content: space-between;
+  font-weight: 650;
+}
+
+.filters summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid #9da3ab;
+  border-bottom: 1.5px solid #9da3ab;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.16s ease;
+}
+
+.filters[open] summary::after {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+.shard-filter-toolbar .filter-grid {
+  background: linear-gradient(145deg, #15191e, #101317);
+  border-color: #343a42;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.48);
+}
+
+.filter-grid legend {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.filter-actions .button {
+  font-weight: 700;
+  transition: transform 0.15s ease, filter 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-actions .button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+@media (min-width: 681px) {
+  .shard-filter-toolbar {
+    position: relative;
+    z-index: 3;
+  }
+
+  .shard-filter-toolbar .filters,
+  .shard-filter-toolbar .filters[open] {
+    position: relative;
+    grid-column: auto;
+    justify-self: end;
+    align-self: end;
+    flex: none;
+    width: auto;
+    margin-left: 0;
+  }
+
+  .shard-filter-toolbar .filter-grid {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 12;
+    width: min(760px, calc(100vw - 96px));
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 1250px) {
+  .toolbar.shard-filter-toolbar {
+    grid-template-columns: minmax(220px, 1fr) minmax(180px, 1fr);
+  }
+
+  .shard-filter-toolbar .filters,
+  .shard-filter-toolbar .filters[open] {
+    grid-column: auto;
+    justify-self: stretch;
+  }
+
+  .shard-filter-toolbar .filters summary {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 680px) {
+  .toolbar.shard-filter-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 13px;
+  }
+
+  .shard-filter-toolbar .filters,
+  .shard-filter-toolbar .filters[open] {
+    grid-column: 1;
+    width: 100%;
+  }
+
+  .shard-filter-toolbar .filter-grid {
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .max-fusion-control,
+  .min-profit-control {
+    min-width: 0;
+  }
+}

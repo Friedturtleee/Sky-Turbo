@@ -190,6 +190,7 @@ export type ShardDepth = {
   minProfit: MinProfitThreshold;
   minFlipProfit: MinProfitThreshold;
   maxFlipProfit: number;
+  maxFusionLimit?: number;
   materialsRequired: Array<{
     shardId: string;
     productId: string;
