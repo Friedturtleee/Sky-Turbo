@@ -43,8 +43,8 @@ export async function GET(request: Request) {
     const minProfitValue = parseCompactNumber(
       search.get("minProfitValue") ?? search.get("minProfitPercent") ?? "0.1",
     );
-    const minFlipProfitMode = search.get("minFlipProfitMode") ?? "coins";
-    const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "0");
+    const minFlipProfitMode = search.get("minFlipProfitMode") ?? "percent";
+    const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "50");
     const maxFusions = parseCompactNumber(search.get("maxFusions"));
     if (!strategies.has(strategy)) return jsonError("不支援的交易策略", 400);
     if (!Number.isInteger(crocodileLevel) || crocodileLevel < 0 || crocodileLevel > 10) {
@@ -112,7 +112,7 @@ export async function GET(request: Request) {
       minFlipProfit,
       maxFusions,
       filters,
-      depthModel: "依所選策略逐檔模擬 Hypixel 前 30 檔；掛單策略代表目前可見排隊深度估算，不保證成交。",
+      depthModel: "Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算。",
       flips,
     });
   } catch (error) {

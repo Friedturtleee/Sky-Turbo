@@ -293,20 +293,61 @@ function levelAmount(levels: OrderLevel[]): number {
   return levels.reduce((sum, level) => sum + Math.max(0, level.amount), 0);
 }
 
-function integrateLevels(
+function priceLevels(
   levels: OrderLevel[],
   requestedQuantity: number,
+  bestPriceFirst: "ascending" | "descending",
+  consumeOrders: boolean,
 ): { filled: boolean; total: number } {
+  const validLevels = levels
+    .filter((level) => level.amount > 0 && level.pricePerUnit > 0)
+    .sort((left, right) => bestPriceFirst === "ascending"
+      ? left.pricePerUnit - right.pricePerUnit
+      : right.pricePerUnit - left.pricePerUnit);
+  if (!consumeOrders) {
+    const bestPrice = validLevels[0]?.pricePerUnit;
+    return {
+      filled: bestPrice !== undefined && levelAmount(validLevels) + 1e-6 >= requestedQuantity,
+      total: bestPrice === undefined ? 0 : requestedQuantity * bestPrice,
+    };
+  }
   let remaining = requestedQuantity;
   let total = 0;
-  for (const level of levels) {
+  for (const level of validLevels) {
     if (remaining <= 1e-8) break;
-    if (level.amount <= 0 || level.pricePerUnit <= 0) continue;
     const quantity = Math.min(remaining, level.amount);
     total += quantity * level.pricePerUnit;
     remaining -= quantity;
   }
   return { filled: remaining <= 1e-6, total };
+}
+
+function priceInputLevels(
+  book: ShardOrderBook | undefined,
+  strategy: ShardStrategy,
+  requestedQuantity: number,
+): { filled: boolean; total: number } {
+  const instant = inputUsesInstant(strategy);
+  return priceLevels(
+    selectedInputLevels(book, strategy),
+    requestedQuantity,
+    instant ? "ascending" : "descending",
+    instant,
+  );
+}
+
+function priceOutputLevels(
+  book: ShardOrderBook | undefined,
+  strategy: ShardStrategy,
+  requestedQuantity: number,
+): { filled: boolean; total: number } {
+  const instant = outputUsesInstant(strategy);
+  return priceLevels(
+    selectedOutputLevels(book, strategy),
+    requestedQuantity,
+    instant ? "descending" : "ascending",
+    instant,
+  );
 }
 
 function priceMaterialsFromOrderBook(
@@ -318,8 +359,9 @@ function priceMaterialsFromOrderBook(
   let total = 0;
   const averageUnitCosts = new Map<string, number>();
   for (const material of materials) {
-    const priced = integrateLevels(
-      selectedInputLevels(books[material.productId], strategy),
+    const priced = priceInputLevels(
+      books[material.productId],
+      strategy,
       material.quantityPerFusion,
     );
     if (!priced.filled) return undefined;
@@ -449,8 +491,9 @@ function calculateDepth(
     let inputCost = 0;
     const materialTotals: ShardDepth["materialsRequired"] = [];
     for (const material of materials) {
-      const priced = integrateLevels(
-        selectedInputLevels(books[material.productId], strategy),
+      const priced = priceInputLevels(
+        books[material.productId],
+        strategy,
         material.quantityPerFusion,
       );
       if (!priced.filled) {
@@ -466,7 +509,7 @@ function calculateDepth(
         estimatedCost: priced.total,
       });
     }
-    const output = integrateLevels(outputLevels, fusionCount * expectedOutput);
+    const output = priceOutputLevels(outputBook, strategy, fusionCount * expectedOutput);
     if (!output.filled) {
       cache.set(fusionCount, null);
       return null;
@@ -495,18 +538,10 @@ function calculateDepth(
 
   const marginalProfit = (fusionCount: number): number | undefined => {
     if (fusionCount <= 0) return undefined;
-    let inputCost = 0;
-    for (const [productId, rate] of rates) {
-      const levels = selectedInputLevels(books[productId], strategy);
-      const previous = integrateLevels(levels, (fusionCount - 1) * rate);
-      const current = integrateLevels(levels, fusionCount * rate);
-      if (!previous.filled || !current.filled) return undefined;
-      inputCost += current.total - previous.total;
-    }
-    const previousOutput = integrateLevels(outputLevels, (fusionCount - 1) * expectedOutput);
-    const currentOutput = integrateLevels(outputLevels, fusionCount * expectedOutput);
-    if (!previousOutput.filled || !currentOutput.filled) return undefined;
-    return (currentOutput.total - previousOutput.total) * (1 - taxRate) - inputCost;
+    const previous = evaluate(fusionCount - 1);
+    const current = evaluate(fusionCount);
+    if (!previous || !current) return undefined;
+    return current.profit - previous.profit;
   };
   const maxFlipProfit = Math.max(0, evaluate(1)?.profit ?? 0);
   const minFlipProfitAmount = minFlipProfit.mode === "percent"
@@ -638,7 +673,7 @@ export function calculateShardFlips(
   );
   const minFlipProfit = normalizeProfitThreshold(
     options.minFlipProfit,
-    { mode: "coins", value: 0 },
+    { mode: "percent", value: 50 },
   );
   const maxFusionLimit = options.maxFusions !== undefined && Number.isFinite(options.maxFusions)
     ? Math.max(0, Math.floor(options.maxFusions))
@@ -722,8 +757,9 @@ export function calculateShardFlips(
         unitCost: exactMaterialPricing.averageUnitCosts.get(material.productId) ?? material.unitCost,
       }));
     }
-    const exactOutput = integrateLevels(
-      selectedOutputLevels(options.orderBooks?.[candidate.outputProductId], strategy),
+    const exactOutput = priceOutputLevels(
+      options.orderBooks?.[candidate.outputProductId],
+      strategy,
       candidate.expectedOutput,
     );
     const revenueAfterTax = (exactOutput.filled

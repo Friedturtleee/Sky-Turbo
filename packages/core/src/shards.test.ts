@@ -114,16 +114,16 @@ describe("Shard fusion calculations", () => {
     ], "ib-is", 0, undefined, {
       orderBooks: {
         SHARD_ALPHA: { buyOrders: [], sellOffers: [
-          { amount: 1, orders: 1, pricePerUnit: 11 },
           { amount: 10, orders: 1, pricePerUnit: 20 },
+          { amount: 1, orders: 1, pricePerUnit: 11 },
         ], partial: false },
         SHARD_BETA: { buyOrders: [], sellOffers: [
-          { amount: 1, orders: 1, pricePerUnit: 12 },
           { amount: 10, orders: 1, pricePerUnit: 22 },
+          { amount: 1, orders: 1, pricePerUnit: 12 },
         ], partial: false },
         SHARD_GAMMA: { buyOrders: [
-          { amount: 1, orders: 1, pricePerUnit: 90 },
           { amount: 10, orders: 1, pricePerUnit: 80 },
+          { amount: 1, orders: 1, pricePerUnit: 90 },
         ], sellOffers: [], partial: false },
       },
     });
@@ -132,6 +132,53 @@ describe("Shard fusion calculations", () => {
     expect(flip?.revenueAfterTax).toBeCloseTo(168.0875);
     expect(flip?.profit).toBeCloseTo(81.0875);
     expect(flip?.materials.map((material) => material.unitCost)).toEqual([15.5, 56 / 3]);
+  });
+
+  it("uses the best fixed price for Order modes instead of walking competing orders", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 10, 10), market("SHARD_GAMMA", 90, 100),
+    ], "ib-so", 0, undefined, {
+      maxFusions: 2,
+      minFlipProfit: { mode: "coins", value: 0 },
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 10 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 10 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [], sellOffers: [
+          { amount: 8, orders: 1, pricePerUnit: 200 },
+          { amount: 2, orders: 1, pricePerUnit: 100 },
+        ], partial: false },
+      },
+    });
+
+    expect(flip?.revenueAfterTax).toBeCloseTo(2 * 100 * 0.98875);
+    expect(flip?.depth.totalRevenueAfterTax).toBeCloseTo(4 * 100 * 0.98875);
+    expect(flip?.depth.totalInputCost).toBe(100);
+    expect(flip?.depth.totalProfit).toBeCloseTo(4 * 100 * 0.98875 - 100);
+  });
+
+  it("recalculates Max Fusion total cost by consuming every Instant Buy level", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 10, 10), market("SHARD_GAMMA", 100, 110),
+    ], "ib-is", 0, undefined, {
+      maxFusions: 2,
+      minFlipProfit: { mode: "coins", value: 0 },
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [
+          { amount: 2, orders: 1, pricePerUnit: 10 },
+          { amount: 2, orders: 1, pricePerUnit: 20 },
+        ], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [
+          { amount: 3, orders: 1, pricePerUnit: 10 },
+          { amount: 3, orders: 1, pricePerUnit: 30 },
+        ], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 4, orders: 1, pricePerUnit: 100 }], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.depth.maxProfitableFusions).toBe(2);
+    expect(flip?.depth.totalInputCost).toBe(180);
+    expect(flip?.depth.totalRevenueAfterTax).toBeCloseTo(4 * 100 * 0.98875);
+    expect(flip?.depth.totalProfit).toBeCloseTo(4 * 100 * 0.98875 - 180);
   });
 
   it("limits depth by Min Flip Profit as a percent of max or a fixed coin floor", () => {
@@ -160,6 +207,20 @@ describe("Shard fusion calculations", () => {
     expect(percentFlip?.depth.limitedBy).toBe("Min Flip Profit 50%");
     expect(coinFlip?.depth.maxProfitableFusions).toBe(2);
     expect(coinFlip?.depth.limitedBy).toBe("Min Flip Profit 30 coins");
+  });
+
+  it("defaults Min Flip Profit to 50% of the maximum single-Flip profit", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 10, 10), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 0, undefined, {
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 10 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 10 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 10, orders: 1, pricePerUnit: 100 }], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(flip?.depth.minFlipProfit).toEqual({ mode: "percent", value: 50 });
   });
 
   it("includes Crocodile EV in the fully recalculated market depth", () => {
@@ -200,6 +261,7 @@ describe("Shard fusion calculations", () => {
       market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 40, 50),
     ], "ib-is", 0, undefined, {
       minProfit: { mode: "coins", value: 50 },
+      minFlipProfit: { mode: "coins", value: 0 },
       orderBooks: {
         SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 11 }], partial: false },
         SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
