@@ -25,7 +25,7 @@ Sky Turbo 是面向 Hypixel SkyBlock 玩家、以決策速度為核心的 Bazaar
 - Crocodile 等級 0–10；若最終 Fusion 任一輸入屬 Reptile Family，預期產量乘以 `1 + 0.02 × level`。畫面標示 EV，明確說明不保證單次結果。
 - Bazaar 的 Sell、Buy、Total volume 篩選會同時限制最終成品與所有直接購入原料，三者預設皆不限制；若某項原料不合格，求解器會嘗試由其他合格市場組成替代 Fusion 路徑。
 - 依策略逐檔模擬前 30 檔，顯示總 Profit 符合 Min Profit 門檻的最大完整 Fusion 次數與預期成品量；Order 模式明確標示為排隊深度估算。
-- Max Fusion 顯示套用 Min Profit 與 Min Flip Profit 後，吃完所有符合門檻掛單所需點擊融合按鈕的次數。
+- Max Fusion 上限可由使用者限制最多點擊融合按鈕的次數，留空時不限制；實際 Max Fusion 會取市場深度、Min Profit、Min Flip Profit 與此上限共同允許的最大值。
 - Shard 詳細檢視會顯示完整遞迴合成樹，以及清空符合門檻深度所需的所有整數原料總量、估計成本與總 Profit。
 - 使用者可輸入所需成品數量，詳細檢視會自動調整最終 Fusion 倍率、所有中間路徑、整數原料需求、預期產出與 Profit。
 - 單次與深度成本會逐檔消耗 orderbook，避免以最低一檔價格乘上全部 Insta Buy 數量。

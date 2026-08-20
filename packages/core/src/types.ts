@@ -182,6 +182,7 @@ export type ShardOrderBook = {
 
 export type ShardDepth = {
   available: boolean;
+  maxFusionLimit?: number;
   maxProfitableFusions: number;
   maxProfitableOutput: number;
   totalInputCost: number;
