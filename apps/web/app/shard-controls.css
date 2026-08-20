@@ -3,7 +3,6 @@
   grid-template-columns:
     minmax(210px, 1.1fr)
     minmax(168px, 0.65fr)
-    minmax(125px, 0.45fr)
     repeat(2, minmax(190px, 0.7fr))
     auto;
   gap: 10px;
@@ -55,18 +54,6 @@
 .toolbar select option {
   background: #101318;
   color: #eceef1;
-}
-
-.max-fusion-control {
-  min-width: 125px;
-}
-
-.max-fusion-control input {
-  width: 100%;
-}
-
-.max-fusion-control input::placeholder {
-  color: #626973;
 }
 
 .min-profit-control {
@@ -190,7 +177,6 @@
     margin-top: 10px;
   }
 
-  .max-fusion-control,
   .min-profit-control {
     min-width: 0;
   }

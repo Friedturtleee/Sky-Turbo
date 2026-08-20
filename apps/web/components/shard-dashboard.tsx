@@ -39,7 +39,6 @@ export function ShardDashboard() {
   const [sort, setSort] = useState<SortKey>("profit");
   const [minProfit, setMinProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0.1 });
   const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0 });
-  const [maxFusions, setMaxFusions] = useState<number | undefined>(undefined);
   const [filters, setFilters] = useState<MarketFilterDrafts>(createShardVolumeFilters);
   const [flips, setFlips] = useState<ShardFlip[]>([]);
   const [depthModel, setDepthModel] = useState("");
@@ -60,7 +59,6 @@ export function ShardDashboard() {
       minFlipProfitMode: minFlipProfit.mode,
       minFlipProfitValue: String(minFlipProfit.value),
     });
-    if (maxFusions !== undefined) query.set("maxFusions", String(maxFusions));
     appendMarketFilters(query, filters);
     const requestUrl = `/api/v1/shard-flips?${query}`;
     const cached = responseCacheRef.current.get(requestUrl);
@@ -99,7 +97,7 @@ export function ShardDashboard() {
         }
       });
     return () => controller.abort();
-  }, [filters, level, maxFusions, minFlipProfit, minProfit, strategy]);
+  }, [filters, level, minFlipProfit, minProfit, strategy]);
 
   const selectedFlip = useMemo(
     () => selectedShardId ? flips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
@@ -143,7 +141,6 @@ export function ShardDashboard() {
         <option value="maxFusions">最大 Fusion 次數</option>
         <option value="inputCost">投入成本</option>
       </select></label>
-      <MaxFusionControl value={maxFusions} onApply={setMaxFusions} />
       <ProfitThresholdControl label="Min Profit" percentOption="% of cost" value={minProfit} onApply={setMinProfit} />
       <ProfitThresholdControl label="Min Flip Profit" percentOption="% of max" value={minFlipProfit} onApply={setMinFlipProfit} />
       <MarketFilterPanel
@@ -157,30 +154,19 @@ export function ShardDashboard() {
     </div>
     <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線{refreshing ? <i className="inline-refresh"><span className="spinner" />更新中</i> : null}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
     {loading ? <div className="state-card"><span className="spinner" />正在篩選市場並重算替代 Fusion 路徑…</div> : error && !hasLoadedRef.current ? <div className="state-card error-state">{error}</div> :
-      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>可獲利市場深度</th><th>詳細</th></tr></thead><tbody>
+      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>Max Fusion</th><th>詳細</th></tr></thead><tbody>
         {displayedFlips.slice(0, 300).map((flip) => <tr key={flip.shardId}><td><span className="stack"><strong>{flip.name}</strong><small>{flip.family} · {flip.rarity}</small></span></td>
           <td><span className={`stack change-volume ${tone(flip.change24h)}`}><strong>{formatPercent(flip.change24h)}</strong><small className="neutral">{flip.volatility7d === undefined ? "Vol. 累積中" : `Vol. ${flip.volatility7d.toFixed(2)}%`}</small></span></td>
           <td><span className="stack route-materials">{flip.materials.slice(0, 2).map((material) => <strong key={material.productId}>{integer(material.quantityPerFusion)}× {material.name}</strong>)}{flip.materials.length > 2 ? <small>另有 {flip.materials.length - 2} 種遞迴原料</small> : <small>已展開至直接購入原料</small>}</span></td>
           <td>{flip.expectedOutput.toFixed(2)} {flip.crocodileApplied && flip.crocodileLevel > 0 ? <span className="ev-badge">EV</span> : null}</td>
           <td>{formatCoins(flip.inputCost)}</td>
           <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)} · {formatCoins(flip.profitPerOutput)}/ea</small></span></td>
-          <td className="shard-depth">{flip.depth.available ? <span className="stack"><span className="depth-summary-line"><strong className={flip.depth.maxProfitableFusions > 0 ? "positive" : "negative"}>{formatCoins(flip.depth.maxProfitableFusions)} 次 Fusion</strong><strong className={tone(flip.depth.totalProfit)}>總利潤 {formatCoins(flip.depth.totalProfit)}</strong></span><small>≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
+          <td className="shard-depth">{flip.depth.available ? <span className="stack"><span className="depth-summary-line"><strong className={flip.depth.maxProfitableFusions > 0 ? "positive" : "negative"}>{formatCoins(flip.depth.maxProfitableFusions)} 次 Fusion</strong><strong className={tone(flip.depth.totalProfit)}>總利潤 {formatCoins(flip.depth.totalProfit)}</strong></span><small>套用 Min Flip Profit 後 · ≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
           <td><button className="detail-button" type="button" onClick={() => setSelectedShardId(flip.shardId)}>查看詳細</button></td>
         </tr>)}
       </tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">沒有同時符合原料與成品條件的 Fusion 路線。</div> : null}</div>}
     {selectedFlip ? <ShardDetailModal flip={selectedFlip} onClose={() => setSelectedShardId(null)} /> : null}
   </>;
-}
-
-function MaxFusionControl({ value, onApply }: { value?: number; onApply: (value?: number) => void }) {
-  const [draft, setDraft] = useState(value === undefined ? "" : String(value));
-  const commit = () => {
-    const parsed = parseCompactNumber(draft);
-    const next = parsed === undefined ? undefined : Math.max(0, Math.floor(parsed));
-    setDraft(next === undefined ? "" : String(next));
-    onApply(next);
-  };
-  return <label className="max-fusion-control"><span>Max Fusion</span><input aria-label="Max Fusion 次數" type="text" inputMode="numeric" placeholder="不限" value={draft} onChange={(event) => setDraft(event.target.value)} onBlur={commit} onKeyDown={(event) => { if (event.key === "Enter") event.currentTarget.blur(); }} /></label>;
 }
 
 function ProfitThresholdControl({
@@ -250,7 +236,7 @@ function ShardDetailModal({ flip, onClose }: { flip: ShardFlip; onClose: () => v
     : `${formatCoins(flip.depth.minFlipProfit.value)} coins`;
   return <div className="detail-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="shard-detail-modal panel" role="dialog" aria-modal="true" aria-labelledby="shard-detail-title">
     <header><div><span className="eyebrow">Fusion detail</span><h2 id="shard-detail-title">{flip.name}</h2><code>{flip.productId}</code></div><button type="button" aria-label="關閉" onClick={onClose}>×</button></header>
-    <div className="detail-profit-grid"><div><span>最大 Fusion</span><strong>{integer(flip.depth.maxProfitableFusions)} 次</strong></div><div><span>預期成品</span><strong>{flip.depth.maxProfitableOutput.toFixed(2)}</strong></div><div><span>原料總成本</span><strong>{formatCoins(flip.depth.totalInputCost)}</strong></div><div><span>深度總 Profit</span><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong></div></div>
+    <div className="detail-profit-grid"><div><span>Max Fusion（門檻後）</span><strong>{integer(flip.depth.maxProfitableFusions)} 次</strong></div><div><span>預期成品</span><strong>{flip.depth.maxProfitableOutput.toFixed(2)}</strong></div><div><span>原料總成本</span><strong>{formatCoins(flip.depth.totalInputCost)}</strong></div><div><span>深度總 Profit</span><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong></div></div>
     <div className="route-multiplier"><label><span>我需要的成品數量</span><input type="text" inputMode="text" value={desiredOutputText} onChange={(event) => setDesiredOutputText(event.target.value)} /></label><div><span>路徑倍率</span><strong>× {integer(scaled.fusionCount)}</strong></div><div><span>預期實際產出</span><strong>{scaled.expectedOutput.toFixed(2)}</strong></div><div><span>此需求估計 Profit</span><strong className={tone(scaled.profit)}>{formatCoins(scaled.profit)}</strong></div>{scaled.fusionCount > flip.depth.maxProfitableFusions && flip.depth.available ? <p>此需求已超過目前符合 Min Profit 的可見市場深度。</p> : null}</div>
     <div className="detail-columns"><article><div className="modal-section-title"><div><span className="eyebrow">Scaled route for requested output</span><h3>合成路徑</h3></div><small>Crocodile 僅計入最終產量與 Profit</small></div><ul className="route-tree"><RouteTree node={scaled.route} /></ul></article>
       <article><div className="modal-section-title"><div><span className="eyebrow">For requested output</span><h3>本次需求原料</h3></div><small>所有數量均為整數</small></div><div className="material-total-list custom-materials">{scaled.materials.map((material) => <div key={material.productId}><span><strong>{material.name}</strong><code>{material.productId}</code></span><span><strong>{integer(material.quantity)} 個</strong><small>約 {formatCoins(material.quantity * material.unitCost)}</small></span></div>)}</div>

@@ -56,7 +56,6 @@ type ShardCalculationOptions = {
   orderBooks?: Record<string, ShardOrderBook>;
   minProfit?: MinProfitThreshold;
   minFlipProfit?: MinProfitThreshold;
-  maxFusions?: number;
   /** @deprecated Use minProfit with an explicit mode. */
   minProfitPercent?: number;
 };
@@ -360,7 +359,6 @@ function unavailableDepth(
   reason: string,
   minProfit: MinProfitThreshold,
   minFlipProfit: MinProfitThreshold,
-  maxFusionLimit?: number,
 ): ShardDepth {
   return {
     available: false,
@@ -372,7 +370,6 @@ function unavailableDepth(
     minProfit,
     minFlipProfit,
     maxFlipProfit: 0,
-    maxFusionLimit,
     materialsRequired: [],
     limitedBy: reason,
     partial: false,
@@ -399,15 +396,14 @@ function calculateDepth(
   taxRate: number,
   minProfit: MinProfitThreshold,
   minFlipProfit: MinProfitThreshold,
-  maxFusionLimit?: number,
 ): ShardDepth {
-  if (!books) return unavailableDepth("尚無掛單資料", minProfit, minFlipProfit, maxFusionLimit);
+  if (!books) return unavailableDepth("尚無掛單資料", minProfit, minFlipProfit);
   const rates = new Map<string, number>();
   addMaterialRates(left.node, left.quantity, rates);
   addMaterialRates(right.node, right.quantity, rates);
   const outputBook = books[outputProductId];
   const outputLevels = selectedOutputLevels(outputBook, strategy);
-  if (outputLevels.length === 0) return unavailableDepth(`${outputName} 無掛單`, minProfit, minFlipProfit, maxFusionLimit);
+  if (outputLevels.length === 0) return unavailableDepth(`${outputName} 無掛單`, minProfit, minFlipProfit);
 
   let maximumByDepth = levelAmount(outputLevels) / expectedOutput;
   let limitingName = outputName;
@@ -415,16 +411,14 @@ function calculateDepth(
     const book = books[productId];
     const levels = selectedInputLevels(book, strategy);
     const shardName = productId.replace(/^SHARD_/, "").replaceAll("_", " ");
-    if (levels.length === 0) return unavailableDepth(`${shardName} 無掛單`, minProfit, minFlipProfit, maxFusionLimit);
+    if (levels.length === 0) return unavailableDepth(`${shardName} 無掛單`, minProfit, minFlipProfit);
     const capacity = levelAmount(levels) / rate;
     if (capacity < maximumByDepth) {
       maximumByDepth = capacity;
       limitingName = shardName;
     }
   }
-  const marketUpperBound = Math.max(0, Math.min(2_000_000_000, Math.floor(maximumByDepth + 1e-8)));
-  const upperBound = Math.min(marketUpperBound, maxFusionLimit ?? marketUpperBound);
-  const cappedByMaxFusions = maxFusionLimit !== undefined && maxFusionLimit < marketUpperBound;
+  const upperBound = Math.max(0, Math.min(2_000_000_000, Math.floor(maximumByDepth + 1e-8)));
   const cache = new Map<number, DepthEvaluation | null>();
   const evaluate = (fusionCount: number): DepthEvaluation | null => {
     const cached = cache.get(fusionCount);
@@ -589,15 +583,12 @@ function calculateDepth(
     minProfit,
     minFlipProfit,
     maxFlipProfit,
-    maxFusionLimit,
     materialsRequired: totals.materials,
     limitedBy: best < maximumByFlipProfit
       ? `Min Profit ${minProfit.mode === "percent" ? `${minProfit.value}%` : `${minProfit.value.toLocaleString("en-US")} coins`}`
       : maximumByFlipProfit < upperBound
         ? `Min Flip Profit ${minFlipProfit.mode === "percent" ? `${minFlipProfit.value}%` : `${minFlipProfit.value.toLocaleString("en-US")} coins`}`
-        : cappedByMaxFusions
-          ? `Max Fusion ${maxFusionLimit}`
-          : `${limitingName} 市場深度`,
+        : `${limitingName} 市場深度`,
     partial,
     model: "selected-side-top-30",
   };
@@ -640,9 +631,6 @@ export function calculateShardFlips(
     options.minFlipProfit,
     { mode: "coins", value: 0 },
   );
-  const maxFusionLimit = options.maxFusions !== undefined && Number.isFinite(options.maxFusions)
-    ? Math.max(0, Math.floor(options.maxFusions))
-    : undefined;
   const marketByProduct = new Map(market.map((item) => [item.productId, item]));
   const costs = solveUnitCosts(data, marketByProduct, strategy, filters);
   const bestCandidates = new Map<string, BestCandidate>();
@@ -776,7 +764,6 @@ export function calculateShardFlips(
         taxRate,
         minProfit,
         minFlipProfit,
-        maxFusionLimit,
       ),
       path: [...candidate.leftCost.path, ...candidate.rightCost.path, candidate.outputId],
     });

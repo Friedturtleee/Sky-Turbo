@@ -45,7 +45,6 @@ export async function GET(request: Request) {
     );
     const minFlipProfitMode = search.get("minFlipProfitMode") ?? "coins";
     const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "0");
-    const maxFusions = parseCompactNumber(search.get("maxFusions"));
     if (!strategies.has(strategy)) return jsonError("不支援的交易策略", 400);
     if (!Number.isInteger(crocodileLevel) || crocodileLevel < 0 || crocodileLevel > 10) {
       return jsonError("Crocodile 等級必須為 0 到 10", 400);
@@ -62,9 +61,6 @@ export async function GET(request: Request) {
         minProfitMode === "percent" ? "Min Profit 必須為 0% 到 100%" : "Min Profit 金額必須大於或等於 0",
         400,
       );
-    }
-    if (maxFusions !== undefined && (!Number.isInteger(maxFusions) || maxFusions < 0)) {
-      return jsonError("Max Fusion 必須為大於或等於 0 的整數", 400);
     }
     if (minFlipProfitMode !== "percent" && minFlipProfitMode !== "coins") {
       return jsonError("Min Flip Profit 單位必須為 % 或 coins", 400);
@@ -101,7 +97,7 @@ export async function GET(request: Request) {
       strategy,
       crocodileLevel,
       undefined,
-      { marketFilters: filters, orderBooks, minProfit, minFlipProfit, maxFusions },
+      { marketFilters: filters, orderBooks, minProfit, minFlipProfit },
     );
     return jsonOk({
       updatedAt: snapshot.updatedAt,
@@ -110,7 +106,6 @@ export async function GET(request: Request) {
       evMultiplier: 1 + crocodileLevel * 0.02,
       minProfit,
       minFlipProfit,
-      maxFusions,
       filters,
       depthModel: "依所選策略逐檔模擬 Hypixel 前 30 檔；掛單策略代表目前可見排隊深度估算，不保證成交。",
       flips,
