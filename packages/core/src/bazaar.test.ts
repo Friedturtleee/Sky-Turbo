@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateMarketItem, percentageChange } from "./bazaar";
+import { calculateMarketItem, enrichWithHistory, isCrashingMarketItem, percentageChange } from "./bazaar";
 import type { HypixelBazaarProduct } from "./types";
 
 const product: HypixelBazaarProduct = {
@@ -32,5 +32,17 @@ describe("Bazaar calculations", () => {
     expect(percentageChange(110, 100)).toBe(10);
     expect(percentageChange(10, 0)).toBeUndefined();
   });
-});
 
+  it("detects a Buy Order drop greater than 30% over 24 hours", () => {
+    const now = 200_000_000;
+    const current = calculateMarketItem(product, now)!;
+    const enriched = enrichWithHistory(current, [
+      { time: now - 86_400_000, price: 155, buyOrderPrice: 150 },
+      { time: now, price: current.midpoint, buyOrderPrice: current.buyOrderPrice },
+    ]);
+
+    expect(enriched.buyOrderChange24h).toBeCloseTo(-100 / 3);
+    expect(isCrashingMarketItem(enriched)).toBe(true);
+    expect(isCrashingMarketItem({ ...enriched, buyOrderChange24h: -30 })).toBe(false);
+  });
+});

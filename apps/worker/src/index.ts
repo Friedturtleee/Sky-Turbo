@@ -21,10 +21,12 @@ type Env = {
 type StateRow = { updated_at: number; payload: string };
 type HistoryRow = { updated_at: number; payload: number[] };
 type BlobRow = { updated_at: number; payload: number[] };
+type HistoryBucketRow = { bucket: number; updated_at: number };
 
 const MARKET_BODY_LIMIT = 1_900_000;
 const IMPORT_BODY_LIMIT = 8_000_000;
 const GZIP_ROW_LIMIT = 1_900_000;
+const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
 
 function corsHeaders(env: Env): HeadersInit {
@@ -404,6 +406,63 @@ async function dailyHistory(env: Env): Promise<Response> {
   });
 }
 
+async function historyAt24Hours(env: Env): Promise<Response> {
+  const latest = await env.DB.prepare(
+    "SELECT updated_at FROM market_state WHERE key = 'latest_compact'",
+  ).first<{ updated_at: number }>();
+  const referenceTime = latest?.updated_at ?? Date.now();
+  const targetBucket = Math.floor((referenceTime - DAY_MS) / HOUR_MS);
+  const nearest = await env.DB.prepare(
+    `SELECT bucket, updated_at FROM market_history
+     WHERE tier = '1h' AND bucket BETWEEN ? AND ?
+     ORDER BY ABS(bucket - ?) ASC, partition ASC
+     LIMIT 1`,
+  )
+    .bind(targetBucket - 2, targetBucket + 2, targetBucket)
+    .first<HistoryBucketRow>();
+
+  if (!nearest) {
+    return new Response("[]", {
+      headers: {
+        ...corsHeaders(env),
+        "Cache-Control": "public, max-age=60, stale-while-revalidate=120",
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    });
+  }
+
+  const rows = await env.DB.prepare(
+    `SELECT payload FROM market_history
+     WHERE tier = '1h' AND bucket = ?
+     ORDER BY partition ASC`,
+  )
+    .bind(nearest.bucket)
+    .all<{ payload: number[] }>();
+  const encoder = new TextEncoder();
+  let index = 0;
+  const stream = new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      if (index === 0) controller.enqueue(encoder.encode("["));
+      if (index < rows.results.length) {
+        const payload = await gunzipText(rows.results[index]!.payload);
+        controller.enqueue(encoder.encode(`${index === 0 ? "" : ","}${payload}`));
+        index += 1;
+        return;
+      }
+      controller.enqueue(encoder.encode("]"));
+      controller.close();
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      ...corsHeaders(env),
+      "Cache-Control": "public, max-age=300, stale-while-revalidate=600",
+      "Content-Type": "application/json; charset=utf-8",
+      "X-History-At": String(nearest.updated_at),
+    },
+  });
+}
+
 async function triggerIngestion(env: Env): Promise<void> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 50_000);
@@ -430,6 +489,7 @@ export default {
       }
       if (url.pathname === "/v1/storage/latest" && request.method === "GET") return latestSnapshot(env);
       if (url.pathname === "/v1/storage/history-daily" && request.method === "GET") return dailyHistory(env);
+      if (url.pathname === "/v1/storage/history-24h" && request.method === "GET") return historyAt24Hours(env);
 
       const livePrefix = "/v1/storage/history-live/";
       if (url.pathname.startsWith(livePrefix) && request.method === "GET") {

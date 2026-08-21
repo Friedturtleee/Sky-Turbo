@@ -11,6 +11,7 @@ const labels: Record<MarketFilterKey, string> = {
   sellVolume: "Sell volume",
   buyVolume: "Buy volume",
   totalVolume: "Total volume",
+  buyOrderPrice: "Min Cost / Buy Order ($)",
   price: "Price",
   coinsPerHour: "Coins / Hour",
   marginCoins: "Margin ($)",
@@ -25,6 +26,7 @@ function createBlankMarketFilters(): MarketFilterDrafts {
     sellVolume: emptyRange(),
     buyVolume: emptyRange(),
     totalVolume: emptyRange(),
+    buyOrderPrice: emptyRange(),
     price: emptyRange(),
     coinsPerHour: emptyRange(),
     marginCoins: emptyRange(),
@@ -38,6 +40,12 @@ export function createEmptyMarketFilters(): MarketFilterDrafts {
 
 export function createShardVolumeFilters(): MarketFilterDrafts {
   return createBlankMarketFilters();
+}
+
+export function createCrashingMarketFilters(): MarketFilterDrafts {
+  const filters = createBlankMarketFilters();
+  filters.buyOrderPrice.min = "1000";
+  return filters;
 }
 
 export function appendMarketFilters(query: URLSearchParams, filters: MarketFilterDrafts): void {

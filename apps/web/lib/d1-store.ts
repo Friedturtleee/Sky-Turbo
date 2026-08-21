@@ -89,8 +89,9 @@ export async function readProductHistory(productId: string, range: string): Prom
 export async function enrichMarketSummary(snapshot: MarketSnapshot): Promise<MarketSnapshot> {
   if (!edgeUrl) return snapshot;
   const cutoff = Date.now() - 31 * 86_400_000;
-  const [history, importedSummary] = await Promise.all([
+  const [history, historyAt24h, importedSummary] = await Promise.all([
     readOptionalJson<CompactHistoryPartition[]>("/v1/storage/history-daily"),
+    readOptionalJson<CompactHistoryPartition[]>("/v1/storage/history-24h"),
     readOptionalJson<ImportedHistorySummary>("/v1/internal/history-import-meta/summary", true),
   ]);
   const primaryByProduct = new Map<string, PricePoint[]>();
@@ -99,6 +100,19 @@ export async function enrichMarketSummary(snapshot: MarketSnapshot): Promise<Mar
       const productHistory = primaryByProduct.get(productId) ?? [];
       productHistory.push({ time: point.updatedAt, price: values[0], source: "hypixel" });
       primaryByProduct.set(productId, productHistory);
+    }
+  }
+  const exactDayAgoByProduct = new Map<string, PricePoint>();
+  for (const point of historyAt24h ?? []) {
+    for (const [productId, values] of Object.entries(point.items)) {
+      exactDayAgoByProduct.set(productId, {
+        time: point.updatedAt,
+        price: values[0],
+        buyOrderPrice: values[1],
+        sellOrderPrice: values[2],
+        volume: values[3],
+        source: "hypixel",
+      });
     }
   }
 
@@ -112,10 +126,13 @@ export async function enrichMarketSummary(snapshot: MarketSnapshot): Promise<Mar
         price,
         source: "coflnet" as const,
       }));
-      return enrichWithHistory(
-        item,
-        mergePriceHistory([imported, primaryByProduct.get(item.productId) ?? []], 86_400_000, cutoff),
+      const summarized = mergePriceHistory(
+        [imported, primaryByProduct.get(item.productId) ?? []],
+        86_400_000,
+        cutoff,
       );
+      const exactDayAgo = exactDayAgoByProduct.get(item.productId);
+      return enrichWithHistory(item, exactDayAgo ? [...summarized, exactDayAgo] : summarized);
     }),
   };
 }

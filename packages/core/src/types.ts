@@ -66,6 +66,7 @@ export type MarketItem = {
     key: string;
   };
   changes?: Partial<Record<"10m" | "1h" | "1d" | "1mo", number>>;
+  buyOrderChange24h?: number;
   volatility?: Partial<Record<"1d" | "3d" | "7d" | "30d", number>>;
 };
 
@@ -166,6 +167,7 @@ export type MarketFilterKey =
   | "sellVolume"
   | "buyVolume"
   | "totalVolume"
+  | "buyOrderPrice"
   | "price"
   | "coinsPerHour"
   | "marginCoins"

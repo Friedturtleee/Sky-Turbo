@@ -213,7 +213,9 @@ function scaleRequiredRoute(node: ShardRouteNode, requiredQuantity: number): Sha
   if (node.kind === "market") {
     return { ...node, requiredQuantity, quantity: Math.max(0, Math.ceil(requiredQuantity - 1e-8)) };
   }
-  const fusionCount = Math.max(1, Math.ceil(requiredQuantity / node.baseOutput - 1e-8));
+  const fusionCount = requiredQuantity <= 0
+    ? 0
+    : Math.max(1, Math.ceil(requiredQuantity / node.baseOutput - 1e-8));
   return scaleFusionRoute(node, fusionCount, requiredQuantity);
 }
 
@@ -240,16 +242,24 @@ export function scaleShardRouteForOutput(
   desiredOutput: number,
   options: { useBaseOutput?: boolean } = {},
 ) {
-  const requested = Math.max(1, Math.ceil(desiredOutput));
+  const requested = Math.max(0, Math.ceil(desiredOutput));
   if (route.kind !== "fusion") {
-    return { route, fusionCount: 1, expectedOutput: route.quantity };
+    const scaledRoute = scaleRequiredRoute(route, requested);
+    return { route: scaledRoute, fusionCount: requested > 0 ? 1 : 0, expectedOutput: requested };
   }
   const outputPerFusion = options.useBaseOutput
     ? route.baseOutput
     : route.expectedOutput / Math.max(1, route.fusionCount);
-  const fusionCount = Math.max(1, Math.ceil(requested / outputPerFusion - 1e-8));
+  const fusionCount = requested === 0
+    ? 0
+    : Math.max(1, Math.ceil(requested / outputPerFusion - 1e-8));
   const scaledRoute = scaleFusionRoute(route, fusionCount, requested);
   return { route: scaledRoute, fusionCount, expectedOutput: scaledRoute.expectedOutput };
+}
+
+export function defaultShardDesiredOutput(flip: ShardFlip): number {
+  if (!flip.depth.available || flip.depth.maxProfitableFusions <= 0) return 0;
+  return Math.max(0, Math.floor(flip.depth.maxProfitableOutput + 1e-8));
 }
 
 export function collectShardRouteMaterials(route: ShardRouteNode) {

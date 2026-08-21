@@ -2,6 +2,7 @@
 
 import {
   collectShardRouteMaterials,
+  defaultShardDesiredOutput,
   parseCompactNumber,
   scaleShardRouteForOutput,
   type MarketFilterKey,
@@ -227,8 +228,12 @@ function RouteTree({ node }: { node: ShardRouteNode }) {
 }
 
 function ShardDetailModal({ flip, onClose }: { flip: ShardFlip; onClose: () => void }) {
-  const [desiredOutputText, setDesiredOutputText] = useState(String(Math.max(1, Math.ceil(flip.expectedOutput))));
-  const desiredOutput = Math.max(1, Math.ceil(parseCompactNumber(desiredOutputText) ?? 1));
+  const defaultDesiredOutput = defaultShardDesiredOutput(flip);
+  const [desiredOutputText, setDesiredOutputText] = useState(String(defaultDesiredOutput));
+  const desiredOutput = Math.max(
+    0,
+    Math.ceil(parseCompactNumber(desiredOutputText) ?? defaultDesiredOutput),
+  );
   const scaled = useMemo(() => {
     if (flip.route.kind !== "fusion") {
       return { route: flip.route, fusionCount: 1, expectedOutput: flip.expectedOutput, materials: collectShardRouteMaterials(flip.route), inputCost: flip.inputCost, profit: flip.profit };

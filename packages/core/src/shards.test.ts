@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { applyCrocodileLevelToFlip, calculateShardFlips, collectShardRouteMaterials, scaleShardRouteForOutput } from "./shards";
+import {
+  applyCrocodileLevelToFlip,
+  calculateShardFlips,
+  collectShardRouteMaterials,
+  defaultShardDesiredOutput,
+  scaleShardRouteForOutput,
+} from "./shards";
 import type { FusionData, MarketItem } from "./types";
 
 const data: FusionData = {
@@ -84,6 +90,7 @@ describe("Shard fusion calculations", () => {
     });
     expect(flip?.depth.maxProfitableFusions).toBe(5);
     expect(flip?.depth.maxProfitableOutput).toBe(10);
+    expect(defaultShardDesiredOutput(flip!)).toBe(10);
     expect(flip?.depth.limitedBy).toContain("Gamma");
     expect(flip?.depth.materialsRequired.map((material) => material.quantity)).toEqual([10, 15]);
     expect(flip?.depth.minProfit).toEqual({ mode: "percent", value: 0.1 });
@@ -106,6 +113,25 @@ describe("Shard fusion calculations", () => {
     expect(flip?.depth.maxProfitableOutput).toBe(4);
     expect(flip?.depth.limitedBy).toBe("Max Fusion 2");
     expect(flip?.depth.materialsRequired.map((material) => material.quantity)).toEqual([4, 6]);
+  });
+
+  it("uses zero as the default requested output when no Fusion satisfies the limits", () => {
+    const [flip] = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 0, undefined, {
+      maxFusions: 0,
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 20, orders: 1, pricePerUnit: 11 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 10, orders: 1, pricePerUnit: 90 }], sellOffers: [], partial: false },
+      },
+    });
+
+    expect(defaultShardDesiredOutput(flip!)).toBe(0);
+    const scaled = scaleShardRouteForOutput(flip!.route, 0);
+    expect(scaled.fusionCount).toBe(0);
+    expect(scaled.expectedOutput).toBe(0);
+    expect(collectShardRouteMaterials(scaled.route).every((material) => material.quantity === 0)).toBe(true);
   });
 
   it("walks multiple input and output levels for the displayed single-Flip cost and profit", () => {

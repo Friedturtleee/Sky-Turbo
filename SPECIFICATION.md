@@ -19,6 +19,8 @@ midpoint         = (bestSellOffer + bestBuyOrder) / 2
 
 CPH 是歷史成交能力推估，不是保證成交量。±5% 深度僅彙總 Hypixel 提供的前 30 檔，因此當任一邊剛好 30 檔時標示 partial。
 
+Crashing 頁面比較目前 Buy Order 與最接近 24 小時前的 Hypixel hourly Buy Order 歷史點，只顯示跌幅嚴格超過 `30%` 的商品。24 小時目標點容許前後兩小時的資料缺口；超出範圍視為缺少歷史，不會誤列為 crashing。頁面的 Min Cost 篩選使用目前 Buy Order，預設下限為 `1,000 coins`。
+
 ## Shard 公式
 
 每個 recipe pair 消耗：
@@ -36,7 +38,7 @@ Instant Buy / Instant Sell 的需求量跨越 orderbook 多檔時，`inputCost` 
 
 原料規劃只允許完整的 Fusion 操作：中間成品不足時以 `ceil(required / baseOutput)` 增加 Fusion 次數，最後所有 Bazaar 購買量都是整數。Crocodile 不降低中間 Fusion 或原材料數量，只套用在最終 Fusion 的預期成品與稅後 Profit。
 
-詳細視窗接受使用者輸入的目標成品數量。最終 Fusion 倍率為 `ceil(desiredOutput / expectedOutputPerFinalFusion)`，接著由上而下重新展開每一層完整 Fusion，並更新整數原料、預期實際產出與估計 Profit；若超過目前可獲利深度會顯示警告。
+詳細視窗接受使用者輸入的目標成品數量，預設為目前市場深度、Profit 門檻、Max Fusion 與原料／成品篩選共同允許的最大整數成品量；沒有任何合格 Fusion 時預設為 `0`。最終 Fusion 倍率為 `ceil(desiredOutput / expectedOutputPerFinalFusion)`，接著由上而下重新展開每一層完整 Fusion，並更新整數原料、預期實際產出與估計 Profit；若超過目前可獲利深度會顯示警告。
 
 Shard 市場篩選會在最低成本求解之前執行：直接購入的葉節點原料若不符合條件，就不會成為 direct cost seed，但仍可由其他合格原料經 Fusion 取得。最終成品市場也必須通過相同條件。這讓篩選改變實際合成路徑，而不只是隱藏計算完成的列。
 
@@ -72,6 +74,7 @@ Shard endpoint 的原料與成品篩選接受 `sellVolumeMin/Max`、`buyVolumeMi
 - `GET /v1/storage/latest`
 - `GET /v1/storage/history-live/:productId?range=1h|1d|1mo|all`
 - `GET /v1/storage/history-daily`
+- `GET /v1/storage/history-24h`
 - `POST /v1/internal/market-snapshot`（Bearer ingestion secret）
 - `GET|PUT /v1/internal/history-import/:productId`（Bearer ingestion secret）
 - `GET|PUT /v1/internal/history-import-meta/:key`（Bearer ingestion secret）

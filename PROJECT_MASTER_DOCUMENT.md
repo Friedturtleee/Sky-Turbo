@@ -12,7 +12,7 @@ Sky Turbo 是面向 Hypixel SkyBlock 玩家、以決策速度為核心的 Bazaar
 
 - 將所有有雙邊報價的 Bazaar 商品計算為 `Sell Order × (1 − 1.125%) − Buy Order`。
 - 支援 Coins per Hour、Margin (%)、Margin (coins)、7 日 volatility 排序。
-- 支援 volatility、sell/buy/total volume、price、CPH、margin coins／% 的上下限篩選。
+- 支援 volatility、sell/buy/total volume、Buy Order cost、price、CPH、margin coins／% 的上下限篩選。
 - 首頁顯示價格、24 小時變化、7 日交易量、±5% 深度數量與名目金額，以及 Lightweight Charts 簡圖。
 - 詳情頁顯示 1h／1d／1mo／all 圖表、前 30 檔掛單與 10m／1h／1d／1mo 漲跌。
 
@@ -27,9 +27,14 @@ Sky Turbo 是面向 Hypixel SkyBlock 玩家、以決策速度為核心的 Bazaar
 - 依策略逐檔模擬前 30 檔，顯示總 Profit 符合 Min Profit 門檻的最大完整 Fusion 次數與預期成品量；Order 模式明確標示為排隊深度估算。
 - Max Fusion 上限可由使用者限制最多點擊融合按鈕的次數，留空時不限制；實際 Max Fusion 會取市場深度、Min Profit、Min Flip Profit 與此上限共同允許的最大值。
 - Shard 詳細檢視會顯示完整遞迴合成樹，以及清空符合門檻深度所需的所有整數原料總量、估計成本與總 Profit。
-- 使用者可輸入所需成品數量，詳細檢視會自動調整最終 Fusion 倍率、所有中間路徑、整數原料需求、預期產出與 Profit。
+- 使用者可輸入所需成品數量；預設值為所有市場深度、門檻、上限及原料／成品篩選共同允許的最大整數成品量。詳細檢視會自動調整最終 Fusion 倍率、所有中間路徑、整數原料需求、預期產出與 Profit。
 - 單次與深度的 Instant Buy / Sell 會依最佳價格順序逐檔消耗 orderbook，避免以最低一檔價格乘上全部數量；Buy / Sell Order 固定使用目前最佳掛單價，可見掛單量僅作排隊深度上限。
 - Min Profit 可用原料總成本百分比或固定 coins 金額，預設為 0.1%；Min Flip Profit 可用最高單次 Flip Profit 的百分比或固定 coins 金額排除深度後段低利潤掛單，預設為最高單次 Profit 的 50%；Crocodile 預設等級為 10，並會計入最終預期成品、Profit 與市場深度，每次 Fusion 的原料購買量不變。
+
+### Crashing
+
+- 將目前 Buy Order 與最接近 24 小時前的 Hypixel hourly Buy Order 歷史價比較，只列出跌幅超過 30% 的商品；目標點前後兩小時內無資料時不列入。
+- Crashing 篩選器的 Min Cost 以目前 Buy Order 計算，預設為 1,000 coins。
 
 ### Bookmarks
 

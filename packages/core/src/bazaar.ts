@@ -126,6 +126,10 @@ export function percentageChange(current: number, previous?: number): number | u
   return ((current - previous) / previous) * 100;
 }
 
+export function isCrashingMarketItem(item: MarketItem, thresholdPercent = 30): boolean {
+  return item.buyOrderChange24h !== undefined && item.buyOrderChange24h < -Math.abs(thresholdPercent);
+}
+
 export function enrichWithHistory(item: MarketItem, points: PricePoint[]): MarketItem {
   const sorted = [...points].sort((a, b) => a.time - b.time);
   const now = item.updatedAt;
@@ -147,6 +151,13 @@ export function enrichWithHistory(item: MarketItem, points: PricePoint[]): Marke
     volatility[range] = average > 0 ? (Math.abs(current - average) / average) * 100 : 0;
   }
 
-  return { ...item, changes, volatility };
-}
+  const buyOrderHistory = sorted.filter(
+    (point) => point.buyOrderPrice !== undefined && point.buyOrderPrice > 0,
+  );
+  const buyOrderChange24h = percentageChange(
+    item.buyOrderPrice,
+    closestPoint(buyOrderHistory, now - 86_400_000)?.buyOrderPrice,
+  );
 
+  return { ...item, changes, buyOrderChange24h, volatility };
+}

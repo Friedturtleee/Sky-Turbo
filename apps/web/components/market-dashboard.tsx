@@ -1,16 +1,27 @@
 "use client";
 
-import { parseCompactNumber, type MarketItem, type MarketSnapshot, type PricePoint } from "@sky-turbo/core";
+import {
+  isCrashingMarketItem,
+  parseCompactNumber,
+  type MarketItem,
+  type MarketSnapshot,
+  type PricePoint,
+} from "@sky-turbo/core";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { BookmarkButton } from "./bookmarks";
 import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
 import { ItemIcon } from "./item-icon";
-import { createEmptyMarketFilters, MarketFilterPanel, type MarketFilterDrafts } from "./market-filter-panel";
+import {
+  createCrashingMarketFilters,
+  createEmptyMarketFilters,
+  MarketFilterPanel,
+  type MarketFilterDrafts,
+} from "./market-filter-panel";
 import { PriceChart } from "./price-chart";
 
-type SortKey = "coinsPerHour" | "marginPercent" | "marginCoins" | "volatility";
+type SortKey = "coinsPerHour" | "marginPercent" | "marginCoins" | "volatility" | "buyOrderChange24h";
 function inRange(value: number, range: { min: string; max: string }): boolean {
   const min = parseCompactNumber(range.min) ?? -Infinity;
   const max = parseCompactNumber(range.max) ?? Infinity;
@@ -48,12 +59,20 @@ function Featured({ item }: { item: MarketItem }) {
   );
 }
 
-export function MarketDashboard({ bookmarksOnly = false }: { bookmarksOnly?: boolean }) {
+export function MarketDashboard({
+  bookmarksOnly = false,
+  crashingOnly = false,
+}: {
+  bookmarksOnly?: boolean;
+  crashingOnly?: boolean;
+}) {
   const [snapshot, setSnapshot] = useState<MarketSnapshot | null>(null);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<SortKey>("coinsPerHour");
-  const [filters, setFilters] = useState<MarketFilterDrafts>(createEmptyMarketFilters);
+  const [sort, setSort] = useState<SortKey>(crashingOnly ? "buyOrderChange24h" : "coinsPerHour");
+  const [filters, setFilters] = useState<MarketFilterDrafts>(
+    crashingOnly ? createCrashingMarketFilters : createEmptyMarketFilters,
+  );
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const { bookmarks } = requireBookmarks();
 
@@ -71,20 +90,25 @@ export function MarketDashboard({ bookmarksOnly = false }: { bookmarksOnly?: boo
     const query = search.trim().toLowerCase();
     return (snapshot?.items ?? [])
       .filter((item) => !bookmarksOnly || bookmarks.has(item.productId))
+      .filter((item) => !crashingOnly || isCrashingMarketItem(item))
       .filter((item) => !query || item.name.toLowerCase().includes(query) || item.productId.toLowerCase().includes(query))
       .filter((item) => inRange(item.volatility?.["7d"] ?? 0, filters.volatility))
       .filter((item) => inRange(item.sellVolume, filters.sellVolume))
       .filter((item) => inRange(item.buyVolume, filters.buyVolume))
       .filter((item) => inRange(item.totalVolume, filters.totalVolume))
+      .filter((item) => inRange(item.buyOrderPrice, filters.buyOrderPrice))
       .filter((item) => inRange(item.midpoint, filters.price))
       .filter((item) => inRange(item.coinsPerHour, filters.coinsPerHour))
       .filter((item) => inRange(item.marginCoins, filters.marginCoins))
       .filter((item) => inRange(item.marginPercent, filters.marginPercent))
       .sort((a, b) => {
         if (sort === "volatility") return (b.volatility?.["7d"] ?? 0) - (a.volatility?.["7d"] ?? 0);
+        if (sort === "buyOrderChange24h") {
+          return (a.buyOrderChange24h ?? 0) - (b.buyOrderChange24h ?? 0);
+        }
         return b[sort] - a[sort];
       });
-  }, [bookmarks, bookmarksOnly, filters, search, snapshot, sort]);
+  }, [bookmarks, bookmarksOnly, crashingOnly, filters, search, snapshot, sort]);
 
   if (error) return <div className="state-card error-state"><strong>行情暫時無法載入</strong><span>{error}</span></div>;
   if (!snapshot) return <div className="state-card"><span className="spinner" />正在同步 Hypixel Bazaar…</div>;
@@ -96,19 +120,23 @@ export function MarketDashboard({ bookmarksOnly = false }: { bookmarksOnly?: boo
         <label><span>排序</span><select value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
           <option value="coinsPerHour">Coins per Hour</option><option value="marginPercent">Margin (%)</option>
           <option value="marginCoins">Margin ($)</option><option value="volatility">Volatility (7d)</option>
+          <option value="buyOrderChange24h">Buy Order Drop (24h)</option>
         </select></label>
-        <MarketFilterPanel onApply={setFilters} />
+        <MarketFilterPanel
+          initialFilters={crashingOnly ? createCrashingMarketFilters() : undefined}
+          onApply={setFilters}
+        />
       </div>
-      {items[0] && !bookmarksOnly ? <Featured item={items[0]} /> : null}
+      {items[0] && !bookmarksOnly && !crashingOnly ? <Featured item={items[0]} /> : null}
       <div className="table-meta"><span>{items.length.toLocaleString()} 個物品</span><span>更新：{new Date(snapshot.updatedAt).toLocaleTimeString("zh-TW")}</span></div>
       <div className="market-table-wrap panel"><table className="market-table"><thead><tr>
-        <th>物品</th><th>價格</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">24h / Vol.</th><th>±5% 深度</th><th aria-label="書籤" />
+        <th>物品</th><th>價格</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">{crashingOnly ? "Buy Order 24h / Vol." : "24h / Vol."}</th><th>±5% 深度</th><th aria-label="書籤" />
       </tr></thead><tbody>{items.slice(0, 250).map((item) => <tr key={item.productId}>
         <td><Link className="item-cell" href={`/items/${encodeURIComponent(item.productId)}`}><ItemIcon name={item.name} productId={item.productId} /><span><strong>{item.name}</strong><code>{item.productId}</code></span></Link></td>
         <td><span className="stack"><strong>{formatCoins(item.midpoint)}</strong><small>{formatCoins(item.buyOrderPrice)} → {formatCoins(item.sellOrderPrice)}</small></span></td>
         <td><span className={`stack ${tone(item.marginCoins)}`}><strong>{formatCoins(item.marginCoins)}</strong><small>{formatPercent(item.marginPercent)}</small></span></td>
         <td className={tone(item.coinsPerHour)}>{formatCoins(item.coinsPerHour)}</td>
-        <td><span className="stack change-volume"><strong className={tone(item.changes?.["1d"])}>{formatPercent(item.changes?.["1d"])}</strong><small>{item.volatility?.["7d"]?.toFixed(2) ?? "累積中"}%</small></span></td>
+        <td><span className="stack change-volume"><strong className={tone(crashingOnly ? item.buyOrderChange24h : item.changes?.["1d"])}>{formatPercent(crashingOnly ? item.buyOrderChange24h : item.changes?.["1d"])}</strong><small>{item.volatility?.["7d"]?.toFixed(2) ?? "累積中"}%</small></span></td>
         <td><span className="stack"><strong>{formatCoins(item.depthWithinFivePercent.buyOrders.quantity)} / {formatCoins(item.depthWithinFivePercent.sellOffers.quantity)}</strong><small>{formatCoins(item.depthWithinFivePercent.buyOrders.notional)} / {formatCoins(item.depthWithinFivePercent.sellOffers.notional)}</small></span></td>
         <td><BookmarkButton productId={item.productId} /></td>
       </tr>)}</tbody></table>
