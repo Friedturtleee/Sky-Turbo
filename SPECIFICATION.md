@@ -53,7 +53,7 @@ depthProfit(N) >= (mode = percent ? depthInputCost(N) × minProfitValue / 100 : 
 marginalFlipProfit(N) >= (mode = percent ? maxFlipProfit × minFlipProfitValue / 100 : minFlipProfitValue)
 ```
 
-Min Profit 可選原料總成本百分比或固定 coins 金額，預設為 `0.1%`。Min Flip Profit 可選最高單次 Flip Profit 的百分比或固定 coins 金額，預設 `50% of max`，用來排除深度後段單次利潤過低的掛單。每次邊際 Flip Profit 以該 Fusion 數量的完整累積收入減去完整累積成本計算，包含遞迴 Fusion 的整數進位與 Instant Buy / Sell 的逐檔成交。使用者可用 Max Fusion 上限限制最多執行的完整 Fusion 次數，留空時不限制；畫面顯示的 `maxProfitableFusions` 會取市場深度、Min Profit、Min Flip Profit 與使用者上限共同允許的最大值，預期成品則是該次數乘以已含 Crocodile 倍率的 `expectedOutput`。Instant 策略代表可立即消耗的掛單；Order 策略固定使用最佳掛單價，深度僅代表目前可見排隊量估算，不能視為保證成交量。任一 orderbook 達到 30 檔時標示 partial。
+Min Profit 可選原料總成本百分比或固定 coins 金額，預設為 `0.1%`。Min Flip Profit 可選最高單次 Flip Profit 的百分比或固定 coins 金額，預設 `80% of max`，用來排除深度後段單次利潤過低的掛單。每次邊際 Flip Profit 以該 Fusion 數量的完整累積收入減去完整累積成本計算，包含遞迴 Fusion 的整數進位與 Instant Buy / Sell 的逐檔成交。使用者可用 Max Fusion 上限限制最多執行的完整 Fusion 次數，留空時不限制；畫面顯示的 `maxProfitableFusions` 會取市場深度、Min Profit、Min Flip Profit 與使用者上限共同允許的最大值，預期成品則是該次數乘以已含 Crocodile 倍率的 `expectedOutput`。Instant 策略代表可立即消耗的掛單；Order 策略固定使用最佳掛單價，深度僅代表目前可見排隊量估算，不能視為保證成交量。任一 orderbook 達到 30 檔時標示 partial。
 
 ## Public API
 
@@ -63,7 +63,7 @@ Min Profit 可選原料總成本百分比或固定 coins 金額，預設為 `0.1
 - `GET /api/v1/market/items/:productId/orderbook`
 - `GET /api/v1/shard-flips?strategy=bo-so|ib-so|bo-is|ib-is&crocodileLevel=0..10`（Crocodile 預設等級 `10`）
 
-Shard endpoint 的原料與成品篩選接受 `sellVolumeMin/Max`、`buyVolumeMin/Max`、`totalVolumeMin/Max`，三者預設皆不限制。Min Profit 使用 `minProfitMode=percent|coins` 與 `minProfitValue`（預設 `percent / 0.1`）；Min Flip Profit 使用 `minFlipProfitMode=percent|coins` 與 `minFlipProfitValue`（預設 `percent / 50`）；`maxFusions` 可選填大於或等於 0 的整數，限制最多點擊 Fusion 的次數。
+Shard endpoint 的原料與成品篩選接受 `sellVolumeMin/Max`、`buyVolumeMin/Max`、`totalVolumeMin/Max`，三者預設皆不限制。Min Profit 使用 `minProfitMode=percent|coins` 與 `minProfitValue`（預設 `percent / 0.1`）；Min Flip Profit 使用 `minFlipProfitMode=percent|coins` 與 `minFlipProfitValue`（預設 `percent / 80`）；`maxFusions` 可選填大於或等於 0 的整數，限制最多點擊 Fusion 的次數。
 - `POST /api/v1/internal/ingest`（Bearer secret）
 
 成功 envelope 為 `{ data, error: null }`；失敗為 `{ data: null, error: { message, details? } }`。

@@ -235,7 +235,7 @@ describe("Shard fusion calculations", () => {
     expect(coinFlip?.depth.limitedBy).toBe("Min Flip Profit 30 coins");
   });
 
-  it("defaults Min Flip Profit to 50% of the maximum single-Flip profit", () => {
+  it("defaults Min Flip Profit to 80% of the maximum single-Flip profit", () => {
     const [flip] = calculateShardFlips(data, [
       market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 10, 10), market("SHARD_GAMMA", 90, 100),
     ], "ib-is", 0, undefined, {
@@ -246,7 +246,7 @@ describe("Shard fusion calculations", () => {
       },
     });
 
-    expect(flip?.depth.minFlipProfit).toEqual({ mode: "percent", value: 50 });
+    expect(flip?.depth.minFlipProfit).toEqual({ mode: "percent", value: 80 });
   });
 
   it("includes Crocodile EV in the fully recalculated market depth", () => {

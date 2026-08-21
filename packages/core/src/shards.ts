@@ -683,7 +683,7 @@ export function calculateShardFlips(
   );
   const minFlipProfit = normalizeProfitThreshold(
     options.minFlipProfit,
-    { mode: "percent", value: 50 },
+    { mode: "percent", value: 80 },
   );
   const maxFusionLimit = options.maxFusions !== undefined && Number.isFinite(options.maxFusions)
     ? Math.max(0, Math.floor(options.maxFusions))

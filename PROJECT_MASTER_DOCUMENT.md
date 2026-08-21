@@ -29,7 +29,7 @@ Sky Turbo 是面向 Hypixel SkyBlock 玩家、以決策速度為核心的 Bazaar
 - Shard 詳細檢視會顯示完整遞迴合成樹，以及清空符合門檻深度所需的所有整數原料總量、估計成本與總 Profit。
 - 使用者可輸入所需成品數量；預設值為所有市場深度、門檻、上限及原料／成品篩選共同允許的最大整數成品量。詳細檢視會自動調整最終 Fusion 倍率、所有中間路徑、整數原料需求、預期產出與 Profit。
 - 單次與深度的 Instant Buy / Sell 會依最佳價格順序逐檔消耗 orderbook，避免以最低一檔價格乘上全部數量；Buy / Sell Order 固定使用目前最佳掛單價，可見掛單量僅作排隊深度上限。
-- Min Profit 可用原料總成本百分比或固定 coins 金額，預設為 0.1%；Min Flip Profit 可用最高單次 Flip Profit 的百分比或固定 coins 金額排除深度後段低利潤掛單，預設為最高單次 Profit 的 50%；Crocodile 預設等級為 10，並會計入最終預期成品、Profit 與市場深度，每次 Fusion 的原料購買量不變。
+- Min Profit 可用原料總成本百分比或固定 coins 金額，預設為 0.1%；Min Flip Profit 可用最高單次 Flip Profit 的百分比或固定 coins 金額排除深度後段低利潤掛單，預設為最高單次 Profit 的 80%；Crocodile 預設等級為 10，並會計入最終預期成品、Profit 與市場深度，每次 Fusion 的原料購買量不變。
 
 ### Crashing
 

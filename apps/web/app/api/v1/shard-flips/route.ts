@@ -44,7 +44,7 @@ export async function GET(request: Request) {
       search.get("minProfitValue") ?? search.get("minProfitPercent") ?? "0.1",
     );
     const minFlipProfitMode = search.get("minFlipProfitMode") ?? "percent";
-    const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "50");
+    const minFlipProfitValue = parseCompactNumber(search.get("minFlipProfitValue") ?? "80");
     const maxFusions = parseCompactNumber(search.get("maxFusions"));
     if (!strategies.has(strategy)) return jsonError("不支援的交易策略", 400);
     if (!Number.isInteger(crocodileLevel) || crocodileLevel < 0 || crocodileLevel > 10) {

@@ -39,7 +39,7 @@ export function ShardDashboard() {
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const [sort, setSort] = useState<SortKey>("profit");
   const [minProfit, setMinProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0.1 });
-  const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 50 });
+  const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 80 });
   const [maxFusions, setMaxFusions] = useState<number | undefined>(undefined);
   const [filters, setFilters] = useState<MarketFilterDrafts>(createShardVolumeFilters);
   const [flips, setFlips] = useState<ShardFlip[]>([]);
