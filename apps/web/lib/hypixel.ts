@@ -9,7 +9,7 @@ const BAZAAR_URL = "https://api.hypixel.net/v2/skyblock/bazaar";
 export async function getBazaarResponse(): Promise<HypixelBazaarResponse> {
   const response = await fetch(BAZAAR_URL, {
     headers: { Accept: "application/json", "User-Agent": "Sky-Turbo/0.1" },
-    next: { revalidate: 60 },
+    cache: "no-store",
     signal: AbortSignal.timeout(12_000),
   });
   if (!response.ok) throw new Error(`Hypixel Bazaar request failed (${response.status})`);
@@ -21,4 +21,3 @@ export async function getBazaarResponse(): Promise<HypixelBazaarResponse> {
 export async function getLiveMarketSnapshot(): Promise<MarketSnapshot> {
   return calculateMarketSnapshot(await getBazaarResponse());
 }
-

@@ -20,6 +20,8 @@ import {
   type MarketFilterDrafts,
 } from "./market-filter-panel";
 import { PriceChart } from "./price-chart";
+import { RefreshButton } from "./refresh-button";
+import { useBackgroundRefresh } from "./use-background-refresh";
 
 type SortKey = "coinsPerHour" | "marginPercent" | "marginCoins" | "volatility" | "buyOrderChange24h";
 function inRange(value: number, range: { min: string; max: string }): boolean {
@@ -31,11 +33,18 @@ function inRange(value: number, range: { min: string; max: string }): boolean {
 function Featured({ item }: { item: MarketItem }) {
   const [points, setPoints] = useState<PricePoint[]>([]);
   useEffect(() => {
-    setPoints([]);
-    void fetch(`/api/v1/market/items/${encodeURIComponent(item.productId)}/history?range=1d`)
+    const controller = new AbortController();
+    void fetch(`/api/v1/market/items/${encodeURIComponent(item.productId)}/history?range=1d`, {
+      cache: "no-store",
+      signal: controller.signal,
+    })
       .then((response) => response.json())
-      .then((payload: { data?: { points?: PricePoint[] } }) => setPoints(payload.data?.points ?? []));
-  }, [item.productId]);
+      .then((payload: { data?: { points?: PricePoint[] } }) => setPoints(payload.data?.points ?? []))
+      .catch((error: Error) => {
+        if (error.name !== "AbortError") console.warn("Featured history refresh failed", error);
+      });
+    return () => controller.abort();
+  }, [item.productId, item.updatedAt]);
   const chartPoints = points.length ? points : [{
     time: item.updatedAt,
     price: item.midpoint,
@@ -76,15 +85,22 @@ export function MarketDashboard({
   const updateSearch = useCallback((value: string) => setSearch(value), []);
   const { bookmarks } = requireBookmarks();
 
-  useEffect(() => {
-    void fetch("/api/v1/market/items")
-      .then(async (response) => {
-        const payload = (await response.json()) as { data?: MarketSnapshot; error?: { message?: string } };
-        if (!response.ok || !payload.data) throw new Error(payload.error?.message ?? "讀取失敗");
-        setSnapshot(payload.data);
-      })
-      .catch((reason: Error) => setError(reason.message));
+  const loadSnapshot = useCallback(async (signal: AbortSignal) => {
+    try {
+      const response = await fetch("/api/v1/market/items", { cache: "no-store", signal });
+      const payload = (await response.json()) as { data?: MarketSnapshot; error?: { message?: string } };
+      if (!response.ok || !payload.data) throw new Error(payload.error?.message ?? "讀取失敗");
+      setSnapshot(payload.data);
+      setError("");
+    } catch (reason) {
+      if (reason instanceof Error && reason.name === "AbortError") return;
+      setError(reason instanceof Error ? reason.message : "讀取失敗");
+    }
   }, []);
+  const { refresh, refreshing } = useBackgroundRefresh(
+    loadSnapshot,
+    `market:${bookmarksOnly}:${crashingOnly}`,
+  );
 
   const items = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -110,7 +126,7 @@ export function MarketDashboard({
       });
   }, [bookmarks, bookmarksOnly, crashingOnly, filters, search, snapshot, sort]);
 
-  if (error) return <div className="state-card error-state"><strong>行情暫時無法載入</strong><span>{error}</span></div>;
+  if (error && !snapshot) return <div className="state-card error-state"><strong>行情暫時無法載入</strong><span>{error}</span></div>;
   if (!snapshot) return <div className="state-card"><span className="spinner" />正在同步 Hypixel Bazaar…</div>;
 
   return (
@@ -126,9 +142,10 @@ export function MarketDashboard({
           initialFilters={crashingOnly ? createCrashingMarketFilters() : undefined}
           onApply={setFilters}
         />
+        <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
       </div>
       {items[0] && !bookmarksOnly && !crashingOnly ? <Featured item={items[0]} /> : null}
-      <div className="table-meta"><span>{items.length.toLocaleString()} 個物品</span><span>更新：{new Date(snapshot.updatedAt).toLocaleTimeString("zh-TW")}</span></div>
+      <div className="table-meta"><span>{items.length.toLocaleString()} 個物品</span><span className={error ? "negative" : undefined}>{error || `更新：${new Date(snapshot.updatedAt).toLocaleTimeString("zh-TW")}`}</span></div>
       <div className="market-table-wrap panel"><table className="market-table"><thead><tr>
         <th>物品</th><th>Insta Buy</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">{crashingOnly ? "Buy Order 24h / Vol." : "24h / Vol."}</th><th>±5% 深度</th><th aria-label="書籤" />
       </tr></thead><tbody>{items.slice(0, 250).map((item) => <tr key={item.productId}>

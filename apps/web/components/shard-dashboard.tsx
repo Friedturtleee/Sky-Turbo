@@ -11,18 +11,22 @@ import {
   type ShardRouteNode,
   type ShardStrategy,
 } from "@sky-turbo/core";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
+import { ItemIcon } from "./item-icon";
 import {
   appendMarketFilters,
   createShardVolumeFilters,
   MarketFilterPanel,
   type MarketFilterDrafts,
 } from "./market-filter-panel";
+import { RefreshButton } from "./refresh-button";
+import { useBackgroundRefresh } from "./use-background-refresh";
 
-type SortKey = "profit" | "profitPerOutput" | "marginPercent" | "maxOutput" | "maxFusions" | "inputCost";
-type ShardResponseData = { flips: ShardFlip[]; depthModel: string };
+type SortKey = "fusionCoins" | "profit" | "profitPerOutput" | "marginPercent" | "maxOutput" | "maxFusions" | "inputCost";
+type ShardResponseData = { flips: ShardFlip[]; depthModel: string; updatedAt: number };
 
 const strategyLabels: Record<ShardStrategy, string> = {
   "bo-so": "Buy Order → Sell Order",
@@ -32,27 +36,32 @@ const strategyLabels: Record<ShardStrategy, string> = {
 };
 const shardFilterKeys: MarketFilterKey[] = ["sellVolume", "buyVolume", "totalVolume"];
 
+function coinsPerFusion(flip: ShardFlip): number {
+  return flip.depth.maxProfitableFusions > 0
+    ? flip.depth.totalProfit / flip.depth.maxProfitableFusions
+    : 0;
+}
+
 export function ShardDashboard() {
   const [strategy, setStrategy] = useState<ShardStrategy>("bo-so");
   const [level, setLevel] = useState(10);
   const [search, setSearch] = useState("");
   const updateSearch = useCallback((value: string) => setSearch(value), []);
-  const [sort, setSort] = useState<SortKey>("profit");
+  const [sort, setSort] = useState<SortKey>("fusionCoins");
   const [minProfit, setMinProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 0.1 });
   const [minFlipProfit, setMinFlipProfit] = useState<MinProfitThreshold>({ mode: "percent", value: 80 });
   const [maxFusions, setMaxFusions] = useState<number | undefined>(undefined);
   const [filters, setFilters] = useState<MarketFilterDrafts>(createShardVolumeFilters);
   const [flips, setFlips] = useState<ShardFlip[]>([]);
   const [depthModel, setDepthModel] = useState("");
+  const [updatedAt, setUpdatedAt] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
   const [selectedShardId, setSelectedShardId] = useState<string | null>(null);
   const hasLoadedRef = useRef(false);
   const responseCacheRef = useRef(new Map<string, ShardResponseData>());
 
-  useEffect(() => {
-    const controller = new AbortController();
+  const requestUrl = useMemo(() => {
     const query = new URLSearchParams({
       strategy,
       crocodileLevel: String(level),
@@ -63,44 +72,45 @@ export function ShardDashboard() {
     });
     if (maxFusions !== undefined) query.set("maxFusions", String(maxFusions));
     appendMarketFilters(query, filters);
-    const requestUrl = `/api/v1/shard-flips?${query}`;
+    return `/api/v1/shard-flips?${query}`;
+  }, [filters, level, maxFusions, minFlipProfit, minProfit, strategy]);
+
+  const loadFlips = useCallback(async (signal: AbortSignal) => {
     const cached = responseCacheRef.current.get(requestUrl);
     if (cached) {
       setFlips(cached.flips);
       setDepthModel(cached.depthModel);
+      setUpdatedAt(cached.updatedAt);
       hasLoadedRef.current = true;
     }
     const blocking = !hasLoadedRef.current;
     setLoading(blocking);
-    setRefreshing(!blocking);
-    setError("");
-    void fetch(requestUrl, { signal: controller.signal })
-      .then(async (response) => {
-        const payload = (await response.json()) as {
-          data?: { flips?: ShardFlip[]; depthModel?: string };
+    try {
+      const response = await fetch(requestUrl, { cache: "no-store", signal });
+      const payload = (await response.json()) as {
+          data?: { flips?: ShardFlip[]; depthModel?: string; updatedAt?: number };
           error?: { message?: string };
-        };
-        if (!response.ok) throw new Error(payload.error?.message ?? "計算失敗");
-        const data = {
-          flips: payload.data?.flips ?? [],
-          depthModel: payload.data?.depthModel ?? "",
-        };
-        responseCacheRef.current.set(requestUrl, data);
-        hasLoadedRef.current = true;
-        setFlips(data.flips);
-        setDepthModel(data.depthModel);
-      })
-      .catch((reason: Error) => {
-        if (reason.name !== "AbortError") setError(reason.message);
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-          setRefreshing(false);
-        }
-      });
-    return () => controller.abort();
-  }, [filters, level, maxFusions, minFlipProfit, minProfit, strategy]);
+      };
+      if (!response.ok) throw new Error(payload.error?.message ?? "計算失敗");
+      const data = {
+        flips: payload.data?.flips ?? [],
+        depthModel: payload.data?.depthModel ?? "",
+        updatedAt: payload.data?.updatedAt ?? Date.now(),
+      };
+      responseCacheRef.current.set(requestUrl, data);
+      hasLoadedRef.current = true;
+      setFlips(data.flips);
+      setDepthModel(data.depthModel);
+      setUpdatedAt(data.updatedAt);
+      setError("");
+    } catch (reason) {
+      if (reason instanceof Error && reason.name === "AbortError") return;
+      setError(reason instanceof Error ? reason.message : "計算失敗");
+    } finally {
+      if (!signal.aborted) setLoading(false);
+    }
+  }, [requestUrl]);
+  const { refresh, refreshing } = useBackgroundRefresh(loadFlips, requestUrl);
 
   const selectedFlip = useMemo(
     () => selectedShardId ? flips.find((flip) => flip.shardId === selectedShardId) ?? null : null,
@@ -117,6 +127,7 @@ export function ShardDashboard() {
         flip.materials.some((material) => material.name.toLowerCase().includes(query)),
       )
       .sort((left, right) => {
+        if (sort === "fusionCoins") return coinsPerFusion(right) - coinsPerFusion(left);
         if (sort === "maxOutput") return right.depth.maxProfitableOutput - left.depth.maxProfitableOutput;
         if (sort === "maxFusions") return right.depth.maxProfitableFusions - left.depth.maxProfitableFusions;
         return right[sort] - left[sort];
@@ -137,6 +148,7 @@ export function ShardDashboard() {
     <div className="toolbar panel shard-filter-toolbar">
       <DebouncedSearchField onSearch={updateSearch} placeholder="成品、原料或 ID" />
       <label><span>排序</span><select value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
+        <option value="fusionCoins">Fusion / coins</option>
         <option value="profit">Flip Profit</option>
         <option value="profitPerOutput">Profit / 成品</option>
         <option value="marginPercent">Margin (%)</option>
@@ -155,17 +167,18 @@ export function ShardDashboard() {
         initialFilters={createShardVolumeFilters()}
         onApply={setFilters}
       />
+      <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
     </div>
-    <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線{refreshing ? <i className="inline-refresh"><span className="spinner" />更新中</i> : null}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
+    <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線{updatedAt > 0 ? ` · 更新：${new Date(updatedAt).toLocaleTimeString("zh-TW")}` : ""}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
     {loading ? <div className="state-card"><span className="spinner" />正在篩選市場並重算替代 Fusion 路徑…</div> : error && !hasLoadedRef.current ? <div className="state-card error-state">{error}</div> :
-      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>Max Fusion（總次數）</th><th>詳細</th></tr></thead><tbody>
-        {displayedFlips.slice(0, 300).map((flip) => <tr key={flip.shardId}><td><span className="stack"><strong>{flip.name}</strong><small>{flip.family} · {flip.rarity}</small></span></td>
+      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>Profit <span className="estimated">Fusion / coins</span></th><th>詳細</th></tr></thead><tbody>
+        {displayedFlips.slice(0, 300).map((flip) => <tr key={flip.shardId}><td><Link className="item-cell" href={`/items/${encodeURIComponent(flip.productId)}`}><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.name}</strong><small>{flip.family} · {flip.rarity}</small></span></Link></td>
           <td><span className={`stack change-volume ${tone(flip.change24h)}`}><strong>{formatPercent(flip.change24h)}</strong><small className="neutral">{flip.volatility7d === undefined ? "Vol. 累積中" : `Vol. ${flip.volatility7d.toFixed(2)}%`}</small></span></td>
           <td><span className="stack route-materials">{flip.materials.slice(0, 2).map((material) => <strong key={material.productId}>{integer(material.quantityPerFusion)}× {material.name}</strong>)}{flip.materials.length > 2 ? <small>另有 {flip.materials.length - 2} 種遞迴原料</small> : <small>已展開至直接購入原料</small>}</span></td>
           <td>{flip.expectedOutput.toFixed(2)} {flip.crocodileApplied && flip.crocodileLevel > 0 ? <span className="ev-badge">EV</span> : null}</td>
           <td>{formatCoins(flip.inputCost)}</td>
           <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)} · {formatCoins(flip.profitPerOutput)}/ea</small></span></td>
-          <td className="shard-depth">{flip.depth.available ? <span className="stack"><span className="depth-summary-line"><strong className={flip.depth.maxProfitableFusions > 0 ? "positive" : "negative"}>{formatCoins(flip.depth.maxProfitableFusions)} 次 Fusion</strong><strong className={tone(flip.depth.totalProfit)}>總利潤 {formatCoins(flip.depth.totalProfit)}</strong></span><small>套用門檻與上限後 · ≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
+          <td className="shard-depth">{flip.depth.available ? <span className="stack"><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong><small>{formatCoins(flip.depth.maxProfitableFusions)} Fusion / {formatCoins(coinsPerFusion(flip))} coins · ≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
           <td><button className="detail-button" type="button" onClick={() => setSelectedShardId(flip.shardId)}>查看詳細</button></td>
         </tr>)}
       </tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">沒有同時符合原料與成品條件的 Fusion 路線。</div> : null}</div>}

@@ -5,6 +5,7 @@
     minmax(168px, 0.65fr)
     minmax(125px, 0.45fr)
     repeat(2, minmax(190px, 0.7fr))
+    auto
     auto;
   gap: 10px;
   padding: 16px;

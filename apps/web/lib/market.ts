@@ -3,9 +3,13 @@ import { enrichMarketSummary, readLatestSnapshot, readProductHistory } from "./d
 import { getLiveMarketSnapshot } from "./hypixel";
 
 export async function getMarketSnapshot(): Promise<MarketSnapshot> {
-  const stored = await readLatestSnapshot();
-  if (stored && Date.now() - stored.updatedAt < 3 * 60_000) return stored;
-  return getLiveMarketSnapshot();
+  try {
+    return await getLiveMarketSnapshot();
+  } catch (error) {
+    const stored = await readLatestSnapshot();
+    if (stored) return stored;
+    throw error;
+  }
 }
 
 export async function getEnrichedMarketSnapshot(): Promise<MarketSnapshot> {
