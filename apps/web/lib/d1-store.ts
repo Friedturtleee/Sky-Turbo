@@ -98,7 +98,14 @@ export async function enrichMarketSummary(snapshot: MarketSnapshot): Promise<Mar
   for (const point of history ?? []) {
     for (const [productId, values] of Object.entries(point.items)) {
       const productHistory = primaryByProduct.get(productId) ?? [];
-      productHistory.push({ time: point.updatedAt, price: values[0], source: "hypixel" });
+      productHistory.push({
+        time: point.updatedAt,
+        price: values[0],
+        buyOrderPrice: values[1],
+        sellOrderPrice: values[2],
+        volume: values[3],
+        source: "hypixel",
+      });
       primaryByProduct.set(productId, productHistory);
     }
   }

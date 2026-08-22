@@ -79,7 +79,7 @@ export async function GET(request: Request) {
       );
     }
     if (maxFusions !== undefined && (!Number.isInteger(maxFusions) || maxFusions < 0)) {
-      return jsonError("Max Fusion 必須為大於或等於 0 的整數", 400);
+      return jsonError("Max Fusion 總次數必須為大於或等於 0 的整數", 400);
     }
     const minProfit: MinProfitThreshold = { mode: minProfitMode, value: minProfitValue };
     const minFlipProfit: MinProfitThreshold = { mode: minFlipProfitMode, value: minFlipProfitValue };

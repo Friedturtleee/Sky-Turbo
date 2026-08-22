@@ -237,6 +237,14 @@ function scaleFusionRoute(
   };
 }
 
+export function countShardRouteFusions(route: ShardRouteNode): number {
+  if (route.kind === "market") return 0;
+  return route.fusionCount + route.inputs.reduce(
+    (total, input) => total + countShardRouteFusions(input),
+    0,
+  );
+}
+
 export function scaleShardRouteForOutput(
   route: ShardRouteNode,
   desiredOutput: number,
@@ -245,7 +253,12 @@ export function scaleShardRouteForOutput(
   const requested = Math.max(0, Math.ceil(desiredOutput));
   if (route.kind !== "fusion") {
     const scaledRoute = scaleRequiredRoute(route, requested);
-    return { route: scaledRoute, fusionCount: requested > 0 ? 1 : 0, expectedOutput: requested };
+    return {
+      route: scaledRoute,
+      fusionCount: 0,
+      totalFusionCount: 0,
+      expectedOutput: requested,
+    };
   }
   const outputPerFusion = options.useBaseOutput
     ? route.baseOutput
@@ -254,7 +267,12 @@ export function scaleShardRouteForOutput(
     ? 0
     : Math.max(1, Math.ceil(requested / outputPerFusion - 1e-8));
   const scaledRoute = scaleFusionRoute(route, fusionCount, requested);
-  return { route: scaledRoute, fusionCount, expectedOutput: scaledRoute.expectedOutput };
+  return {
+    route: scaledRoute,
+    fusionCount,
+    totalFusionCount: countShardRouteFusions(scaledRoute),
+    expectedOutput: scaledRoute.expectedOutput,
+  };
 }
 
 export function defaultShardDesiredOutput(flip: ShardFlip): number {
@@ -475,8 +493,32 @@ function calculateDepth(
     }
   }
   const marketUpperBound = Math.max(0, Math.min(2_000_000_000, Math.floor(maximumByDepth + 1e-8)));
-  const upperBound = Math.min(marketUpperBound, maxFusionLimit ?? marketUpperBound);
-  const cappedByMaxFusions = maxFusionLimit !== undefined && maxFusionLimit < marketUpperBound;
+  const buildRoute = (finalFusionCount: number) => buildFinalRoute(
+    "",
+    outputName,
+    outputProductId,
+    expectedOutput,
+    expectedOutput,
+    finalFusionCount,
+    left,
+    right,
+    data,
+  );
+  const totalFusionCount = (finalFusionCount: number) =>
+    finalFusionCount <= 0 ? 0 : countShardRouteFusions(buildRoute(finalFusionCount));
+  let maximumByFusionLimit = marketUpperBound;
+  if (maxFusionLimit !== undefined) {
+    let low = 0;
+    let high = marketUpperBound;
+    while (low < high) {
+      const middle = Math.ceil((low + high) / 2);
+      if (totalFusionCount(middle) <= maxFusionLimit) low = middle;
+      else high = middle - 1;
+    }
+    maximumByFusionLimit = low;
+  }
+  const upperBound = Math.min(marketUpperBound, maximumByFusionLimit);
+  const cappedByMaxFusions = maxFusionLimit !== undefined && maximumByFusionLimit < marketUpperBound;
   const cache = new Map<number, DepthEvaluation | null>();
   const evaluate = (fusionCount: number): DepthEvaluation | null => {
     const cached = cache.get(fusionCount);
@@ -486,17 +528,7 @@ function calculateDepth(
       cache.set(0, zero);
       return zero;
     }
-    const root = buildFinalRoute(
-      "",
-      outputName,
-      outputProductId,
-      expectedOutput,
-      expectedOutput,
-      fusionCount,
-      left,
-      right,
-      data,
-    );
+    const root = buildRoute(fusionCount);
     const materials = collectMaterials(root.inputs);
     let inputCost = 0;
     const materialTotals: ShardDepth["materialsRequired"] = [];
@@ -627,7 +659,7 @@ function calculateDepth(
   return {
     available: true,
     maxFusionLimit,
-    maxProfitableFusions: best,
+    maxProfitableFusions: totalFusionCount(best),
     maxProfitableOutput: best * expectedOutput,
     totalInputCost: totals.inputCost,
     totalRevenueAfterTax: totals.revenueAfterTax,
@@ -858,7 +890,7 @@ export function applyCrocodileLevelToFlip(flip: ShardFlip, crocodileLevel: numbe
     route,
     depth: {
       ...flip.depth,
-      maxProfitableOutput: flip.depth.maxProfitableFusions * expectedOutput,
+      maxProfitableOutput: flip.depth.maxProfitableOutput * outputRatio,
       totalRevenueAfterTax,
       totalProfit: totalRevenueAfterTax - flip.depth.totalInputCost,
       maxFlipProfit,

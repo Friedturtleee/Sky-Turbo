@@ -3,6 +3,7 @@ import {
   applyCrocodileLevelToFlip,
   calculateShardFlips,
   collectShardRouteMaterials,
+  countShardRouteFusions,
   defaultShardDesiredOutput,
   scaleShardRouteForOutput,
 } from "./shards";
@@ -113,6 +114,33 @@ describe("Shard fusion calculations", () => {
     expect(flip?.depth.maxProfitableOutput).toBe(4);
     expect(flip?.depth.limitedBy).toBe("Max Fusion 2");
     expect(flip?.depth.materialsRequired.map((material) => material.quantity)).toEqual([4, 6]);
+  });
+
+  it("counts and caps every recursive Fusion operation, not only final-output Fusions", () => {
+    const recursiveData: FusionData = {
+      ...data,
+      recipes: { B: { "2": [["A", "A"]] }, C: { "2": [["A", "B"]] } },
+    };
+    const calculate = (maxFusions: number) => calculateShardFlips(recursiveData, [
+      market("SHARD_ALPHA", 10, 10), market("SHARD_BETA", 30, 30), market("SHARD_GAMMA", 100, 100),
+    ], "ib-is", 0, undefined, {
+      maxFusions,
+      minFlipProfit: { mode: "coins", value: 0 },
+      orderBooks: {
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 100, orders: 1, pricePerUnit: 10 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 100, orders: 1, pricePerUnit: 30 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 100, orders: 1, pricePerUnit: 100 }], sellOffers: [], partial: false },
+      },
+    }).find((flip) => flip.shardId === "C")!;
+
+    const cappedBelowOneRoute = calculate(2);
+    expect(cappedBelowOneRoute.depth.maxProfitableFusions).toBe(0);
+    expect(cappedBelowOneRoute.depth.maxProfitableOutput).toBe(0);
+
+    const oneCompleteRoute = calculate(3);
+    expect(oneCompleteRoute.depth.maxProfitableFusions).toBe(3);
+    expect(oneCompleteRoute.depth.maxProfitableOutput).toBe(2);
+    expect(countShardRouteFusions(scaleShardRouteForOutput(oneCompleteRoute.route, 2).route)).toBe(3);
   });
 
   it("uses zero as the default requested output when no Fusion satisfies the limits", () => {

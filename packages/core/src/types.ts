@@ -184,7 +184,9 @@ export type ShardOrderBook = {
 
 export type ShardDepth = {
   available: boolean;
+  /** Maximum allowed Fusion operations across the complete recursive route. */
   maxFusionLimit?: number;
+  /** Total Fusion operations across every node in the selected recursive route. */
   maxProfitableFusions: number;
   maxProfitableOutput: number;
   totalInputCost: number;

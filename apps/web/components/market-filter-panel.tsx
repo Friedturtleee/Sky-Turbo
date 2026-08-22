@@ -12,7 +12,7 @@ const labels: Record<MarketFilterKey, string> = {
   buyVolume: "Buy volume",
   totalVolume: "Total volume",
   buyOrderPrice: "Min Cost / Buy Order ($)",
-  price: "Price",
+  price: "Insta Buy Price",
   coinsPerHour: "Coins / Hour",
   marginCoins: "Margin ($)",
   marginPercent: "Margin (%)",

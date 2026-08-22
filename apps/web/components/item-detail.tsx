@@ -45,7 +45,7 @@ export function ItemDetail({ productId }: { productId: string }) {
   return <>
     <section className="detail-header panel"><div className="item-heading"><ItemIcon name={item.name} productId={item.productId} /><div><span className="eyebrow">Bazaar item</span><h1>{item.name}</h1><code>{item.productId}</code></div></div><BookmarkButton productId={item.productId} /></section>
     <section className="summary-grid">
-      <article className="summary-card panel"><span>當前中間價</span><strong>{formatCoins(item.midpoint)}</strong><small>即買 {formatCoins(item.instantBuyPrice)} · 即賣 {formatCoins(item.instantSellPrice)}</small></article>
+      <article className="summary-card panel"><span>當前 Insta Buy</span><strong>{formatCoins(item.instantBuyPrice)}</strong><small>Buy Order {formatCoins(item.buyOrderPrice)} · 中間價 {formatCoins(item.midpoint)}</small></article>
       <article className="summary-card panel"><span>Order Margin</span><strong className={tone(item.marginCoins)}>{formatCoins(item.marginCoins)}</strong><small>{formatPercent(item.marginPercent)}，已扣 1.125% 稅</small></article>
       <article className="summary-card panel"><span>±5% Buy 深度</span><strong>{formatCoins(item.depthWithinFivePercent.buyOrders.quantity)}</strong><small>{formatCoins(item.depthWithinFivePercent.buyOrders.notional)} coins</small></article>
       <article className="summary-card panel"><span>±5% Sell 深度</span><strong>{formatCoins(item.depthWithinFivePercent.sellOffers.quantity)}</strong><small>{formatCoins(item.depthWithinFivePercent.sellOffers.notional)} coins</small></article>

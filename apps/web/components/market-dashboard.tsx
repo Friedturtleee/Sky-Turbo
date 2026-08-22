@@ -97,7 +97,7 @@ export function MarketDashboard({
       .filter((item) => inRange(item.buyVolume, filters.buyVolume))
       .filter((item) => inRange(item.totalVolume, filters.totalVolume))
       .filter((item) => inRange(item.buyOrderPrice, filters.buyOrderPrice))
-      .filter((item) => inRange(item.midpoint, filters.price))
+      .filter((item) => inRange(item.instantBuyPrice, filters.price))
       .filter((item) => inRange(item.coinsPerHour, filters.coinsPerHour))
       .filter((item) => inRange(item.marginCoins, filters.marginCoins))
       .filter((item) => inRange(item.marginPercent, filters.marginPercent))
@@ -130,10 +130,10 @@ export function MarketDashboard({
       {items[0] && !bookmarksOnly && !crashingOnly ? <Featured item={items[0]} /> : null}
       <div className="table-meta"><span>{items.length.toLocaleString()} 個物品</span><span>更新：{new Date(snapshot.updatedAt).toLocaleTimeString("zh-TW")}</span></div>
       <div className="market-table-wrap panel"><table className="market-table"><thead><tr>
-        <th>物品</th><th>價格</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">{crashingOnly ? "Buy Order 24h / Vol." : "24h / Vol."}</th><th>±5% 深度</th><th aria-label="書籤" />
+        <th>物品</th><th>Insta Buy</th><th>Margin</th><th>CPH <span className="estimated">估算</span></th><th className="change-volume-heading">{crashingOnly ? "Buy Order 24h / Vol." : "24h / Vol."}</th><th>±5% 深度</th><th aria-label="書籤" />
       </tr></thead><tbody>{items.slice(0, 250).map((item) => <tr key={item.productId}>
         <td><Link className="item-cell" href={`/items/${encodeURIComponent(item.productId)}`}><ItemIcon name={item.name} productId={item.productId} /><span><strong>{item.name}</strong><code>{item.productId}</code></span></Link></td>
-        <td><span className="stack"><strong>{formatCoins(item.midpoint)}</strong><small>{formatCoins(item.buyOrderPrice)} → {formatCoins(item.sellOrderPrice)}</small></span></td>
+        <td><span className="stack"><strong>{formatCoins(item.instantBuyPrice)}</strong><small>Buy Order {formatCoins(item.buyOrderPrice)}</small></span></td>
         <td><span className={`stack ${tone(item.marginCoins)}`}><strong>{formatCoins(item.marginCoins)}</strong><small>{formatPercent(item.marginPercent)}</small></span></td>
         <td className={tone(item.coinsPerHour)}>{formatCoins(item.coinsPerHour)}</td>
         <td><span className="stack change-volume"><strong className={tone(crashingOnly ? item.buyOrderChange24h : item.changes?.["1d"])}>{formatPercent(crashingOnly ? item.buyOrderChange24h : item.changes?.["1d"])}</strong><small>{item.volatility?.["7d"]?.toFixed(2) ?? "累積中"}%</small></span></td>
