@@ -1,7 +1,7 @@
 "use client";
 
 import type { AhFeatureCategory, AhFlip, AhFlipSnapshot, AhRiskLevel } from "@sky-turbo/core";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
 import { ItemIcon } from "./item-icon";
@@ -12,8 +12,10 @@ type SortKey = "profit" | "roiPercent" | "discountPercent" | "nearest" | "estima
 type RiskFilter = "all" | AhRiskLevel;
 type SourceFilter = "all" | AhFlip["valuationSource"];
 type CategoryFilter = "all" | AhFeatureCategory;
-type AhResponse = AhFlipSnapshot & { refreshIntervalMs?: number; refreshModel?: string };
+type AhResponse = AhFlipSnapshot & { unchanged?: false; refreshIntervalMs?: number; refreshModel?: string };
+type AhUnchangedResponse = Pick<AhResponse, "generatedAt" | "auctionUpdatedAt" | "refreshIntervalMs" | "refreshModel"> & { unchanged: true };
 
+const PAGE_SIZE = 50;
 const emptySnapshot: AhResponse = {
   schemaVersion: 1,
   source: "hypixel-auctions+skycofl",
@@ -72,19 +74,33 @@ export function AhFlipDashboard() {
   const [maxListing, setMaxListing] = useState("");
   const [minMedian, setMinMedian] = useState("");
   const [maxMedian, setMaxMedian] = useState("");
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const hasLoadedRef = useRef(false);
+  const generatedAtRef = useRef(0);
+  const forceNextRef = useRef(false);
 
   const load = useCallback(async (signal: AbortSignal) => {
     if (!hasLoadedRef.current) setLoading(true);
+    const force = forceNextRef.current;
+    forceNextRef.current = false;
+    const params = new URLSearchParams();
+    if (force) params.set("refresh", "1");
+    else if (generatedAtRef.current > 0) params.set("since", String(generatedAtRef.current));
     try {
-      const response = await fetch("/api/v1/ah-flips", { cache: "no-store", signal });
-      const payload = await response.json() as { data?: Partial<AhResponse>; error?: { message?: string; details?: string } };
+      const response = await fetch(`/api/v1/ah-flips${params.size ? `?${params}` : ""}`, { cache: "no-store", signal });
+      const payload = await response.json() as { data?: Partial<AhResponse> | AhUnchangedResponse; error?: { message?: string; details?: string } };
       if (!response.ok) throw new Error(payload.error?.details || payload.error?.message || "AH Flip 掃描失敗");
-      setData({ ...emptySnapshot, ...payload.data, flips: payload.data?.flips ?? [] });
+      if (payload.data?.unchanged) {
+        setData((current) => current.refreshModel === payload.data?.refreshModel ? current : { ...current, refreshModel: payload.data?.refreshModel });
+      } else {
+        const next = { ...emptySnapshot, ...payload.data, flips: payload.data?.flips ?? [] } as AhResponse;
+        generatedAtRef.current = next.generatedAt;
+        setData((current) => current.generatedAt === next.generatedAt ? current : next);
+      }
       hasLoadedRef.current = true;
       setError("");
     } catch (reason) {
@@ -123,11 +139,34 @@ export function AhFlipDashboard() {
     });
   }, [category, data.flips, maxListing, maxMedian, minListing, minMedian, minProfit, minRoi, minSales, risk, search, sort, source]);
 
+  const pageCount = Math.max(1, Math.ceil(displayed.length / PAGE_SIZE));
+  const visiblePage = Math.min(page, pageCount);
+  const pagedFlips = useMemo(() => displayed.slice((visiblePage - 1) * PAGE_SIZE, visiblePage * PAGE_SIZE), [displayed, visiblePage]);
+  const selected = useMemo(() => selectedId ? data.flips.find((flip) => flip.auctionId === selectedId) ?? null : null, [data.flips, selectedId]);
+
+  useEffect(() => { setPage(1); }, [category, maxListing, maxMedian, minListing, minMedian, minProfit, minRoi, minSales, risk, search, sort, source]);
+  useEffect(() => {
+    if (!selected) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setSelectedId(null); };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [selected]);
+
   const copyCommand = useCallback(async (flip: AhFlip) => {
     await navigator.clipboard.writeText(flip.viewAuctionCommand);
     setCopied(flip.auctionId);
     window.setTimeout(() => setCopied((value) => value === flip.auctionId ? null : value), 1_500);
   }, []);
+  const showDetails = useCallback((flip: AhFlip) => setSelectedId(flip.auctionId), []);
+  const manualRefresh = useCallback(() => {
+    forceNextRef.current = true;
+    void refresh();
+  }, [refresh]);
 
   return <>
     <div className="toolbar panel ah-flip-toolbar">
@@ -141,7 +180,7 @@ export function AhFlipDashboard() {
         <option value="all">全部風險</option><option value="low">低風險</option><option value="medium">中風險</option><option value="high">高風險</option>
       </select></label>
       <label><span>Min Profit</span><input type="number" min="0" step="1000" value={minProfit} onChange={(event) => setMinProfit(Math.max(0, Number(event.target.value) || 0))} /></label>
-      <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
+      <RefreshButton onRefresh={manualRefresh} refreshing={refreshing} />
       <details className="filters"><summary>更多篩選器</summary><div className="filter-grid ah-filter-grid">
         <label><span>估值來源</span><select value={source} onChange={(event) => setSource(event.target.value as SourceFilter)}><option value="all">全部</option><option value="skycofl-nbt">SkyCofl 完整 NBT</option><option value="component-estimate">Component Estimate</option></select></label>
         <label><span>升級分類</span><select value={category} onChange={(event) => setCategory(event.target.value as CategoryFilter)}><option value="all">全部分類</option>{categories.map((value) => <option key={value} value={value}>{categoryLabels[value]}</option>)}</select></label>
@@ -157,29 +196,44 @@ export function AhFlipDashboard() {
     {loading && !hasLoadedRef.current
       ? <div className="state-card"><span className="spinner" />正在取得 AH 快照並分析完整 NBT…</div>
       : error && !hasLoadedRef.current
-        ? <div className="state-card error-state">{error}</div>
-        : <div className="market-table-wrap panel"><table className="market-table ah-flip-table"><thead><tr><th>拍賣物品</th><th>發布</th><th>目前 BIN</th><th>估計實際價值</th><th>稅後收入</th><th>Net Profit</th><th>近 7 天（基礎物品）</th><th>升級摘要</th><th>操作</th></tr></thead><tbody>{displayed.slice(0, 500).map((flip) => <AhFlipRows key={flip.auctionId} flip={flip} expanded={expanded === flip.auctionId} copied={copied === flip.auctionId} onExpand={() => setExpanded((value) => value === flip.auctionId ? null : flip.auctionId)} onCopy={() => void copyCommand(flip)} />)}</tbody></table>{displayed.length === 0 ? <div className="empty-state">目前沒有符合篩選條件且扣除 AH 稅後仍為正利潤的 BIN。</div> : null}</div>}
+        ? <div className="state-card error-state"><strong>AH Flip 暫時無法載入</strong><span>{error}</span><button className="button subtle" type="button" onClick={manualRefresh}>重新掃描</button></div>
+        : <div className="market-table-wrap panel ah-table-panel">
+          <table className="market-table ah-flip-table"><thead><tr><th>拍賣物品</th><th>發布／售價</th><th>估計價值</th><th>Net Profit</th><th>近 7 天</th><th>風險／操作</th></tr></thead><tbody>{pagedFlips.map((flip) => <AhFlipRow key={flip.auctionId} flip={flip} copied={copied === flip.auctionId} onSelect={showDetails} onCopy={copyCommand} />)}</tbody></table>
+          {displayed.length === 0 ? <div className="empty-state">目前沒有符合篩選條件且扣除 AH 稅後仍為正利潤的 BIN。</div> : <Pagination page={visiblePage} pageCount={pageCount} total={displayed.length} onPage={setPage} />}
+        </div>}
     <p className="npc-disclaimer">估值包含完整物品 NBT（Gemstone、Dye、Hot Potato / Fuming Book、Reforge、附魔、星級、Pet、Attribute 等），但市場深度、屬性組合與特殊收藏品仍可能造成誤差。Component Estimate 一律保留並標示為高風險；請在購買前於遊戲內再次核對。估價與 7 天歷史由 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供，拍賣清單來自 Hypixel Public API。</p>
+    {selected ? <AhFlipDetail flip={selected} copied={copied === selected.auctionId} onClose={() => setSelectedId(null)} onCopy={copyCommand} /> : null}
   </>;
 }
 
-function AhFlipRows({ flip, expanded, copied, onExpand, onCopy }: { flip: AhFlip; expanded: boolean; copied: boolean; onExpand: () => void; onCopy: () => void }) {
+const AhFlipRow = memo(function AhFlipRow({ flip, copied, onSelect, onCopy }: { flip: AhFlip; copied: boolean; onSelect: (flip: AhFlip) => void; onCopy: (flip: AhFlip) => void }) {
   const history = flip.history;
-  return <>
-    <tr className={flip.riskLevel === "high" ? "high-risk-row" : undefined}>
-      <td><button className="ah-item-button" type="button" onClick={onExpand}><span className="item-cell"><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</strong><small>{flip.tier} · {flip.category} · {flip.productId}</small><span className={`risk-badge risk-${flip.riskLevel}`}>{riskLabels[flip.riskLevel]} · {Math.round(flip.confidence * 100)}% 信心</span></span></span></button></td>
-      <td><span className="stack"><strong>{ageLabel(flip.start)}</strong><small>{new Date(flip.start).toLocaleString("zh-TW")}</small></span></td>
-      <td><strong>{formatCoins(flip.listingPrice)}</strong></td>
-      <td><span className="stack"><strong>{formatCoins(flip.estimatedValue)}</strong><small>{flip.valuationSource === "skycofl-nbt" ? "SkyCofl 完整 NBT" : "Component Estimate"}{flip.fastSellValue ? ` · Fast ${formatCoins(flip.fastSellValue)}` : ""}</small></span></td>
-      <td><span className="stack"><strong>{formatCoins(flip.resaleAfterTax)}</strong><small>AH 稅 {formatPercent(-flip.feeRate * 100)} · {formatCoins(flip.auctionFees)}</small></span></td>
-      <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>ROI {formatPercent(flip.roiPercent)} · 折價 {formatPercent(flip.discountPercent)}</small>{flip.fastSellProfit !== undefined ? <small>Fast-sell {formatCoins(flip.fastSellProfit)}</small> : null}</span></td>
-      <td>{history ? <span className="stack"><strong>{formatCoins(history.medianPrice)} · {history.totalSales.toLocaleString("zh-TW")} 筆</strong><small>{formatCoins(history.minimumPrice)}–{formatCoins(history.maximumPrice)} · 中位售出 {durationLabel(history.medianSellTimeSeconds)}</small></span> : <span className="stack"><strong>累積中</strong><small>執行 SkyCofl 歷史回填指令</small></span>}</td>
-      <td><span className="stack ah-feature-summary">{flip.features.length ? flip.features.slice(0, 3).map((feature) => <small key={feature.key}>{feature.label}: {feature.value}</small>) : <small>無額外升級</small>}{flip.features.length > 3 ? <small>+{flip.features.length - 3} 項</small> : null}</span></td>
-      <td><span className="ah-actions"><button className="detail-button" type="button" onClick={onExpand}>{expanded ? "收合" : "明細"}</button><button className="detail-button" type="button" onClick={onCopy}>{copied ? "已複製" : "複製指令"}</button></span></td>
-    </tr>
-    {expanded ? <tr className="ah-detail-row"><td colSpan={9}><div className="ah-detail-grid">
-      <section><span className="eyebrow">Valuation breakdown</span><h3>升級與部件估值</h3>{flip.features.length ? <div className="ah-feature-list">{flip.features.map((feature) => <div key={feature.key}><span><strong>{feature.label}</strong><small>{categoryLabels[feature.category]} · {feature.value}{feature.recognized ? "" : " · 未完整分類"}</small></span><span><strong>{feature.estimatedContribution === undefined ? "—" : formatCoins(feature.estimatedContribution)}</strong><small>{feature.replacementCost === undefined ? "無市場替換價" : `替換成本 ${formatCoins(feature.replacementCost)}`}</small></span></div>)}</div> : <p className="data-note">NBT 未偵測到額外升級。</p>}</section>
-      <section><span className="eyebrow">Risk audit</span><h3>{riskLabels[flip.riskLevel]}估值</h3><ul className="ah-risk-list">{flip.riskReasons.length ? flip.riskReasons.map((reason) => <li key={reason}>{reason}</li>) : <li>成交樣本與完整規格估值充足。</li>}{flip.unknownAttributeKeys.length ? <li>未分類欄位：<code>{flip.unknownAttributeKeys.join(", ")}</code></li> : null}</ul><div className="ah-command"><code>{flip.viewAuctionCommand}</code><button className="detail-button" type="button" onClick={onCopy}>{copied ? "已複製" : "複製"}</button></div>{flip.comparableAuctionUrl ? <a className="source-link" href={flip.comparableAuctionUrl} target="_blank" rel="noreferrer">查看 SkyCofl 可比較拍賣</a> : null}{flip.valuationKey ? <small className="ah-valuation-key">Valuation key: {flip.valuationKey}</small> : null}</section>
-    </div></td></tr> : null}
-  </>;
+  return <tr className={flip.riskLevel === "high" ? "high-risk-row" : undefined}>
+    <td><button className="ah-item-button" type="button" onClick={() => onSelect(flip)}><span className="item-cell"><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</strong><small>{flip.tier} · {flip.category} · {flip.productId}</small><small className="ah-feature-inline">{flip.features.length ? flip.features.slice(0, 2).map((feature) => `${feature.label}: ${feature.value}`).join(" · ") : "無額外升級"}</small></span></span></button></td>
+    <td><span className="stack"><strong>{formatCoins(flip.listingPrice)}</strong><small>{ageLabel(flip.start)} · {new Date(flip.start).toLocaleTimeString("zh-TW")}</small></span></td>
+    <td><span className="stack"><strong>{formatCoins(flip.estimatedValue)}</strong><small>稅後 {formatCoins(flip.resaleAfterTax)} · AH 稅 {formatCoins(flip.auctionFees)}</small></span></td>
+    <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>ROI {formatPercent(flip.roiPercent)} · 折價 {formatPercent(flip.discountPercent)}</small>{flip.fastSellProfit !== undefined ? <small>Fast-sell {formatCoins(flip.fastSellProfit)}</small> : null}</span></td>
+    <td>{history ? <span className="stack"><strong>{history.totalSales.toLocaleString("zh-TW")} 筆 · 中位 {formatCoins(history.medianPrice)}</strong><small>{formatCoins(history.minimumPrice)}–{formatCoins(history.maximumPrice)}</small></span> : <span className="stack"><strong>累積中</strong><small>尚無歷史回填</small></span>}</td>
+    <td><span className="stack ah-row-controls"><span className={`risk-badge risk-${flip.riskLevel}`}>{riskLabels[flip.riskLevel]} · {Math.round(flip.confidence * 100)}%</span><span className="ah-actions"><button className="detail-button" type="button" onClick={() => onSelect(flip)}>明細</button><button className="detail-button" type="button" onClick={() => onCopy(flip)}>{copied ? "已複製" : "複製指令"}</button></span></span></td>
+  </tr>;
+});
+
+function Pagination({ page, pageCount, total, onPage }: { page: number; pageCount: number; total: number; onPage: (page: number) => void }) {
+  const first = (page - 1) * PAGE_SIZE + 1;
+  const last = Math.min(total, page * PAGE_SIZE);
+  return <nav className="ah-pagination" aria-label="AH Flip 分頁"><span>顯示 {first}–{last} / {total}，每頁 {PAGE_SIZE} 筆</span><div><button className="detail-button" type="button" disabled={page <= 1} onClick={() => onPage(page - 1)}>上一頁</button><strong>{page} / {pageCount}</strong><button className="detail-button" type="button" disabled={page >= pageCount} onClick={() => onPage(page + 1)}>下一頁</button></div></nav>;
+}
+
+function AhFlipDetail({ flip, copied, onClose, onCopy }: { flip: AhFlip; copied: boolean; onClose: () => void; onCopy: (flip: AhFlip) => void }) {
+  const history = flip.history;
+  return <div className="detail-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+    <article className="panel shard-detail-modal ah-detail-modal" role="dialog" aria-modal="true" aria-labelledby="ah-detail-title">
+      <header><div><span className="eyebrow">Auction valuation</span><h2 id="ah-detail-title">{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</h2><small>{flip.productId} · 發布於 {new Date(flip.start).toLocaleString("zh-TW")}</small></div><button aria-label="關閉 AH Flip 明細" type="button" onClick={onClose}>×</button></header>
+      <div className="detail-profit-grid ah-profit-grid"><div><span>目前 BIN</span><strong>{formatCoins(flip.listingPrice)}</strong></div><div><span>估計實際價值</span><strong>{formatCoins(flip.estimatedValue)}</strong></div><div><span>稅後收入</span><strong>{formatCoins(flip.resaleAfterTax)}</strong><small>AH 稅 {formatPercent(-flip.feeRate * 100)}</small></div><div><span>Net Profit</span><strong className={tone(flip.profit)}>{formatCoins(flip.profit)}</strong><small>ROI {formatPercent(flip.roiPercent)}</small></div></div>
+      <div className="ah-detail-grid">
+        <section><span className="eyebrow">Valuation breakdown</span><h3>升級與部件估值</h3>{flip.features.length ? <div className="ah-feature-list">{flip.features.map((feature) => <div key={feature.key}><span><strong>{feature.label}</strong><small>{categoryLabels[feature.category]} · {feature.value}{feature.recognized ? "" : " · 未完整分類"}</small></span><span><strong>{feature.estimatedContribution === undefined ? "—" : formatCoins(feature.estimatedContribution)}</strong><small>{feature.replacementCost === undefined ? "無市場替換價" : `替換成本 ${formatCoins(feature.replacementCost)}`}</small></span></div>)}</div> : <p className="data-note">NBT 未偵測到額外升級。</p>}</section>
+        <section><span className="eyebrow">Risk audit</span><h3>{riskLabels[flip.riskLevel]}估值</h3><span className={`risk-badge risk-${flip.riskLevel}`}>{Math.round(flip.confidence * 100)}% 信心 · {flip.valuationSource === "skycofl-nbt" ? "SkyCofl 完整 NBT" : "Component Estimate"}</span><ul className="ah-risk-list">{flip.riskReasons.length ? flip.riskReasons.map((reason) => <li key={reason}>{reason}</li>) : <li>成交樣本與完整規格估值充足。</li>}{flip.unknownAttributeKeys.length ? <li>未分類欄位：<code>{flip.unknownAttributeKeys.join(", ")}</code></li> : null}</ul>{history ? <div className="ah-history-card"><strong>近 7 天：{history.totalSales.toLocaleString("zh-TW")} 筆</strong><small>中位 {formatCoins(history.medianPrice)} · 範圍 {formatCoins(history.minimumPrice)}–{formatCoins(history.maximumPrice)}</small><small>中位售出時間 {durationLabel(history.medianSellTimeSeconds)}</small></div> : null}<div className="ah-command"><code>{flip.viewAuctionCommand}</code><button className="detail-button" type="button" onClick={() => onCopy(flip)}>{copied ? "已複製" : "複製"}</button></div>{flip.comparableAuctionUrl ? <a className="source-link" href={flip.comparableAuctionUrl} target="_blank" rel="noreferrer">查看 SkyCofl 可比較拍賣</a> : null}{flip.valuationKey ? <small className="ah-valuation-key">Valuation key: {flip.valuationKey}</small> : null}</section>
+      </div>
+    </article>
+  </div>;
 }

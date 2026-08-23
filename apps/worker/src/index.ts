@@ -26,6 +26,7 @@ type HistoryBucketRow = { bucket: number; updated_at: number };
 const MARKET_BODY_LIMIT = 1_900_000;
 const IMPORT_BODY_LIMIT = 8_000_000;
 const GZIP_ROW_LIMIT = 1_900_000;
+const PREFERENCE_BODY_LIMIT = 128_000;
 const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
 
@@ -183,6 +184,58 @@ async function bookmarks(request: Request, env: Env, pathname: string): Promise<
       .bind(userId, productId)
       .run();
     return json(env, { productId, bookmarked: false });
+  }
+
+  return errorResponse(env, "Method not allowed", 405);
+}
+
+async function craftRequirementPreferences(request: Request, env: Env): Promise<Response> {
+  let userId: string;
+  try {
+    userId = await authenticate(request, env);
+  } catch {
+    return errorResponse(env, "Unauthorized", 401);
+  }
+
+  const preferenceKey = "craft-excluded-requirements";
+  if (request.method === "GET") {
+    const row = await env.DB.prepare(
+      "SELECT payload, updated_at FROM user_preferences WHERE user_id = ? AND preference_key = ?",
+    ).bind(userId, preferenceKey).first<{ payload: string; updated_at: number }>();
+    if (!row) return json(env, { excludedRequirements: [], exists: false });
+    let excludedRequirements: unknown;
+    try {
+      excludedRequirements = JSON.parse(row.payload);
+    } catch {
+      excludedRequirements = [];
+    }
+    return json(env, { excludedRequirements, exists: true, updatedAt: row.updated_at });
+  }
+
+  if (request.method === "PUT") {
+    let body: { excludedRequirements?: unknown };
+    try {
+      body = await readJsonLimited<{ excludedRequirements?: unknown }>(request, PREFERENCE_BODY_LIMIT);
+    } catch (error) {
+      return errorResponse(env, error instanceof Error ? error.message : "Invalid JSON", error instanceof RangeError ? 413 : 400);
+    }
+    if (!Array.isArray(body.excludedRequirements) || body.excludedRequirements.length > 800) {
+      return errorResponse(env, "Invalid Craft requirement preferences", 400);
+    }
+    const requirements = [...new Set(body.excludedRequirements.map((value) =>
+      typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "",
+    ))];
+    if (requirements.some((value) => !/^Requires:\s+.{1,150}$/.test(value))) {
+      return errorResponse(env, "Invalid Craft requirement", 400);
+    }
+    const updatedAt = Date.now();
+    await env.DB.prepare(
+      `INSERT INTO user_preferences (user_id, preference_key, payload, updated_at) VALUES (?, ?, ?, ?)
+       ON CONFLICT (user_id, preference_key) DO UPDATE SET
+         payload = excluded.payload,
+         updated_at = excluded.updated_at`,
+    ).bind(userId, preferenceKey, JSON.stringify(requirements.sort()), updatedAt).run();
+    return json(env, { excludedRequirements: requirements, exists: true, updatedAt });
   }
 
   return errorResponse(env, "Method not allowed", 405);
@@ -556,6 +609,9 @@ export default {
 
       if (url.pathname === "/v1/me/bookmarks" || url.pathname.startsWith("/v1/me/bookmarks/")) {
         return bookmarks(request, env, url.pathname);
+      }
+      if (url.pathname === "/v1/me/preferences/craft-requirements") {
+        return craftRequirementPreferences(request, env);
       }
       return errorResponse(env, "Not found", 404);
     } catch (error) {

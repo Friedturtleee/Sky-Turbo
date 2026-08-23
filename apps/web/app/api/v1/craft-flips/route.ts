@@ -2,6 +2,7 @@ import craftDataJson from "@sky-turbo/core/craft-data";
 import {
   calculateCraftFlips,
   calculateMarketSnapshot,
+  listCraftRequirements,
   type CraftData,
   type CraftStrategy,
   type ShardOrderBook,
@@ -41,6 +42,7 @@ export async function GET(request: Request) {
       flips: calculated.flips.sort((left, right) => right.depth.maxProfit - left.depth.maxProfit),
       skippedCount: calculated.skippedCount,
       totalRecipes: craftData.recipes.length,
+      requirements: listCraftRequirements(craftData),
       updatedAt: snapshot.updatedAt,
       recipeGeneratedAt: craftData.generatedAt,
       recipeCommit: craftData.source.commit,

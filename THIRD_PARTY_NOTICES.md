@@ -38,7 +38,7 @@ Kiara's special Shard inventory, Abiphone stock bonus, and Diaz exception are sy
 
 Generated Craft Flip recipes are derived from [NotEnoughUpdates/NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO), licensed under the MIT License. Each synchronized dataset records the exact upstream commit and source archive. The upstream license is copied to `packages/core/data/NotEnoughUpdates-REPO-LICENSE.txt`.
 
-The same pinned repository snapshot is used to generate AH reforge-stone and dye identifier mappings so NBT upgrades can be linked to market products.
+The same pinned repository snapshot is used to generate AH reforge-stone and dye identifier mappings so NBT upgrades can be linked to market products. AH star-upgrade data uses the official Hypixel Items resource for per-item Essence/material levels and follows NEU's `updateEssenceCosts.py` coin schedule for the fixed per-level coin fees.
 
 ## prismarine-nbt
 

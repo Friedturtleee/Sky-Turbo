@@ -9,6 +9,8 @@ import {
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DebouncedSearchField } from "./debounced-search-field";
+import { CraftRequirementFilter } from "./craft-requirement-filter";
+import { useCraftRequirementPreferences } from "./craft-requirement-preferences";
 import { formatCoins, formatPercent, tone } from "./format";
 import { ItemIcon } from "./item-icon";
 import { RefreshButton } from "./refresh-button";
@@ -23,6 +25,7 @@ type CraftResponse = {
   recipeGeneratedAt: string;
   recipeCommit: string;
   priceModel: string;
+  requirements: string[];
 };
 
 const strategyLabels: Record<CraftStrategy, string> = {
@@ -40,12 +43,13 @@ export function CraftDashboard() {
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
   const [data, setData] = useState<CraftResponse>({
     flips: [], skippedCount: 0, totalRecipes: 0, updatedAt: 0,
-    recipeGeneratedAt: "", recipeCommit: "", priceModel: "",
+    recipeGeneratedAt: "", recipeCommit: "", priceModel: "", requirements: [],
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const hasLoadedRef = useRef(false);
   const cacheRef = useRef(new Map<CraftStrategy, CraftResponse>());
+  const { excludedRequirements } = useCraftRequirementPreferences();
 
   const load = useCallback(async (signal: AbortSignal) => {
     const cached = cacheRef.current.get(strategy);
@@ -66,6 +70,7 @@ export function CraftDashboard() {
         recipeGeneratedAt: payload.data?.recipeGeneratedAt ?? "",
         recipeCommit: payload.data?.recipeCommit ?? "",
         priceModel: payload.data?.priceModel ?? "",
+        requirements: payload.data?.requirements ?? [],
       };
       cacheRef.current.set(strategy, next);
       setData(next);
@@ -84,12 +89,17 @@ export function CraftDashboard() {
     const query = search.trim().toLowerCase();
     return data.flips.filter((flip) =>
       flip.profit >= minProfit &&
+      (!flip.requirement || !excludedRequirements.has(flip.requirement)) &&
       (!query || flip.name.toLowerCase().includes(query) || flip.productId.toLowerCase().includes(query) ||
         flip.ingredients.some((ingredient) => ingredient.name.toLowerCase().includes(query) || ingredient.productId.toLowerCase().includes(query))),
     ).sort((left, right) => sort === "maxProfit"
       ? right.depth.maxProfit - left.depth.maxProfit
       : right[sort] - left[sort]);
-  }, [data.flips, minProfit, search, sort]);
+  }, [data.flips, excludedRequirements, minProfit, search, sort]);
+
+  const excludedFlipCount = useMemo(() => data.flips.reduce((count, flip) =>
+    count + Number(Boolean(flip.requirement && excludedRequirements.has(flip.requirement))), 0),
+  [data.flips, excludedRequirements]);
 
   const selectedFlip = useMemo(() => selectedRecipeId
     ? data.flips.find((flip) => flip.recipeId === selectedRecipeId) ?? null
@@ -110,9 +120,10 @@ export function CraftDashboard() {
         <option value="inputCost">投入成本</option>
       </select></label>
       <label><span>Min Profit</span><input type="number" min="0" step="100" value={minProfit} onChange={(event) => setMinProfit(Math.max(0, Number(event.target.value) || 0))} /></label>
+      <CraftRequirementFilter requirements={data.requirements} />
       <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
     </div>
-    <div className="depth-note"><span>{displayed.length} 筆有利可圖的 Bazaar 合成配方 · 共同步 {data.totalRecipes.toLocaleString("zh-TW")} 筆</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : data.priceModel || "載入合成配方與 Bazaar 掛單中"}</span></div>
+    <div className="depth-note"><span>{displayed.length} 筆有利可圖的 Bazaar 合成配方 · 共同步 {data.totalRecipes.toLocaleString("zh-TW")} 筆{excludedFlipCount > 0 ? ` · Requirement 已隱藏 ${excludedFlipCount} 筆` : ""}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : data.priceModel || "載入合成配方與 Bazaar 掛單中"}</span></div>
     {loading && !hasLoadedRef.current
       ? <div className="state-card"><span className="spinner" />正在計算四種 Craft 策略…</div>
       : error && !hasLoadedRef.current

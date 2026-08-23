@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { calculateCraftFlips, calculateCraftProfitPlan } from "./craft-flips";
+import {
+  calculateCraftFlips,
+  calculateCraftProfitPlan,
+  listCraftRequirements,
+  normalizeCraftRequirement,
+} from "./craft-flips";
 import type { CraftData, CraftStrategy, MarketItem, ShardOrderBook } from "./types";
 
 const data: CraftData = {
@@ -120,5 +125,25 @@ describe("calculateCraftFlips", () => {
       { productId: "A", name: "A", amount: 360, unitCost: 5, totalCost: 1_800 },
       { productId: "B", name: "B", amount: 180, unitCost: 10, totalCost: 1_800 },
     ]);
+  });
+});
+
+describe("Craft requirements", () => {
+  it("normalizes both NEU requirement formats", () => {
+    expect(normalizeCraftRequirement("Requires Chili Pepper IV")).toBe("Requires: Chili Pepper IV");
+    expect(normalizeCraftRequirement("  Requires:   Chili Pepper IV ")).toBe("Requires: Chili Pepper IV");
+    expect(normalizeCraftRequirement(undefined)).toBeUndefined();
+  });
+
+  it("returns a stable, unique requirement list for filters", () => {
+    const requirements = listCraftRequirements({
+      ...data,
+      recipes: [
+        { ...data.recipes[0]!, requirement: "Requires Chili Pepper IV" },
+        { ...data.recipes[0]!, id: "OUTPUT:second", requirement: "Requires: Chili Pepper IV" },
+        { ...data.recipes[0]!, id: "OUTPUT:third", requirement: "Requires: Chili Pepper I" },
+      ],
+    });
+    expect(requirements).toEqual(["Requires: Chili Pepper I", "Requires: Chili Pepper IV"]);
   });
 });

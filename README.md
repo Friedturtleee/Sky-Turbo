@@ -21,7 +21,7 @@ Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting rec
 
 NPC Flip 會計算單次最佳出售方式與每日 Max Profit。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。點擊商品或「查看詳細」可切換「拿完每日庫存」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
 
-AH Flip 只分析現行 BIN。它會完整解析拍賣 NBT，辨認 Gemstone、Dye、Hot Potato / Fuming Book、Reforge、附魔、星級、Pet、Attribute 與其他升級，再優先使用 SkyCofl 的完整 NBT 中位估值。無法取得精準估值時仍會顯示保守的 Component Estimate，但一律標記為高風險。Profit 已扣除依出售總額級距計算的 AH 稅費；`Nearest` 依拍賣建立時間由新到舊排序。
+AH Flip 只分析現行 BIN。它會完整解析拍賣 NBT，辨認 Gemstone、Dye、Hot Potato / Fuming Book、Reforge、附魔、星級、Pet、Attribute 與其他升級，再優先使用 SkyCofl 的完整 NBT 中位估值。星級 fallback 會依 Hypixel Items API 的每件物品逐級成本，累加 Essence、材料與 Coins；10／15 星的 Essence 物品不會被誤認成 Dungeon Master Stars。無法取得精準估值時仍會顯示保守的 Component Estimate，但一律標記為高風險。Profit 已扣除依出售總額級距計算的 AH 稅費；`Nearest` 依拍賣建立時間由新到舊排序。
 
 圖示同步來源依序為 Hypixel 官方 SkyBlock 資源包、Items API 的玩家頭顱、Minecraft 原版材質與 SkyShards 的 Shard 圖示；附魔等級與 Essence 等沒有獨立材質的項目則共用對應分類圖示。Hypixel 與 Minecraft 下載檔會驗證 SHA-1，所有實際使用的 PNG 都會保存成網站靜態檔，不需在訪客開啟頁面時連線外部圖片服務。
 
@@ -103,6 +103,8 @@ pnpm collect:ah -- --once --dry-run --max-pages=1 --candidates=80 --verbose
 ```
 
 正式啟用前要先套用新增的 D1 migration `0003_ah_flips.sql`，再部署 Worker。`COFLNET_USAGE_APPROVED=true` 僅應在確認 SkyCofl 授權與用途後設定；未設定時網站仍可掃描，但會跳過精準 NBT API，所有 component fallback 都會顯示高風險。
+
+Craft Flip 的 Requirement 排除清單會在登入後寫入帳號偏好；部署此功能前需一併套用 D1 migration `0004_user_preferences.sql`。未登入時則使用瀏覽器本機儲存。
 
 ## 專案結構
 

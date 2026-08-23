@@ -2,6 +2,7 @@ import { gzipSync } from "node:zlib";
 import { parse, simplify, writeUncompressed, type NBT } from "prismarine-nbt";
 import upgradeDataJson from "../data/ah-upgrade-data.json";
 import { calculateAhFlip } from "./ah-flips";
+import { starUpgradeFeatures, type AhStarUpgradeData } from "./ah-star-upgrades";
 import type {
   AhFeatureCategory,
   AhFlipSnapshot,
@@ -27,6 +28,7 @@ type ReforgeData = { productId: string; name: string };
 type UpgradeData = {
   reforgeStones: Record<string, ReforgeData>;
   dyes: Record<string, ReforgeData>;
+  starUpgrades: AhStarUpgradeData;
 };
 
 const upgradeData = upgradeDataJson as UpgradeData;
@@ -272,7 +274,12 @@ function addPricedFeature(
   features.push(feature);
 }
 
-function extractFeatures(extra: UnknownRecord, priceMap: ReadonlyMap<string, number>, itemName: string): {
+export function extractAhFeatures(
+  productId: string,
+  extra: UnknownRecord,
+  priceMap: ReadonlyMap<string, number>,
+  itemName: string,
+): {
   features: AhItemFeature[];
   unknownAttributeKeys: string[];
 } {
@@ -421,24 +428,13 @@ function extractFeatures(extra: UnknownRecord, priceMap: ReadonlyMap<string, num
   if (upgradeLevel > 0) {
     handled.add("upgrade_level");
     handled.add("dungeon_item_level");
-    features.push({
-      key: "upgrade_level",
-      label: "Item Stars",
-      value: `${upgradeLevel} star`,
-      category: "stars",
-      recognized: true,
-    });
-    const masterStars = ["FIRST_MASTER_STAR", "SECOND_MASTER_STAR", "THIRD_MASTER_STAR", "FOURTH_MASTER_STAR", "FIFTH_MASTER_STAR"];
-    for (let index = 0; index < Math.min(5, Math.max(0, upgradeLevel - 5)); index += 1) {
-      addPricedFeature(features, priceMap, {
-        key: `master_star:${index + 1}`,
-        label: `${index + 1} Master Star`,
-        value: masterStars[index]!,
-        category: "stars",
-        recognized: true,
-        marketProductId: masterStars[index]!,
-      });
-    }
+    features.push(...starUpgradeFeatures(
+      productId,
+      upgradeLevel,
+      extra.dungeon_item !== undefined || extra.dungeon_item_level !== undefined,
+      priceMap,
+      upgradeData.starUpgrades,
+    ));
   }
   if (extra.dungeon_item !== undefined) {
     handled.add("dungeon_item");
@@ -584,7 +580,12 @@ function priceAuction(
   priceMap: ReadonlyMap<string, number>,
   historySummary?: AhHistorySummary | null,
 ): PricedAuction {
-  const { features, unknownAttributeKeys } = extractFeatures(parsed.extraAttributes, priceMap, parsed.auction.item_name);
+  const { features, unknownAttributeKeys } = extractAhFeatures(
+    parsed.productId,
+    parsed.extraAttributes,
+    priceMap,
+    parsed.auction.item_name,
+  );
   const history = historySummary?.items[parsed.productId];
   const baseReference = Math.max(priceMap.get(parsed.productId) ?? 0, history?.medianPrice ?? 0);
   const retainedBase = baseReference * (features.length > 0 ? 0.72 : 0.9) * parsed.quantity;

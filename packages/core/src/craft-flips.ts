@@ -13,6 +13,20 @@ import {
 const inputUsesInstant = (strategy: CraftStrategy): boolean => strategy.startsWith("ib");
 const outputUsesInstant = (strategy: CraftStrategy): boolean => strategy.endsWith("is");
 
+export function normalizeCraftRequirement(requirement: string | undefined): string | undefined {
+  const cleaned = requirement?.replace(/\s+/g, " ").trim();
+  if (!cleaned) return undefined;
+  const match = /^Requires(?::)?\s+(.+)$/i.exec(cleaned);
+  return match?.[1] ? `Requires: ${match[1]}` : cleaned;
+}
+
+export function listCraftRequirements(data: CraftData): string[] {
+  return [...new Set(data.recipes
+    .map((recipe) => normalizeCraftRequirement(recipe.requirement))
+    .filter((requirement): requirement is string => Boolean(requirement)))]
+    .sort((left, right) => left.localeCompare(right, "en", { numeric: true }));
+}
+
 function levelAmount(levels: OrderLevel[]): number {
   return levels.reduce((sum, level) => sum + Math.max(0, level.amount), 0);
 }
@@ -274,7 +288,7 @@ export function calculateCraftFlips(
       matchedVolume7d: Math.min(outputMarket.buyMovingWeek, outputMarket.sellMovingWeek),
       partial,
       depth,
-      requirement: recipe.requirement,
+      requirement: normalizeCraftRequirement(recipe.requirement),
       source: recipe.source,
     });
   }

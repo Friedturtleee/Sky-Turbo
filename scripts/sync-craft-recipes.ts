@@ -26,6 +26,25 @@ type NeuItem = {
   recipes?: NeuRecipe[];
 };
 type Ingredient = { productId: string; name: string; amount: number };
+type HypixelUpgradeCost =
+  | { type: "ESSENCE"; essence_type: string; amount: number }
+  | { type: "ITEM"; item_id: string; amount: number };
+type HypixelItem = {
+  id: string;
+  name?: string;
+  dungeon_item?: boolean;
+  upgrade_costs?: HypixelUpgradeCost[][];
+};
+type NeuEssenceCost = {
+  items?: Record<string, string[]>;
+};
+
+// Hypixel's item resource exposes Essence and item costs, while these fixed
+// per-star coin fees are maintained by NEU's updateEssenceCosts.py generator.
+const STAR_UPGRADE_COIN_COSTS = [
+  0, 0, 0, 10_000, 25_000, 50_000, 100_000, 250_000, 500_000, 1_000_000,
+  2_500_000, 5_000_000, 10_000_000, 25_000_000, 50_000_000,
+] as const;
 
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url, {
@@ -64,7 +83,7 @@ function parseIngredient(value: unknown): { productId: string; amount: number } 
 async function main(): Promise<void> {
   const [repository, itemsPayload] = await Promise.all([
     fetchJson<{ default_branch: string }>(GITHUB_API),
-    fetchJson<{ success?: boolean; items?: Array<{ id: string; name?: string }> }>(ITEMS_API),
+    fetchJson<{ success?: boolean; lastUpdated?: number; items?: HypixelItem[] }>(ITEMS_API),
   ]);
   if (!itemsPayload.success || !itemsPayload.items) throw new Error("Hypixel item resource response is invalid");
   const branch = repository.default_branch || "master";
@@ -84,6 +103,10 @@ async function main(): Promise<void> {
     }
   }
 
+  const essenceCostsEntry = Object.entries(archive).find(([path]) => /\/constants\/essencecosts\.json$/i.test(path));
+  if (!essenceCostsEntry) throw new Error("NEU archive did not contain constants/essencecosts.json");
+  const neuEssenceCosts = JSON.parse(decoder.decode(essenceCostsEntry[1])) as Record<string, NeuEssenceCost>;
+
   const names = new Map(itemsPayload.items.map((item) => [item.id, cleanName(item.name)]));
   for (const { item } of neuItems) {
     if (item.internalname && !names.has(item.internalname)) names.set(item.internalname, cleanName(item.displayname));
@@ -101,6 +124,49 @@ async function main(): Promise<void> {
       const modifier = match[1].trim().toLowerCase().replace(/[^a-z0-9]+/g, "_");
       if (modifier && !reforgeStones[modifier]) reforgeStones[modifier] = { productId: item.internalname, name };
     }
+  }
+
+  const starUpgrades: Record<string, {
+    name: string;
+    dungeonItem: boolean;
+    levels: Array<{
+      level: number;
+      coinCost: number;
+      costs: Array<{ productId: string; name: string; amount: number; kind: "essence" | "item" }>;
+    }>;
+  }> = {};
+  for (const item of itemsPayload.items) {
+    if (!Array.isArray(item.upgrade_costs) || item.upgrade_costs.length === 0) continue;
+    const levels = item.upgrade_costs.map((rawCosts, index) => {
+      const level = index + 1;
+      const upstreamCoinCost = neuEssenceCosts[item.id]?.items?.[String(level)]
+        ?.map((value) => value.match(/^SKYBLOCK_COIN:(\d+(?:\.\d+)?)$/)?.[1])
+        .find((value): value is string => value !== undefined);
+      return {
+        level,
+        coinCost: upstreamCoinCost === undefined
+          ? STAR_UPGRADE_COIN_COSTS[index] ?? 0
+          : Number(upstreamCoinCost),
+        costs: rawCosts.flatMap((cost) => {
+          const amount = Number(cost.amount);
+          if (!Number.isFinite(amount) || amount <= 0) return [];
+          const productId = cost.type === "ESSENCE"
+            ? `ESSENCE_${cost.essence_type.toUpperCase()}`
+            : cost.item_id;
+          return [{
+            productId,
+            name: names.get(productId) || fallbackName(productId),
+            amount,
+            kind: cost.type === "ESSENCE" ? "essence" as const : "item" as const,
+          }];
+        }),
+      };
+    });
+    starUpgrades[item.id] = {
+      name: names.get(item.id) || cleanName(item.name) || fallbackName(item.id),
+      dungeonItem: item.dungeon_item === true,
+      levels,
+    };
   }
 
   const recipes = [];
@@ -182,7 +248,7 @@ async function main(): Promise<void> {
       recipes: deduplicated,
     }, null, 2)}\n`),
     writeFile(AH_UPGRADES_OUTPUT_PATH, `${JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       generatedAt: new Date().toISOString(),
       source: {
         project: REPOSITORY,
@@ -193,10 +259,18 @@ async function main(): Promise<void> {
       },
       reforgeStones,
       dyes,
+      starUpgrades,
+      starUpgradeSource: {
+        hypixelItemsUrl: ITEMS_API,
+        hypixelItemsLastUpdated: itemsPayload.lastUpdated ?? null,
+        coinSchedule: `${REPOSITORY}/constants/essencecosts.json`,
+        coinScheduleGenerator: `${REPOSITORY}/.github/scripts/updateEssenceCosts.py`,
+      },
     }, null, 2)}\n`),
     writeFile(LICENSE_PATH, licenseEntry[1]),
   ]);
   console.log(`Wrote ${deduplicated.length} crafting recipes from NEU commit ${commit.sha}.`);
+  console.log(`Wrote ${Object.keys(starUpgrades).length} AH star-upgrade tables from the current Hypixel item resource.`);
   if (warnings.size) console.log(`${warnings.size} ingredient IDs were absent from current item metadata.`);
 }
 
