@@ -25,6 +25,13 @@ function fallbackName(productId) {
   ).join(" ");
 }
 
+function canonicalNpcName(fileName, shopName) {
+  // Rosetta's armor sets are separate shop-menu files. Their menu titles are
+  // item categories, not NPC names.
+  if (fileName.startsWith("NPC_ROSETTA_")) return "Rosetta";
+  return cleanName(shopName) || fallbackName(fileName.replace(/^NPC_|\.json$/g, ""));
+}
+
 function stockLimit(lore) {
   const match = String(lore ?? "").match(/Stock\s*\n[^\n]*?([\d,]+)\s*[^\n]*remaining/i);
   return match ? Number(match[1].replaceAll(",", "")) : undefined;
@@ -82,7 +89,7 @@ for (const { file, shop } of shops) {
     const output = outputs[0];
     offers.push({
       id: `${file.name.replace(/\.json$/, "")}:${slotId}`,
-      npc: cleanName(shop.name) || fallbackName(file.name.replace(/^NPC_|\.json$/g, "")),
+      npc: canonicalNpcName(file.name, shop.name),
       output: {
         productId: output.item_id,
         name: names.get(output.item_id) ?? fallbackName(output.item_id),
@@ -147,6 +154,13 @@ const deduplicated = [...new Map(offers.map((offer) => [
 ])).values()].sort((left, right) =>
   left.npc.localeCompare(right.npc) || left.output.name.localeCompare(right.output.name),
 );
+
+const invalidRosettaOffer = deduplicated.find((offer) =>
+  offer.id.startsWith("NPC_ROSETTA_") && offer.npc !== "Rosetta",
+);
+if (invalidRosettaOffer) {
+  throw new Error(`Rosetta menu was assigned to ${invalidRosettaOffer.npc}`);
+}
 
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify({

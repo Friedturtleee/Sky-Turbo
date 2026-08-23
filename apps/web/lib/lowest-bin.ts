@@ -4,7 +4,13 @@ const PRICE_TTL_MS = 5 * 60_000;
 const FAILURE_TTL_MS = 60_000;
 
 type RoughCache = { fetchedAt: number; prices: Record<string, number> };
-type ExactCacheEntry = { fetchedAt: number; price?: number };
+export type AuctionPriceQuote = {
+  lowestBin: number;
+  recentMedian?: number;
+  recentVolume?: number;
+  model?: "exact-lbin-and-median" | "adjusted-estimate";
+};
+type ExactCacheEntry = { fetchedAt: number; quote?: AuctionPriceQuote };
 
 let roughCache: RoughCache | undefined;
 let roughRequest: Promise<RoughCache> | undefined;
@@ -50,33 +56,53 @@ export async function getRoughAuctionPrices(): Promise<RoughCache> {
   return roughRequest;
 }
 
-async function fetchExactLowestBin(productId: string): Promise<void> {
+async function fetchExactAuctionPrice(productId: string): Promise<void> {
   const previous = exactCache.get(productId);
-  const ttl = previous?.price === undefined ? FAILURE_TTL_MS : PRICE_TTL_MS;
+  const ttl = previous?.quote === undefined ? FAILURE_TTL_MS : PRICE_TTL_MS;
   if (previous && Date.now() - previous.fetchedAt < ttl) return;
 
   try {
-    const response = await fetchWithTimeout(
-      `${COFL_BIN_URL}/${encodeURIComponent(productId)}/bin`,
-      7_000,
-    );
-    if (!response.ok) throw new Error(`SkyCofl lowest BIN returned ${response.status}`);
-    const payload = await response.json() as { lowest?: unknown };
-    const price = Number(payload.lowest);
+    const encodedId = encodeURIComponent(productId);
+    let binResponse: Response | undefined;
+    let historyResponse: Response | undefined;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      [binResponse, historyResponse] = await Promise.all([
+        fetchWithTimeout(`${COFL_BIN_URL}/${encodedId}/bin`, 7_000),
+        fetchWithTimeout(`${COFL_BIN_URL}/${encodedId}`, 7_000),
+      ]);
+      if (binResponse.status !== 429) break;
+      await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+    }
+    if (!binResponse || !historyResponse) throw new Error("SkyCofl did not return a response");
+    if (!binResponse.ok) throw new Error(`SkyCofl lowest BIN returned ${binResponse.status}`);
+    const binPayload = await binResponse.json() as { lowest?: unknown };
+    const historyPayload = historyResponse.ok
+      ? await historyResponse.json() as { median?: unknown; volume?: unknown }
+      : undefined;
+    const lowestBin = Number(binPayload.lowest);
+    const recentMedian = Number(historyPayload?.median);
+    const recentVolume = Number(historyPayload?.volume);
     exactCache.set(productId, {
       fetchedAt: Date.now(),
-      ...(Number.isFinite(price) && price > 0 ? { price } : {}),
+      ...(Number.isFinite(lowestBin) && lowestBin > 0 ? {
+        quote: {
+          lowestBin,
+          model: "exact-lbin-and-median",
+          ...(Number.isFinite(recentMedian) && recentMedian > 0 ? { recentMedian } : {}),
+          ...(Number.isFinite(recentVolume) && recentVolume >= 0 ? { recentVolume } : {}),
+        },
+      } : {}),
     });
   } catch {
-    exactCache.set(productId, previous?.price === undefined
+    exactCache.set(productId, previous?.quote === undefined
       ? { fetchedAt: Date.now() }
       : { ...previous, fetchedAt: previous.fetchedAt });
   }
 }
 
-export async function getExactLowestBins(productIds: Iterable<string>): Promise<{
+export async function getExactAuctionPrices(productIds: Iterable<string>): Promise<{
   fetchedAt: number;
-  prices: Record<string, number>;
+  prices: Record<string, AuctionPriceQuote>;
 }> {
   const queue = [...new Set(productIds)];
   let cursor = 0;
@@ -84,16 +110,16 @@ export async function getExactLowestBins(productIds: Iterable<string>): Promise<
     while (cursor < queue.length) {
       const productId = queue[cursor++];
       if (!productId) return;
-      await fetchExactLowestBin(productId);
+      await fetchExactAuctionPrice(productId);
     }
   };
   await Promise.all(Array.from({ length: Math.min(6, queue.length) }, worker));
 
-  const prices: Record<string, number> = {};
+  const prices: Record<string, AuctionPriceQuote> = {};
   let fetchedAt = 0;
   for (const productId of queue) {
     const cached = exactCache.get(productId);
-    if (cached?.price !== undefined) prices[productId] = cached.price;
+    if (cached?.quote !== undefined) prices[productId] = cached.quote;
     if (cached) fetchedAt = Math.max(fetchedAt, cached.fetchedAt);
   }
   return { fetchedAt, prices };

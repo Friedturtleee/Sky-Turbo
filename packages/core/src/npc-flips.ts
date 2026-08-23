@@ -1,4 +1,4 @@
-import { BAZAAR_TAX_RATE, type MarketSnapshot, type NpcFlip, type NpcFlipCost, type NpcShopOffer } from "./types";
+import { BAZAAR_TAX_RATE, type AuctionPriceQuote, type MarketSnapshot, type NpcFlip, type NpcFlipCost, type NpcShopOffer } from "./types";
 
 export const AUCTION_FEE_MODEL = "2% under 10m, 4% from 10m, 5% from 100m";
 
@@ -15,7 +15,7 @@ function isPositivePrice(value: number | undefined): value is number {
 export function calculateNpcFlips(
   offers: NpcShopOffer[],
   market: MarketSnapshot,
-  lowestBins: Readonly<Record<string, number>>,
+  auctionPrices: Readonly<Record<string, AuctionPriceQuote>>,
 ): { flips: NpcFlip[]; unpricedCount: number } {
   const bazaar = new Map(market.items.map((item) => [item.productId, item]));
   const flips: NpcFlip[] = [];
@@ -38,7 +38,7 @@ export function calculateNpcFlips(
       }
 
       const marketItem = bazaar.get(cost.productId);
-      const unitPrice = marketItem?.instantBuyPrice || lowestBins[cost.productId];
+      const unitPrice = marketItem?.instantBuyPrice || auctionPrices[cost.productId]?.lowestBin;
       if (!isPositivePrice(unitPrice)) {
         priced = false;
         break;
@@ -55,7 +55,8 @@ export function calculateNpcFlips(
     }
 
     const outputMarket = bazaar.get(offer.output.productId);
-    const outputLowestBin = lowestBins[offer.output.productId];
+    const outputAuction = auctionPrices[offer.output.productId];
+    const outputLowestBin = outputAuction?.lowestBin;
     if (!priced || (!outputMarket && !isPositivePrice(outputLowestBin))) {
       unpricedCount += 1;
       continue;
@@ -63,9 +64,14 @@ export function calculateNpcFlips(
 
     const totalCost = costs.reduce((sum, cost) => sum + cost.totalPrice, 0);
     const saleSource = outputMarket ? "bazaar" : "ah-lowest-bin";
+    // A lone manipulated listing is not a realistic sale estimate. Preserve the
+    // current LBIN for display, but cap AH proceeds at the recent sold median.
+    const auctionUnitSalePrice = outputAuction?.recentMedian && outputAuction.recentMedian > 0
+      ? Math.min(outputAuction.lowestBin, outputAuction.recentMedian)
+      : outputAuction?.lowestBin;
     const salePriceGross = outputMarket
       ? outputMarket.instantSellPrice * offer.output.amount
-      : (outputLowestBin ?? 0) * offer.output.amount;
+      : (auctionUnitSalePrice ?? 0) * offer.output.amount;
     const saleFeeRate = outputMarket ? market.taxRate : auctionFeeRate(salePriceGross);
     const salePriceNet = salePriceGross * (1 - saleFeeRate);
     const profit = salePriceNet - totalCost;
@@ -85,6 +91,13 @@ export function calculateNpcFlips(
       salePriceGross,
       salePriceNet,
       saleFeeRate,
+      ...(!outputMarket && outputAuction ? {
+        auctionLowestBin: outputAuction.lowestBin,
+        auctionRecentMedian: outputAuction.recentMedian,
+        auctionRecentVolume: outputAuction.recentVolume,
+        auctionPriceCapped: auctionUnitSalePrice !== outputAuction.lowestBin,
+        auctionPriceModel: outputAuction.model,
+      } : {}),
       profit,
       marginPercent: totalCost > 0 ? profit / totalCost * 100 : 0,
       dailyLimit: offer.dailyLimit,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T03:46:25.281Z",
+  "generatedAt": "2026-08-23T06:52:10.500Z",
   "sources": [
     "https://github.com/SkyblockRepo/Repo/tree/main/shops",
     "https://api.hypixel.net/v2/resources/skyblock/items",
@@ -1712,101 +1712,6 @@
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_CELESTE_SET:b6",
-      "npc": "Celeste Set",
-      "output": {
-        "productId": "CELESTE_BOOTS",
-        "name": "Celeste Boots",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 4000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_CELESTE_SET:b4",
-      "npc": "Celeste Set",
-      "output": {
-        "productId": "CELESTE_CHESTPLATE",
-        "name": "Celeste Chestplate",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 8000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_CELESTE_SET:b3",
-      "npc": "Celeste Set",
-      "output": {
-        "productId": "CELESTE_HELMET",
-        "name": "Celeste Helmet",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 5000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_CELESTE_SET:b5",
-      "npc": "Celeste Set",
-      "output": {
-        "productId": "CELESTE_LEGGINGS",
-        "name": "Celeste Leggings",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 7000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_CELESTE_SET:b2",
-      "npc": "Celeste Set",
-      "output": {
-        "productId": "CELESTE_WAND",
-        "name": "Celeste Wand",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 5000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
       }
     },
     {
@@ -3674,101 +3579,6 @@
       }
     },
     {
-      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b6",
-      "npc": "Mercenary Armor",
-      "output": {
-        "productId": "MERCENARY_BOOTS",
-        "name": "Mercenary Boots",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 30000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b4",
-      "npc": "Mercenary Armor",
-      "output": {
-        "productId": "MERCENARY_CHESTPLATE",
-        "name": "Mercenary Chestplate",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 70000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b3",
-      "npc": "Mercenary Armor",
-      "output": {
-        "productId": "MERCENARY_HELMET",
-        "name": "Mercenary Helmet",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 35000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b5",
-      "npc": "Mercenary Armor",
-      "output": {
-        "productId": "MERCENARY_LEGGINGS",
-        "name": "Mercenary Leggings",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 45000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b2",
-      "npc": "Mercenary Armor",
-      "output": {
-        "productId": "MERCENARY_AXE",
-        "name": "Mercenary Sword",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 30000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
-      }
-    },
-    {
       "id": "NPC_MINE_MERCHANT:item11",
       "npc": "Mine Merchant",
       "output": {
@@ -5267,8 +5077,198 @@
       }
     },
     {
+      "id": "NPC_ROSETTA_CELESTE_SET:b6",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "CELESTE_BOOTS",
+        "name": "Celeste Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b4",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "CELESTE_CHESTPLATE",
+        "name": "Celeste Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b3",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "CELESTE_HELMET",
+        "name": "Celeste Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b5",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "CELESTE_LEGGINGS",
+        "name": "Celeste Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 7000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b2",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "CELESTE_WAND",
+        "name": "Celeste Wand",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b6",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "MERCENARY_BOOTS",
+        "name": "Mercenary Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b4",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "MERCENARY_CHESTPLATE",
+        "name": "Mercenary Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 70000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b3",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "MERCENARY_HELMET",
+        "name": "Mercenary Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b5",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "MERCENARY_LEGGINGS",
+        "name": "Mercenary Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 45000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b2",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "MERCENARY_AXE",
+        "name": "Mercenary Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
       "id": "NPC_ROSETTA_ARMOR:b5",
-      "npc": "Rosetta's Armor",
+      "npc": "Rosetta",
       "output": {
         "productId": "ROSETTA_BOOTS",
         "name": "Rosetta's Boots",
@@ -5287,7 +5287,7 @@
     },
     {
       "id": "NPC_ROSETTA_ARMOR:b3",
-      "npc": "Rosetta's Armor",
+      "npc": "Rosetta",
       "output": {
         "productId": "ROSETTA_CHESTPLATE",
         "name": "Rosetta's Chestplate",
@@ -5306,7 +5306,7 @@
     },
     {
       "id": "NPC_ROSETTA_ARMOR:b2",
-      "npc": "Rosetta's Armor",
+      "npc": "Rosetta",
       "output": {
         "productId": "ROSETTA_HELMET",
         "name": "Rosetta's Helmet",
@@ -5325,7 +5325,7 @@
     },
     {
       "id": "NPC_ROSETTA_ARMOR:b4",
-      "npc": "Rosetta's Armor",
+      "npc": "Rosetta",
       "output": {
         "productId": "ROSETTA_LEGGINGS",
         "name": "Rosetta's Leggings",
@@ -5340,6 +5340,196 @@
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b6",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "SQUIRE_BOOTS",
+        "name": "Squire Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b4",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "SQUIRE_CHESTPLATE",
+        "name": "Squire Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b3",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "SQUIRE_HELMET",
+        "name": "Squire Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b5",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "SQUIRE_LEGGINGS",
+        "name": "Squire Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 7000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b2",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "SQUIRE_SWORD",
+        "name": "Squire Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b6",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "STARLIGHT_BOOTS",
+        "name": "Starlight Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b4",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "STARLIGHT_CHESTPLATE",
+        "name": "Starlight Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 70000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b3",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "STARLIGHT_HELMET",
+        "name": "Starlight Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b5",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "STARLIGHT_LEGGINGS",
+        "name": "Starlight Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 45000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b2",
+      "npc": "Rosetta",
+      "output": {
+        "productId": "STARLIGHT_WAND",
+        "name": "Starlight Wand",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
       }
     },
     {
@@ -5532,196 +5722,6 @@
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b6",
-      "npc": "Squire Armor",
-      "output": {
-        "productId": "SQUIRE_BOOTS",
-        "name": "Squire Boots",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 4000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b4",
-      "npc": "Squire Armor",
-      "output": {
-        "productId": "SQUIRE_CHESTPLATE",
-        "name": "Squire Chestplate",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 8000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b3",
-      "npc": "Squire Armor",
-      "output": {
-        "productId": "SQUIRE_HELMET",
-        "name": "Squire Helmet",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 5000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b5",
-      "npc": "Squire Armor",
-      "output": {
-        "productId": "SQUIRE_LEGGINGS",
-        "name": "Squire Leggings",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 7000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b2",
-      "npc": "Squire Armor",
-      "output": {
-        "productId": "SQUIRE_SWORD",
-        "name": "Squire Sword",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 5000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_STARLIGHT_SET:b6",
-      "npc": "Starlight Set",
-      "output": {
-        "productId": "STARLIGHT_BOOTS",
-        "name": "Starlight Boots",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 30000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_STARLIGHT_SET:b4",
-      "npc": "Starlight Set",
-      "output": {
-        "productId": "STARLIGHT_CHESTPLATE",
-        "name": "Starlight Chestplate",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 70000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_STARLIGHT_SET:b3",
-      "npc": "Starlight Set",
-      "output": {
-        "productId": "STARLIGHT_HELMET",
-        "name": "Starlight Helmet",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 35000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_STARLIGHT_SET:b5",
-      "npc": "Starlight Set",
-      "output": {
-        "productId": "STARLIGHT_LEGGINGS",
-        "name": "Starlight Leggings",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 45000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
-      }
-    },
-    {
-      "id": "NPC_ROSETTA_STARLIGHT_SET:b2",
-      "npc": "Starlight Set",
-      "output": {
-        "productId": "STARLIGHT_WAND",
-        "name": "Starlight Wand",
-        "amount": 1
-      },
-      "costs": [
-        {
-          "kind": "coins",
-          "amount": 30000
-        }
-      ],
-      "source": {
-        "label": "SkyblockRepo / Hypixel Wiki",
-        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
       }
     },
     {

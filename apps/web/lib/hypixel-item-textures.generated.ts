@@ -20,6 +20,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/b2c30e8db1224cda53d89fe684622e0507f4ec6b.png",
     "kind": "skin"
   },
+  "ANCESTRAL_SPADE": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/diana/ancestral_spade.png",
   "ANCIENT_CLAW": "/minecraft-item-icons/minecraft/item/flint.png",
   "AOTE_STONE": {
     "src": "/hypixel-item-heads/9b9c0735648b8b58d221dfdf96a803b38df95d77.png",
@@ -29,7 +30,9 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "ARACHNE_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/combat_1/arachne_fragment.png",
   "ARACHNE_KEEPER_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/combat_1/arachnes_calling.png",
   "ARCHITECT_FIRST_DRAFT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/dungeons/architects_first_draft.png",
+  "ARROW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/flint_arrow.png",
   "ARROW_BUNDLE_MAGMA": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/arrows/bundle_of_magma_arrows.png",
+  "ARTISANAL_SHORTBOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/artisanal_shortbow.png",
   "ASCENSION_ROPE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/ascension_rope.png",
   "ASHWREATH": {
     "src": "/hypixel-item-heads/4bf1904ccca5da5951f02c8030bb5debe377be40.png",
@@ -41,6 +44,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "BACHELOR_ROSE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/wild_rose/bachelors_rose.png",
+  "BANDAGED_MITHRIL_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/bandaged_mithril_pickaxe.png",
   "BAT_FIREWORK": "/minecraft-item-icons/minecraft/item/firework_rocket.png",
   "BAYOU_WATER_ORB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/bayou_water_orb.png",
   "BAZAAR_COOKIE": "/minecraft-item-icons/minecraft/item/cookie.png",
@@ -56,12 +60,25 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "BEJEWELED_HANDLE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/bejeweled_handle.png",
   "BERBERIS_FUEL_INJECTOR": "/minecraft-item-icons/minecraft/block/oak_trapdoor.png",
   "BEZOS": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/bezos.png",
+  "BIOFUEL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/biofuel.png",
+  "BITTER_ICE_TEA": {
+    "src": "/hypixel-item-heads/b099ee8d2e74df393848259f56d1d66c237b0f76.png",
+    "kind": "skin"
+  },
   "BLACK_WOOLEN_YARN": "/minecraft-item-icons/minecraft/block/black_wool.png",
   "BLASTBERRY": {
     "src": "/hypixel-item-heads/174b311609db14cc2055a2f2a67dd7cefe8ad472.png",
     "kind": "skin"
   },
   "BLAZE_ASHES": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/blaze_ashes.png",
+  "BLAZE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/940c276a90d8d1c38bc473b5fff9b4be189f2cbf.png",
+    "kind": "skin"
+  },
+  "BLAZE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/0f50547c0964ed7f393f861733d6b554baf4f411.png",
+    "kind": "skin"
+  },
   "BLAZE_ROD": "/minecraft-item-icons/minecraft/item/blaze_rod.png",
   "BLAZE_ROD_DISTILLATE": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/minion/fuel/distillate/blaze_rod_distillate.png",
   "BLAZE_WAX": {
@@ -97,6 +114,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "BOBBIN_SCRIPTURES": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/bobbin_scriptures.png",
   "BONE": "/minecraft-item-icons/minecraft/item/bone.png",
   "BONZO_FRAGMENT": "/minecraft-item-icons/minecraft/block/red_mushroom.png",
+  "BOOK": "/minecraft-item-icons/minecraft/item/book.png",
   "BOOK_OF_STATS": "/minecraft-item-icons/minecraft/item/book.png",
   "BOOKWORM_BOOK": "/minecraft-item-icons/minecraft/item/book.png",
   "BOOSTER_COOKIE": "/minecraft-item-icons/minecraft/item/cookie.png",
@@ -106,12 +124,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/2d65af22683404ce815840f5299566d10a2e9c4a.png",
     "kind": "skin"
   },
+  "BOW": "/minecraft-item-icons/minecraft/item/bow.png",
   "BOX_OF_SEEDS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/box_of_seeds.png",
   "BRAIDED_GRIFFIN_FEATHER": "/minecraft-item-icons/minecraft/item/string.png",
   "BRAIN_FOOD": {
     "src": "/hypixel-item-heads/83017fcf82357f3a7600bdf68642c6a912db9ceb.png",
     "kind": "skin"
   },
+  "BRICK": "/minecraft-item-icons/minecraft/item/brick.png",
   "BRIMSTONE_HANDLE": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/brimstone_handle.png",
   "BROKEN_RADAR": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/broken_radar.png",
   "BRONZE_BOWL": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/bronze_bowl.png",
@@ -153,6 +173,11 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "CARROT_ITEM": "/minecraft-item-icons/minecraft/item/carrot.png",
   "CARROT_ZEST": "/minecraft-item-icons/minecraft/block/fire_coral.png",
   "CATALYST": "/minecraft-item-icons/minecraft/item/nether_star.png",
+  "CELESTE_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "CELESTE_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "CELESTE_HELMET": "/minecraft-item-icons/minecraft/item/leather_helmet.png",
+  "CELESTE_LEGGINGS": "/minecraft-item-icons/minecraft/item/leather_leggings.png",
+  "CELESTE_WAND": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/celeste_wand.png",
   "CELESTIAL_MASON_JAR": {
     "src": "/hypixel-item-heads/428d6da7bf62fdd3ef8f248ab0c3b9e65fae167a.png",
     "kind": "skin"
@@ -161,11 +186,16 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/8c06840e4b2e3070646b61a1e24f93c36077de25.png",
     "kind": "skin"
   },
+  "CHEAP_COFFEE": {
+    "src": "/hypixel-item-heads/b07631dfb1ae639c407056d6a1e17ed78d99ee78.png",
+    "kind": "skin"
+  },
   "CHEESE_FUEL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/tasty_cheese.png",
   "CHEESEBITE": {
     "src": "/hypixel-item-heads/cfa2887f3a5fac18bed430bc8d4d854c316a33ec.png",
     "kind": "skin"
   },
+  "CHICKEN_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/chicken_axe.png",
   "CHILI_PEPPER": {
     "src": "/hypixel-item-heads/91fa059d5b30dcbd15a1705ef95538494a1bb26e.png",
     "kind": "skin"
@@ -188,6 +218,11 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "CHUM": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/farming_1/chum.png",
+  "CHUM_SINKER": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/rod_part/sinker/chum_sinker.png",
+  "CHUMMING_TALISMAN": {
+    "src": "/hypixel-item-heads/a223d0351e43d8036d6af45b4ff484a4f1ac2e76.png",
+    "kind": "skin"
+  },
   "CHYME": {
     "src": "/hypixel-item-heads/f0ba41fbaffc583fac760c2c7452735e13c47e48.png",
     "kind": "skin"
@@ -198,17 +233,34 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "CLAW_FOSSIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/fossils/claw_fossil.png",
   "CLAY_BALL": "/minecraft-item-icons/minecraft/item/clay_ball.png",
+  "CLEAVER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/cleaver.png",
   "CLIPPED_WINGS": {
     "src": "/hypixel-item-heads/54a108218dc3905e79db1e83299faaf9b847b1e9.png",
     "kind": "skin"
   },
   "CLUBBED_FOSSIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/fossils/clubbed_fossil.png",
   "COAL": "/minecraft-item-icons/minecraft/item/coal.png",
+  "COAL_GENERATOR_11": {
+    "src": "/hypixel-item-heads/1792c9395c34646e75970dfb38e0247541ab6ab6.png",
+    "kind": "skin"
+  },
+  "COAL_GENERATOR_12": {
+    "src": "/hypixel-item-heads/6b0760ff6a611c661e5a2625d1f2b8d20ed8ef72.png",
+    "kind": "skin"
+  },
   "COALROOT": {
     "src": "/hypixel-item-heads/4569079bf3b8742b47970bec1abd4fb560cc7d10.png",
     "kind": "skin"
   },
   "COBBLESTONE": "/minecraft-item-icons/minecraft/block/cobblestone.png",
+  "COBBLESTONE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/296177924615872726097820e9404f89599d3f37.png",
+    "kind": "skin"
+  },
+  "COBBLESTONE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/fefe5d091d717e083e3e887c54acd022d4b9f33c.png",
+    "kind": "skin"
+  },
   "COLOSSAL_EXP_BOTTLE": "/minecraft-item-icons/minecraft/item/experience_bottle.png",
   "COMPACT_OOZE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/compact_ooze.png",
   "COMPACTED_MOONFLOWER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/moonflower/compacted_moonflower.png",
@@ -220,6 +272,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "CONDENSED_FERMENTO": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/condensed_fermento.png",
   "CONDENSED_HELIANTHUS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/condensed_helianthus.png",
   "CONDENSED_WATER_LILY": "/hypixel-skyblock-pack/hypixel_skyblock/item/collections/lily_pad/condensed_lily_pad.png",
+  "CONNECT_FOUR": {
+    "src": "/hypixel-item-heads/cb34f3fa9adcfc8e9d9f31c67aa716e1942ecde7.png",
+    "kind": "skin"
+  },
   "CONTROL_SWITCH": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/control_switch.png",
   "CORLEONITE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/corleonite.png",
   "CORNUCOPIA": "/minecraft-item-icons/minecraft/item/nautilus_shell.png",
@@ -230,6 +286,8 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "CORRUPTED_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/corrupted_bait.png",
   "CORRUPTED_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/corrupted_fragment.png",
   "CORRUPTED_NETHER_STAR": "/minecraft-item-icons/minecraft/item/nether_star.png",
+  "COW_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/cow_axe.png",
+  "cracked_stone_bricks": "/item-icons/fallback.svg",
   "CREAMBLOOM": {
     "src": "/hypixel-item-heads/51cdc359f12185d7676efd2852437329ea943d40.png",
     "kind": "skin"
@@ -251,16 +309,28 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/a3d670a0125d5a7232f1c74b487f936183588d50.png",
     "kind": "skin"
   },
+  "DARK_GOGGLES": {
+    "src": "/hypixel-item-heads/70cfd9136af243c6efeb4e751bbcf9fc08f87e8a.png",
+    "kind": "skin"
+  },
   "DARK_ORB": {
     "src": "/hypixel-item-heads/fd11fcfed9b443bb2adefea052cc4a2359ba4fa8.png",
     "kind": "skin"
   },
+  "dark_prismarine": "/item-icons/fallback.svg",
   "DARK_QUEENS_SOUL_DROP": "/minecraft-item-icons/minecraft/item/clay_ball.png",
+  "DAYLIGHT_DETECTOR": "/minecraft-item-icons/minecraft/block/daylight_detector_top.png",
   "DAYSWITCH": {
     "src": "/hypixel-item-heads/5bb06d35f3085485cbd8d31ca9e1e2c397aadee9.png",
     "kind": "skin"
   },
   "DEAD_PLANT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/dead_plant.png",
+  "DEATH_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/death_bow.png",
+  "DECENT_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/decent_bow.png",
+  "DECENT_COFFEE": {
+    "src": "/hypixel-item-heads/99413f3a81582a0ed0388c7447f06c6538cc9ef0.png",
+    "kind": "skin"
+  },
   "DEEP_ROOT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/resources/deep_root.png",
   "DEEP_SEA_ORB": {
     "src": "/hypixel-item-heads/85674fa8e55070d7e949d02577bda2f736e47d82.png",
@@ -278,16 +348,28 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/589f8e284bd62fd5283e4cb8b5e753b52ba9d0ae.png",
     "kind": "skin"
   },
+  "DIAMOND_GENERATOR_11": {
+    "src": "/hypixel-item-heads/c4670bd32224d8201eca3deb1dc164d50fabeb4e.png",
+    "kind": "skin"
+  },
+  "DIAMOND_GENERATOR_12": {
+    "src": "/hypixel-item-heads/5113fc8c2e1193120728baa1cb58abebc0ccb63a.png",
+    "kind": "skin"
+  },
   "DIAMOND_SPREADING": "/minecraft-item-icons/minecraft/item/diamond.png",
+  "DIAMOND_SWORD": "/minecraft-item-icons/minecraft/item/diamond_sword.png",
   "DIAMONITE": {
     "src": "/hypixel-item-heads/9841adf00bc41c8f139bb04945c913276689945e.png",
     "kind": "skin"
   },
   "DIGESTED_MUSHROOMS": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/digested_mushrooms.png",
+  "DIODE": "/item-icons/fallback.svg",
+  "DIRT": "/minecraft-item-icons/minecraft/block/dirt.png",
   "DIRT_BOTTLE": {
     "src": "/hypixel-item-heads/b53d07dbd6a4108118a45c4be660f706444b16a0.png",
     "kind": "skin"
   },
+  "DIRT:2": "/minecraft-item-icons/minecraft/block/dirt.png",
   "DISPLACED_LEECH": {
     "src": "/hypixel-item-heads/2ef2f1ad2294a4f84fb45d7a29b24afccf9bce91.png",
     "kind": "skin"
@@ -304,6 +386,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "DOUBLE_PLANT": "/minecraft-item-icons/minecraft/block/sunflower_front.png",
+  "DR_PAPER": {
+    "src": "/hypixel-item-heads/85bf790631f30753c912495695fd54e95a10a0c1.png",
+    "kind": "skin"
+  },
   "DRAGON_CLAW": {
     "src": "/hypixel-item-heads/5f4339781254a9d93e640294a45f6372d7f2029a.png",
     "kind": "skin"
@@ -320,7 +406,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "DUNG": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/pests/dung.png",
   "DUNGEON_CHEST_KEY": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/dungeon_chest_key.png",
   "DUNGEON_DECOY": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/decoy.png",
+  "dungeon_i_potion": "/item-icons/fallback.svg",
+  "dungeon_ii_potion": "/item-icons/fallback.svg",
+  "dungeon_iii_potion": "/item-icons/fallback.svg",
+  "dungeon_iv_potion": "/item-icons/fallback.svg",
   "DUNGEON_TRAP": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/trap.png",
+  "dungeon_v_potion": "/item-icons/fallback.svg",
+  "dungeon_vi_potion": "/item-icons/fallback.svg",
+  "dungeon_vii_potion": "/item-icons/fallback.svg",
   "DUSKBLOOM": {
     "src": "/hypixel-item-heads/13a46ec2cd3cf0a0af5b8800148457bb1e0cefe9.png",
     "kind": "skin"
@@ -355,9 +448,22 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "ECTOPLASM": "/minecraft-item-icons/minecraft/item/prismarine_crystals.png",
+  "EFFICIENT_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/efficient_axe.png",
   "EGG": "/minecraft-item-icons/minecraft/item/egg.png",
+  "EGG_HUNT": {
+    "src": "/hypixel-item-heads/1a1d5e916f78764fae8d289569e947de9ec8f2d4.png",
+    "kind": "skin"
+  },
   "ELECTRON_TRANSMITTER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/electron_transmitter.png",
   "EMERALD": "/minecraft-item-icons/minecraft/item/emerald.png",
+  "EMERALD_GENERATOR_11": {
+    "src": "/hypixel-item-heads/1501f43df40ede72ab6ccd57484b33495952cc4c.png",
+    "kind": "skin"
+  },
+  "EMERALD_GENERATOR_12": {
+    "src": "/hypixel-item-heads/f9817aa98d67d3e2ca8559efd6e457aeac06cfad.png",
+    "kind": "skin"
+  },
   "EMPTY_CHUM_BUCKET": {
     "src": "/hypixel-item-heads/b7b091fe3597f7997e738b1182ac5aa0c38c1d1d.png",
     "kind": "skin"
@@ -1286,10 +1392,15 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "ENCHANTMENT_VICIOUS_4": "/minecraft-item-icons/minecraft/item/enchanted_book.png",
   "ENCHANTMENT_VICIOUS_5": "/minecraft-item-icons/minecraft/item/enchanted_book.png",
   "ENCHANTMENT_WITHER_HUNTER_0": "/minecraft-item-icons/minecraft/item/enchanted_book.png",
+  "END_PORTAL_FUMES_MIXIN": {
+    "src": "/hypixel-item-heads/6f56324ff404642b9ad1b3c45dc2838d2e17248d.png",
+    "kind": "skin"
+  },
   "END_STONE_SHULKER": {
     "src": "/hypixel-item-heads/4c2b20ad22b09f5b961c8b269c097946096c809a.png",
     "kind": "skin"
   },
+  "END_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/combat_3/weapons/end_sword.png",
   "ENDER_MONOCLE": {
     "src": "/hypixel-item-heads/a7e652edba5dcc8c32c54d00612e9e6bf001a98c.png",
     "kind": "skin"
@@ -1341,6 +1452,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "EXTREMELY_MILD_ADHESIVE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/reforge_stones/extremely_mild_adhesive.png",
   "FAKE_SHURIKEN": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/rift/weapons/time_shuriken.png",
+  "FANCY_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/fancy_sword.png",
   "FARMING_FOR_DUMMIES": "/minecraft-item-icons/minecraft/item/book.png",
   "FATEFUL_STINGER": {
     "src": "/hypixel-item-heads/d747046b69beb894337477fc8eab49322f76b5c7.png",
@@ -1359,6 +1471,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/e0bbae44889272f2523ad6d070072be5ed7b2764.png",
     "kind": "skin"
   },
+  "FESTIVE_SINKER": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/rod_part/sinker/festive_sinker.png",
   "FIFTH_MASTER_STAR": {
     "src": "/hypixel-item-heads/61d3b6e235771b2e8a514e3c1e925ae99b42f114.png",
     "kind": "skin"
@@ -1439,6 +1552,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/dfaf7f543d4b0236d60d93f97ab2e7bb41a76af7.png",
     "kind": "skin"
   },
+  "FRACTURED_MITHRIL_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/fractured_mithril_pickaxe.png",
   "FRAGRANCED_BROWN_MUSHROOM_PASTE": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/finnegan/fragranced_brown_mushroom.png",
   "FREE_WILL": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/rift/zones/mountaintop/misc/free_will.png",
   "FRESHLY_MINTED_COINS": {
@@ -1474,6 +1588,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "FUMING_POTATO_BOOK": "/minecraft-item-icons/minecraft/item/written_book.png",
   "FURBALL": {
     "src": "/hypixel-item-heads/d82aa5d7513bc7d5598bc3498c43b6c7d220e039.png",
+    "kind": "skin"
+  },
+  "GABAGOEY_MIXIN": {
+    "src": "/hypixel-item-heads/d6fc8a29f76dc2130ff6e77b89a6127be83e6fcc.png",
     "kind": "skin"
   },
   "GAZING_PEARL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/gazing_pearl.png",
@@ -1526,11 +1644,20 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/5535a50c459ec6e9af75362b5971826392e446e1.png",
     "kind": "skin"
   },
+  "GHAST_GENERATOR_11": {
+    "src": "/hypixel-item-heads/4ce1aba8cce45090afc097ff2807b047e9832101.png",
+    "kind": "skin"
+  },
+  "GHAST_GENERATOR_12": {
+    "src": "/hypixel-item-heads/64a3775400b99ee019d664474fb4915e35db0f94.png",
+    "kind": "skin"
+  },
   "GHAST_TEAR": "/minecraft-item-icons/minecraft/item/ghast_tear.png",
   "GIANT_BOUNCY_BEACH_BALL": {
     "src": "/hypixel-item-heads/672f47f1963cee016176cd3c9360fe2c6e839a8b.png",
     "kind": "skin"
   },
+  "GIANT_CLEAVER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/giant_cleaver.png",
   "GIANT_FRAGMENT_BIGFOOT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/bigfoots_bola.png",
   "GIANT_FRAGMENT_BOULDER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/jolly_pink_rock.png",
   "GIANT_FRAGMENT_DIAMOND": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/diamantes_handle.png",
@@ -1566,6 +1693,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/fe9ffaa68eea57afeb0f8fb994415b13cd6d5421.png",
     "kind": "skin"
   },
+  "GLASS": "/minecraft-item-icons/minecraft/block/glass.png",
   "GLASSCORN": {
     "src": "/hypixel-item-heads/130ff334ead4b4896a87d6cd8ceeafa6b753f080.png",
     "kind": "skin"
@@ -1582,6 +1710,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "GLOWING_MUSHROOM": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/farming_1/glowing_mushroom.png",
   "GLOWSTONE_DUST": "/minecraft-item-icons/minecraft/item/glowstone_dust.png",
   "GLOWSTONE_DUST_DISTILLATE": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/minion/fuel/distillate/glowstone_distillate.png",
+  "GLOWSTONE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/8904ff9449de4d04ffa7068b2438634be101ec8d.png",
+    "kind": "skin"
+  },
+  "GLOWSTONE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/e51d346d399769cbbe39f814efa3fa4e9975452f.png",
+    "kind": "skin"
+  },
   "GLOWY_CHUM_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/farming_1/glowy_chum_bait.png",
   "GOBLIN_EGG": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/mining_3/goblins/eggs/goblin_egg.png",
   "GOBLIN_EGG_BLUE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/mining_3/goblins/eggs/blue_goblin_egg.png",
@@ -1592,11 +1728,23 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/6438a34435ec69ef6568590be67ae33d0ce2bbcd.png",
     "kind": "skin"
   },
+  "GOLD_AXE": "/item-icons/fallback.svg",
   "GOLD_BOTTLE_CAP": {
     "src": "/hypixel-item-heads/43a1d6481475b8ac24e5978e2aff8ac6557f2178.png",
     "kind": "skin"
   },
+  "GOLD_GENERATOR_11": {
+    "src": "/hypixel-item-heads/8069f59eeec7b0075eccbd025d28fe872195b7dd.png",
+    "kind": "skin"
+  },
+  "GOLD_GENERATOR_12": {
+    "src": "/hypixel-item-heads/d9a8e4df0da150e38c6c74160dcf235c336c5c5d.png",
+    "kind": "skin"
+  },
   "GOLD_INGOT": "/minecraft-item-icons/minecraft/item/gold_ingot.png",
+  "GOLD_PICKAXE": "/item-icons/fallback.svg",
+  "GOLD_PLATE": "/item-icons/fallback.svg",
+  "GOLD_SPADE": "/item-icons/fallback.svg",
   "GOLDEN_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/golden_bait.png",
   "GOLDEN_BALL": {
     "src": "/hypixel-item-heads/24bd275f7d201f7ad0c3b1c10c7a6a238e56e494.png",
@@ -1655,7 +1803,16 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "HALF_EATEN_MUSHROOM": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/half_eaten_mushroom.png",
   "HALLOWED_SKULL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/hallowed_skull.png",
   "HAMSTER_WHEEL": "/minecraft-item-icons/minecraft/block/oak_trapdoor.png",
+  "HARD_CLAY": "/item-icons/fallback.svg",
   "HARD_STONE": "/minecraft-item-icons/minecraft/block/stone.png",
+  "HARD_STONE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/795bc0fa20684098f217c10e143ab02e2b3c0e4b.png",
+    "kind": "skin"
+  },
+  "HARD_STONE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/92628fb1dc6c54e0b5b094f6133b19c4f910ff40.png",
+    "kind": "skin"
+  },
   "HARDENED_WOOD": {
     "src": "/hypixel-item-heads/3816b562497af85642a757a350712821cedf5642.png",
     "kind": "skin"
@@ -1695,6 +1852,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "HOLY_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/holy_dragon_fragment.png",
   "HONEY_JAR": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/pests/honey_jar.png",
   "HONEYCOMB": "/minecraft-item-icons/minecraft/item/honeycomb.png",
+  "HOPPER": "/minecraft-item-icons/minecraft/item/hopper.png",
   "HORN_OF_TAURUS": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/horn_of_taurus.png",
   "HORNS_OF_TORMENT": {
     "src": "/hypixel-item-heads/f1a0030845cff4c00ff356de268493aabe43a8da.png",
@@ -1712,11 +1870,13 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "HOTSPOT_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/hotspot_bait.png",
   "HOTSPOT_WATER_ORB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/hotspot_water_orb.png",
+  "HUB_CASTLE_TRAVEL_SCROLL": "/item-icons/fallback.svg",
   "HUGE_MUSHROOM_1": "/minecraft-item-icons/minecraft/block/brown_mushroom_block.png",
   "HUGE_MUSHROOM_2": "/minecraft-item-icons/minecraft/block/red_mushroom_block.png",
   "HUNTING_WISDOM_BOOSTER_COMMON": "/hypixel-skyblock-pack/hypixel_skyblock/item/boosters/common/booster_hunting_wisdom.png",
   "HUNTING_WISDOM_BOOSTER_UNCOMMON": "/hypixel-skyblock-pack/hypixel_skyblock/item/boosters/uncommon/booster_hunting_wisdom_upgraded.png",
   "HYPER_CATALYST": "/minecraft-item-icons/minecraft/item/nether_star.png",
+  "HYPER_CLEAVER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/hyper_cleaver.png",
   "HYPERCHARGE_GARDEN_CHIP": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/chips/hypercharge_chip.png",
   "HYPERGOLIC_GABAGOOL": {
     "src": "/hypixel-item-heads/202c35655c65b0d52ae58d53eef981a07b1d38e0.png",
@@ -1742,13 +1902,29 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/89d85b265466064730ce5dffbf6f6b3f6e1e319a.png",
     "kind": "skin"
   },
+  "INFINI_TORCH": "/minecraft-item-icons/minecraft/block/torch.png",
+  "INFINIDIRT_WAND": "/hypixel-skyblock-pack/hypixel_skyblock/item/jacob/infinidirt_wand.png",
   "INFLATABLE_JERRY": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/inflatable_jerry.png",
   "INK_SACK": "/minecraft-item-icons/minecraft/item/ink_sac.png",
   "INK_SACK:3": "/minecraft-item-icons/minecraft/item/cocoa_beans.png",
   "INK_SACK:4": "/minecraft-item-icons/minecraft/item/lapis_lazuli.png",
   "INK_SPLAT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/ink_splat.png",
+  "INTIMIDATION_TALISMAN": {
+    "src": "/hypixel-item-heads/7f1e9999711b6ed28c1f051c4281f68eb496f452.png",
+    "kind": "skin"
+  },
   "IRIDIUM": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/iridium.png",
+  "IRON_GENERATOR_11": {
+    "src": "/hypixel-item-heads/745cde728db5a93fdd5d83c4de3d6ed69aeca85f.png",
+    "kind": "skin"
+  },
+  "IRON_GENERATOR_12": {
+    "src": "/hypixel-item-heads/4a31c6047a78c90c52bdc30595a369dbf9a0a2a9.png",
+    "kind": "skin"
+  },
   "IRON_INGOT": "/minecraft-item-icons/minecraft/item/iron_ingot.png",
+  "IRON_PLATE": "/item-icons/fallback.svg",
+  "ISLAND_NPC": "/minecraft-item-icons/minecraft/item/wandering_trader_spawn_egg.png",
   "ISOPOD_HUSK": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/isopod_husk.png",
   "JACOBS_PARTICIPATION_MEDAL": "/minecraft-item-icons/minecraft/item/mangrove_hanging_sign.png",
   "JACOBS_TICKET": "/hypixel-skyblock-pack/hypixel_skyblock/item/jacob/jacobs_ticket.png",
@@ -1778,19 +1954,48 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/948664fa0d5897c5bda10c67ac7982c1bb03dab3.png",
     "kind": "skin"
   },
+  "JUNGLE_AMULET": {
+    "src": "/hypixel-item-heads/286efdee632037cf4c8d411d25beddcf65a0cdf2.png",
+    "kind": "skin"
+  },
   "JUNGLE_HEART": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/jungle_heart.png",
   "JUNGLE_KEY": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/jungle_key.png",
+  "JUNGLE_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/jungle_pickaxe.png",
   "KADA_LEAD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/kada_lead.png",
+  "KALHUIKI_MASK": {
+    "src": "/hypixel-item-heads/9d0decd167f483252c2a6befa431b1d4f90c1914.png",
+    "kind": "skin"
+  },
   "KELVIN_INVERTER": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/pets_related/kelvin_inverter.png",
   "KISMET_FEATHER": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/bits_shop/kismet_feather.png",
+  "KNOCKOFF_COLA": {
+    "src": "/hypixel-item-heads/de86042047a61fe92c8250585591940c8c766b59.png",
+    "kind": "skin"
+  },
+  "KUUDRA_FOLLOWER_ARTIFACT": {
+    "src": "/hypixel-item-heads/f85fda97ba885d55f168aa87a58afeeb1c1a5613.png",
+    "kind": "skin"
+  },
   "KUUDRA_MANDIBLE": {
     "src": "/hypixel-item-heads/cadab38159adf20882fadca22bc6969538db932a.png",
     "kind": "skin"
   },
   "KUUDRA_TEETH": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/kuudra_teeth.png",
   "KUUDRA_TENTACLE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/kuudra/kuudra_tentacle.png",
+  "LANTERN": {
+    "src": "/hypixel-item-heads/39d37d6bc18811fb2e8b165a47f257de1837a4d2.png",
+    "kind": "skin"
+  },
   "LAPIS_CRYSTAL": {
     "src": "/hypixel-item-heads/41a98329a3217761e46e222ecd019cd14989ba94.png",
+    "kind": "skin"
+  },
+  "LAPIS_GENERATOR_11": {
+    "src": "/hypixel-item-heads/8a606c1063580128594b575206ee0c0155a05fe3.png",
+    "kind": "skin"
+  },
+  "LAPIS_GENERATOR_12": {
+    "src": "/hypixel-item-heads/a9bc76f60d35f6fa3f9259c2ffe1a0a7ed98c1f0.png",
     "kind": "skin"
   },
   "LARGE_ENCHANTED_CHEST": "/minecraft-item-icons/minecraft/block/oak_planks.png",
@@ -1812,10 +2017,15 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/bbe4ac7621e38006d4f73b884d98dd24540fa7b3.png",
     "kind": "skin"
   },
+  "LARGE_WINTER_SACK": {
+    "src": "/hypixel-item-heads/69a62075a80ca9c79c0e0e07077869e98bf73996.png",
+    "kind": "skin"
+  },
   "LARGE_WITCH_CAULDRON": {
     "src": "/hypixel-item-heads/961666e1453fd6b23c382ee08494bbbf8a5b35c7.png",
     "kind": "skin"
   },
+  "LAVA_BUCKET": "/minecraft-item-icons/minecraft/item/lava_bucket.png",
   "LAVA_SHELL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/lava_shell.png",
   "LAVA_WATER_ORB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/lava_water_orb.png",
   "LEATHER": "/minecraft-item-icons/minecraft/item/leather.png",
@@ -1824,6 +2034,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/073c16a446ec38f0a2edb9f2cb752961a3e3f197.png",
     "kind": "skin"
   },
+  "LEVER": "/minecraft-item-icons/minecraft/block/lever.png",
   "LIGHT_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/light_bait.png",
   "LIVID_FRAGMENT": "/minecraft-item-icons/minecraft/item/nether_brick.png",
   "LOCUST_LARVA": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/finnegan/locust_larva.png",
@@ -1847,6 +2058,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "LUMINO_FIBER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/lumino_fiber.png",
+  "LUMINOUS_BRACELET": {
+    "src": "/hypixel-item-heads/9a4aa47856b4a88a5dd8908a76427308eb353cb1.png",
+    "kind": "skin"
+  },
   "LUMP_OF_MAGMA": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/lump_of_magma.png",
   "LUSH_BERBERIS": "/minecraft-item-icons/minecraft/block/large_fern_top.png",
   "LUSHLILAC": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/salts/lushlilac.png",
@@ -1872,6 +2087,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "MAGMA_CORE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/magma_core.png",
   "MAGMA_CREAM": "/minecraft-item-icons/minecraft/item/magma_cream.png",
   "MAGMA_CREAM_DISTILLATE": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/minion/fuel/distillate/magma_cream_distillate.png",
+  "MAGMA_CUBE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/d547a193397081e082f44e2aecd7e7a43721d761.png",
+    "kind": "skin"
+  },
+  "MAGMA_CUBE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/d547a193397081e082f44e2aecd7e7a43721d761.png",
+    "kind": "skin"
+  },
   "MAGMA_FISH": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/trophy/lava/magmafish_bronze.png",
   "MAGMA_FISH_DIAMOND": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/trophy/lava/magmafish_diamond.png",
   "MAGMA_FISH_GOLD": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/trophy/lava/magmafish_gold.png",
@@ -1927,6 +2150,24 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "MELON": "/minecraft-item-icons/minecraft/item/melon_slice.png",
   "MELON_BLOCK": "/minecraft-item-icons/minecraft/block/melon_side.png",
   "MELON_JUICE": "/minecraft-item-icons/minecraft/item/beetroot_soup.png",
+  "MENDER_CROWN": {
+    "src": "/hypixel-item-heads/7dc52ec372f882aaf98298cde0f5dbe149b90d95.png",
+    "kind": "skin"
+  },
+  "MENDER_FEDORA": {
+    "src": "/hypixel-item-heads/abda0186c09655d46e174e15dcc62cd47f54968d.png",
+    "kind": "skin"
+  },
+  "MENDER_HELMET": {
+    "src": "/hypixel-item-heads/0f0c02fe0de781b8407543964bd7a25c983617c8.png",
+    "kind": "skin"
+  },
+  "MERCENARY_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mercenary_sword.png",
+  "MERCENARY_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "MERCENARY_CHESTPLATE": "/minecraft-item-icons/minecraft/item/iron_chestplate.png",
+  "MERCENARY_HELMET": "/minecraft-item-icons/minecraft/item/iron_helmet.png",
+  "MERCENARY_LEGGINGS": "/minecraft-item-icons/minecraft/item/chainmail_leggings.png",
+  "METAL_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
   "METAPHYSICAL_SERUM": {
     "src": "/hypixel-item-heads/eaac19a8ca68067525a6eee9a17af224ed0a0b4e.png",
     "kind": "skin"
@@ -1941,19 +2182,33 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "MILLENIA_OLD_BLAZE_ASHES": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/millenia_old_blaze_ashes.png",
   "MIMIC_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mimic_fragment.png",
+  "MINE_TALISMAN": {
+    "src": "/hypixel-item-heads/6bf8cff8c776985971916a7440b1c31816be7212.png",
+    "kind": "skin"
+  },
   "MINION_EXPANDER": "/minecraft-item-icons/minecraft/block/command_block_back.png",
   "MINNOW_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/minnow_bait.png",
   "MIRIA_COUPON": "/minecraft-item-icons/minecraft/item/name_tag.png",
   "MIRIA_PRIZE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/starlyn/mirias_prize.png",
   "MITE_GEL": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/combat_3/mite_gel.png",
+  "MITHRIL_GENERATOR_11": {
+    "src": "/hypixel-item-heads/a9a4eb21fb6a213e4d127de610910820d5c91284.png",
+    "kind": "skin"
+  },
+  "MITHRIL_GENERATOR_12": {
+    "src": "/hypixel-item-heads/fc20dd592868bdb17794e575151eb8f7aebcb5af.png",
+    "kind": "skin"
+  },
   "MITHRIL_INFUSION": {
     "src": "/hypixel-item-heads/918bf268aad55bdadc51f3cefaad1b9641792533.png",
     "kind": "skin"
   },
   "MITHRIL_ORE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mithril.png",
+  "MITHRIL_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mithril_pickaxe.png",
   "MITHRIL_PLATE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mithril_plate.png",
   "MIXED_MITE_GEL": "/minecraft-item-icons/minecraft/item/orange_dye.png",
   "MOBY_DUCK_COLLECTOR_EDITION": "/minecraft-item-icons/minecraft/item/book.png",
+  "MOBYS_SHEARS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/farming_1/mobys_shears.png",
   "MOIL_LOG": {
     "src": "/hypixel-item-heads/1de19f39a09ef788bc0f6b8d41114f69feefc489.png",
     "kind": "skin"
@@ -1975,14 +2230,30 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "MORNING_DEW": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/safari/morning_dew.png",
+  "MOSSY_COBBLESTONE": "/minecraft-item-icons/minecraft/block/mossy_cobblestone.png",
+  "mossy_stone_bricks": "/item-icons/fallback.svg",
   "MOUND_OF_SEAGRASS": {
     "src": "/hypixel-item-heads/c16f46da70b49e2dedcf7e2e01ae470e0c68fa6e.png",
     "kind": "skin"
   },
+  "mushed_glowy_tonic_i_potion": "/item-icons/fallback.svg",
+  "MUSHED_MUSHROOM_MIXIN": {
+    "src": "/hypixel-item-heads/0621c4185c2a3868d73d7fbd2370d1f1e81a8011.png",
+    "kind": "skin"
+  },
+  "MUSHROOM_COW_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mushroom_cow_axe.png",
   "MUTANT_NETHER_STALK": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mutant_nether_wart.png",
   "MUTATED_BLAZE_ASHES": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/mutated_blaze_ashes.png",
   "MUTTON": "/minecraft-item-icons/minecraft/item/mutton.png",
   "MYCEL": "/minecraft-item-icons/minecraft/block/mycelium_side.png",
+  "MYCELIUM_GENERATOR_11": {
+    "src": "/hypixel-item-heads/d746b48e341943f7996f9a651c84926355ba6bcb.png",
+    "kind": "skin"
+  },
+  "MYCELIUM_GENERATOR_12": {
+    "src": "/hypixel-item-heads/c387b8922ee0d423632baa93fb581dda53b4d57e.png",
+    "kind": "skin"
+  },
   "MYTHOS_FRAGMENT": {
     "src": "/hypixel-item-heads/0758a5ab9ebbcc41908938ff257e6aff5366f24e.png",
     "kind": "skin"
@@ -1991,6 +2262,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/a11da65c205ccd4c171ad6108b36bd3edce10196.png",
     "kind": "skin"
   },
+  "NETHER_BRICK": "/minecraft-item-icons/minecraft/item/nether_brick.png",
   "NETHER_STALK": "/minecraft-item-icons/minecraft/item/nether_wart.png",
   "NETHER_STALK_DISTILLATE": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/blaze/minion/fuel/distillate/nether_wart_distillate.png",
   "NETHERRACK": "/minecraft-item-icons/minecraft/block/netherrack.png",
@@ -2009,6 +2281,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "NULL_SPHERE": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/enderman/null_sphere.png",
   "NURSE_SHARK_TOOTH": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/marina/nurse_shark_tooth.png",
   "OBSIDIAN": "/minecraft-item-icons/minecraft/block/obsidian.png",
+  "OBSIDIAN_GENERATOR_11": {
+    "src": "/hypixel-item-heads/22979c8b3815ccbf6745de8e2defe7cbdece4ebe.png",
+    "kind": "skin"
+  },
+  "OBSIDIAN_GENERATOR_12": {
+    "src": "/hypixel-item-heads/c59a475b012896e907f5f3f9ec92350d77e2856a.png",
+    "kind": "skin"
+  },
   "OBSIDIAN_TABLET": {
     "src": "/hypixel-item-heads/2b5a5d3ecdd555b983dddcf5f3d6c14ba04092ae.png",
     "kind": "skin"
@@ -2046,6 +2326,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "PACKED_ICE": "/minecraft-item-icons/minecraft/block/packed_ice.png",
+  "PARK_JUNGLE_TRAVEL_SCROLL": "/item-icons/fallback.svg",
+  "PARKOUR_CONTROLLER": "/item-icons/fallback.svg",
+  "PARKOUR_POINT": "/item-icons/fallback.svg",
+  "PARKOUR_TIMES": "/minecraft-item-icons/minecraft/block/iron_block.png",
   "PARTY_GIFT": {
     "src": "/hypixel-item-heads/e19d76c67de8871fadb83456b06570c87c93ea02.png",
     "kind": "skin"
@@ -2092,6 +2376,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/c3deabf69248a6367ffa8ee696c54f8a61608a23.png",
     "kind": "skin"
   },
+  "PIG_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/pig_axe.png",
   "PITCHIN_KOI": {
     "src": "/hypixel-item-heads/7022f6a447f16d1bbf1a4819795460bd4fa4a193.png",
     "kind": "skin"
@@ -2104,6 +2389,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "PLASMA": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/plasma.png",
   "PLASMA_BUCKET": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/plasma_bucket.png",
   "PLOT_ERASER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/wild_rose/plot_eraser.png",
+  "PLUMBER_SPONGE": "/minecraft-item-icons/minecraft/block/sponge.png",
   "POCKET_ICEBERG": {
     "src": "/hypixel-item-heads/6dc77fdd9d17c044e609671904fb85c90f3dc1dc.png",
     "kind": "skin"
@@ -2122,6 +2408,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/b11930e2a13b85d1b8797ab2507ca5afd0249501.png",
     "kind": "skin"
   },
+  "potion_regeneration_9": "/item-icons/fallback.svg",
   "POTTED_CACTUS": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/finnegan/potted_cactus.png",
   "POWER_CRYSTAL": "/minecraft-item-icons/minecraft/item/nether_star.png",
   "PRECIOUS_PEARL": {
@@ -2147,11 +2434,19 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "PRICKLY_KISS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/wild_rose/prickly_kiss.png",
   "PRIME_LUSHLILAC_BONBON": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/salts/prime_lushlilac_bonbon.png",
+  "PRISMARINE": "/minecraft-item-icons/minecraft/block/prismarine.png",
+  "prismarine_bricks": "/item-icons/fallback.svg",
   "PRISMARINE_CRYSTALS": "/minecraft-item-icons/minecraft/item/prismarine_crystals.png",
   "PRISMARINE_SHARD": "/minecraft-item-icons/minecraft/item/prismarine_shard.png",
+  "PROMISING_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/promising_axe.png",
+  "PROMISING_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/promising_pickaxe.png",
   "PROTECTOR_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/protector_dragon_fragment.png",
   "PUFFERCLOUD": {
     "src": "/hypixel-item-heads/588a5afaedb93873f877c4d5f68f0bf149992df7.png",
+    "kind": "skin"
+  },
+  "PULPOUS_ORANGE_JUICE": {
+    "src": "/hypixel-item-heads/523d1794d0cba869a181c60e0568af17ac4db1ee.png",
     "kind": "skin"
   },
   "PUMPKIN": "/minecraft-item-icons/minecraft/block/pumpkin_side.png",
@@ -2170,14 +2465,25 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "PYROCLASTIC_SCALE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/pyroclastic_scale.png",
   "QUARTZ": "/minecraft-item-icons/minecraft/item/quartz.png",
+  "QUARTZ_BLOCK": "/minecraft-item-icons/minecraft/block/quartz_block_side.png",
+  "QUARTZ_GENERATOR_11": {
+    "src": "/hypixel-item-heads/1fc2b0df327bacc1f29843cdaaa32cefefb65d50.png",
+    "kind": "skin"
+  },
+  "QUARTZ_GENERATOR_12": {
+    "src": "/hypixel-item-heads/29ae2f1d19b02c8a7240b38d94dbf279877a5905.png",
+    "kind": "skin"
+  },
   "QUICKDRAW_GARDEN_CHIP": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/chips/quickdraw_chip.png",
   "RABBIT": "/minecraft-item-icons/minecraft/item/rabbit.png",
+  "RABBIT_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rabbit_axe.png",
   "RABBIT_FOOT": "/minecraft-item-icons/minecraft/item/rabbit_foot.png",
   "RABBIT_HIDE": "/minecraft-item-icons/minecraft/item/rabbit_hide.png",
   "RADIOACTIVE_VIAL": {
     "src": "/hypixel-item-heads/f6e1da5fb38b6f4539f5d1590e10be8e0163e59a.png",
     "kind": "skin"
   },
+  "RAIDER_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/raider_sword.png",
   "RAINBOW_FEATHER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/safari/rainbow_feather.png",
   "RARE_DIAMOND": {
     "src": "/hypixel-item-heads/fd3470a1327e25a7a8943de264fb8e1fc3c7c971.png",
@@ -2209,11 +2515,30 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "RED_ROSE": "/minecraft-item-icons/minecraft/block/poppy.png",
+  "RED_SAND_GENERATOR_11": {
+    "src": "/hypixel-item-heads/1b1f9cefd9bf2ccb4f7bafa700d82f85ed207fb9.png",
+    "kind": "skin"
+  },
+  "RED_SAND_GENERATOR_12": {
+    "src": "/hypixel-item-heads/fae1d97e125b704eb55ba3091ec6437b8f51ca17.png",
+    "kind": "skin"
+  },
+  "RED_SANDSTONE": "/minecraft-item-icons/minecraft/block/red_sandstone.png",
   "RED_SCARF": {
     "src": "/hypixel-item-heads/3933e583747cc02bbbd621f9d8c7851921e9fc0f.png",
     "kind": "skin"
   },
   "REDSTONE": "/minecraft-item-icons/minecraft/item/redstone.png",
+  "REDSTONE_COMPARATOR": "/item-icons/fallback.svg",
+  "REDSTONE_GENERATOR_11": {
+    "src": "/hypixel-item-heads/543a8e734784e9ffb1d31098c3fd7bbed2810298.png",
+    "kind": "skin"
+  },
+  "REDSTONE_GENERATOR_12": {
+    "src": "/hypixel-item-heads/d75036a1479cc57514206b2d91e6c99323990d8a.png",
+    "kind": "skin"
+  },
+  "REDSTONE_TORCH_ON": "/item-icons/fallback.svg",
   "REFINED_AMBER": {
     "src": "/hypixel-item-heads/1cfefd7d366e0bee70a4b24ee0d43ab74c17eeab.png",
     "kind": "skin"
@@ -2226,7 +2551,9 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "REFINED_DIAMOND": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/refined_diamond.png",
   "REFINED_MINERAL": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/cole/refined_mineral.png",
   "REFINED_MITHRIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/refined_mithril.png",
+  "REFINED_MITHRIL_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/refined_mithril_pickaxe.png",
   "REFINED_TITANIUM": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/refined_titanium.png",
+  "REFINED_TITANIUM_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/polished_titanium_pickaxe.png",
   "REFINED_TUNGSTEN": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/tungsten/refined_tungsten.png",
   "REFINED_UMBER": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/umber/refined_umber.png",
   "REHEATED_GUMMY_POLAR_BEAR": {
@@ -2235,10 +2562,23 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "REINFORCED_NETTING": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/reinforced_netting.png",
   "REKINDLED_EMBER_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rekindled_ember_fragment.png",
+  "REMNANT_OF_THE_EYE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/remnant_of_the_eye.png",
   "REVENANT_CATALYST": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/zombie/catalysts/revenant_catalyst.png",
   "REVENANT_FLESH": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/zombie/revenant_flesh.png",
+  "REVENANT_GENERATOR_1": {
+    "src": "/hypixel-item-heads/869ab1e5b269fa69069ee578d8d220286bb56c17.png",
+    "kind": "skin"
+  },
+  "REVENANT_GENERATOR_12": {
+    "src": "/hypixel-item-heads/869ab1e5b269fa69069ee578d8d220286bb56c17.png",
+    "kind": "skin"
+  },
   "REVENANT_VISCERA": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/zombie/revenant_viscera.png",
   "REVERSE_REFORGE_STONE_CORE": "/minecraft-item-icons/minecraft/item/popped_chorus_fruit.png",
+  "RIFT_STABILITY_ELIXIR": {
+    "src": "/hypixel-item-heads/c3be324c5fd268c990e2b66274fcfa9a88038952.png",
+    "kind": "skin"
+  },
   "RITUAL_RESIDUE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/combat_3/ritual_residue.png",
   "ROBOTRON_REFLECTOR": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/robotron_reflector.png",
   "ROCK_CANDY": {
@@ -2249,6 +2589,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/887fb54908a5c2921426490b59f68cad2ce1d263.png",
     "kind": "skin"
   },
+  "ROCK_PAPER_SHEARS": "/minecraft-item-icons/minecraft/item/shears.png",
+  "ROOKIE_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rookie_axe.png",
+  "ROOKIE_HOE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rookie_hoe.png",
+  "ROOKIE_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rookie_pickaxe.png",
+  "ROSETTA_BOOTS": "/minecraft-item-icons/minecraft/item/diamond_boots.png",
+  "ROSETTA_CHESTPLATE": "/minecraft-item-icons/minecraft/item/diamond_chestplate.png",
+  "ROSETTA_HELMET": "/minecraft-item-icons/minecraft/item/diamond_helmet.png",
+  "ROSETTA_LEGGINGS": "/minecraft-item-icons/minecraft/item/diamond_leggings.png",
   "ROTTEN_FLESH": "/minecraft-item-icons/minecraft/item/rotten_flesh.png",
   "ROUGH_AMBER_GEM": "/hypixel-skyblock-pack/hypixel_skyblock/item/collections/gemstone/amber/rough_amber_gem.png",
   "ROUGH_AMETHYST_GEM": "/hypixel-skyblock-pack/hypixel_skyblock/item/collections/gemstone/amethyst/rough_amethyst_gem.png",
@@ -2266,12 +2614,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/b8fda29c7bfa4488dc2a46daad0fc1ba49d4c8de.png",
     "kind": "skin"
   },
+  "RUBBER_SNORKEL": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/petitems/rubber_snorkel.png",
   "RUBY_VEILSHROOM": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/resources/ruby_veilshroom.png",
   "RUSTY_ANCHOR": {
     "src": "/hypixel-item-heads/83410a3382714451142cd495bc8384e859c1a168.png",
     "kind": "skin"
   },
   "RUSTY_COIN": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/junk/rusty_coin.png",
+  "RUSTY_TITANIUM_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/rusty_titanium_pickaxe.png",
   "SADAN_BROOCH": {
     "src": "/hypixel-item-heads/c93c4dbec7ec6c9221f7bc57111b591fd5a9fbbc.png",
     "kind": "skin"
@@ -2287,7 +2637,12 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "SALTED_SUNFLOWER_SEEDS": "/minecraft-item-icons/minecraft/item/yellow_bundle.png",
   "SAND": "/minecraft-item-icons/minecraft/block/sand.png",
   "SAND:1": "/minecraft-item-icons/minecraft/block/red_sand.png",
+  "SANDSTONE": "/minecraft-item-icons/minecraft/block/sandstone.png",
   "SCARF_FRAGMENT": "/minecraft-item-icons/minecraft/block/poppy.png",
+  "SCAVENGER_TALISMAN": {
+    "src": "/hypixel-item-heads/ee69bb509717419b6b348699ed23d77e865ef1b2.png",
+    "kind": "skin"
+  },
   "SCORCHED_BOOKS": {
     "src": "/hypixel-item-heads/e3c2dddf9ecbd7233cc50017397b6133cd963ed7.png",
     "kind": "skin"
@@ -2305,6 +2660,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/482917ccb0bf902bcc22f57375cb18f31e550006.png",
     "kind": "skin"
   },
+  "SEA_LANTERN": "/minecraft-item-icons/minecraft/block/sea_lantern.png",
   "SEA_LUMIES": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/resources/sea_lumies.png",
   "SEARED_ESCARGOT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/seared_escargot.png",
   "SEARING_STONE": {
@@ -2328,7 +2684,15 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/f34de30d8f4ac7b566eda18d3c326df99a157a1d.png",
     "kind": "skin"
   },
+  "SHADOW_GOGGLES": {
+    "src": "/hypixel-item-heads/d5ec7e7fffb22d46c383d254f8f0d0f5b9e4314b.png",
+    "kind": "skin"
+  },
   "SHADOW_WARP_SCROLL": "/minecraft-item-icons/minecraft/item/writable_book.png",
+  "SHAME_CRUX": {
+    "src": "/hypixel-item-heads/f1888ec738405529c5f51f41e256cebe2fd3d9e4.png",
+    "kind": "skin"
+  },
   "SHARD_ABYSSAL_LANTERN": "/skyshards/R23.png",
   "SHARD_ABYSSAL_MINER": "/skyshards/E8.png",
   "SHARD_AERO": "/skyshards/E3.png",
@@ -2652,6 +3016,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "SHARK_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/marina/shark_bait.png",
   "SHARK_FIN": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/marina/shark_fin.png",
   "SHARK_WATER_ORB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/shark_water_orb.png",
+  "SHEEP_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/sheep_axe.png",
   "SHELLFRUIT": {
     "src": "/hypixel-item-heads/9bd940f5ccbd45e8f7d217f9034384d7ccf9d624.png",
     "kind": "skin"
@@ -2660,18 +3025,25 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/c71e80c9280b4624ac5a9f07ff5a34e3529f64d1.png",
     "kind": "skin"
   },
+  "SHOWCASE_BLOCK": "/minecraft-item-icons/minecraft/block/glass.png",
   "SHRIVELED_CORNEA": {
     "src": "/hypixel-item-heads/ab94648bc3a865de37f1d761cb43d79c00d93fe6.png",
     "kind": "skin"
   },
   "SIGNAL_ENHANCER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/signal_enhancer.png",
   "SIL_EX": "/minecraft-item-icons/minecraft/item/flint.png",
+  "SILENT_PEARL": "/minecraft-item-icons/minecraft/item/ender_pearl.png",
   "SILVER_FANG": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/silver_fang.png",
   "SIMPLE_CARROT_CANDY": "/minecraft-item-icons/minecraft/item/carrot.png",
   "SINGED_POWDER": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/singed_powder.png",
   "SKELETON_KEY": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/uncategorized/skeleton_key.png",
+  "SKELETON_TALISMAN": "/item-icons/fallback.svg",
   "SKYMART_BROCHURE": {
     "src": "/hypixel-item-heads/994f917dde48fd1b047462a582afc9e4791308d6.png",
+    "kind": "skin"
+  },
+  "SLAYER_ENERGY_DRINK": {
+    "src": "/hypixel-item-heads/06ee296acf430751699e4ddccebbbc5674fd279f.png",
     "kind": "skin"
   },
   "SLEEPY_HOLLOW": "/minecraft-item-icons/minecraft/block/carved_pumpkin.png",
@@ -2696,12 +3068,19 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/2e0a49be69d6035d61f33c04169020d54a7771da.png",
     "kind": "skin"
   },
+  "SMOOTH_BRICK": "/item-icons/fallback.svg",
   "SNOOZLING": {
     "src": "/hypixel-item-heads/ef68231682fe19667ec0a7a1ff4374dfa7a6d3cd.png",
     "kind": "skin"
   },
   "SNOW_BALL": "/minecraft-item-icons/minecraft/item/snowball.png",
+  "SNOW_BLASTER": {
+    "src": "/hypixel-item-heads/184a5bae65ff3e89c889bd3e1420eda098ada726.png",
+    "kind": "skin"
+  },
   "SNOW_BLOCK": "/minecraft-item-icons/minecraft/block/snow.png",
+  "SNOW_SHOVEL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/snow_shovel.png",
+  "SOCIAL_DISPLAY": "/minecraft-item-icons/minecraft/block/gold_block.png",
   "SOGGYBUD": {
     "src": "/hypixel-item-heads/96455a1167fc612b89cf236d81b3b83afd7b054b.png",
     "kind": "skin"
@@ -2719,7 +3098,12 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "SPECTRE_DUST": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/spectre_dust.png",
   "SPELL_POWDER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/spell_powder.png",
   "SPIDER_CATALYST": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/spider/spider_catalyst.png",
+  "SPIDER_EGG_MIXIN": {
+    "src": "/hypixel-item-heads/e00cbee56ed7b68e8ba84c9eef7de708301132a0.png",
+    "kind": "skin"
+  },
   "SPIDER_EYE": "/minecraft-item-icons/minecraft/item/spider_eye.png",
+  "SPIDER_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/spider_sword.png",
   "SPIKED_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/spiked_bait.png",
   "SPINE_FOSSIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/fossils/spine_fossil.png",
   "SPIRIT_BONE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/spirit_bone.png",
@@ -2745,13 +3129,32 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/a7508aa4e30e29be27168f32582c2e03a6b7ce6b.png",
     "kind": "skin"
   },
+  "SQUIRE_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "SQUIRE_CHESTPLATE": "/minecraft-item-icons/minecraft/item/iron_chestplate.png",
+  "SQUIRE_HELMET": "/minecraft-item-icons/minecraft/item/chainmail_helmet.png",
+  "SQUIRE_LEGGINGS": "/minecraft-item-icons/minecraft/item/chainmail_leggings.png",
+  "SQUIRE_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/squire_sword.png",
   "STARFALL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/starfall.png",
+  "STARLIGHT_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "STARLIGHT_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "STARLIGHT_HELMET": "/item-icons/fallback.svg",
+  "STARLIGHT_LEGGINGS": "/item-icons/fallback.svg",
+  "STARLIGHT_WAND": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/starlight_wand.png",
   "STARLYN_PRIZE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/starlyn/starlyn_prize.png",
   "STARTLEVINE": {
     "src": "/hypixel-item-heads/c032d10cdf28f84e0b1fc26b60881b5e2149c19f.png",
     "kind": "skin"
   },
+  "STEEL_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "STICK": "/minecraft-item-icons/minecraft/item/stick.png",
   "STOCK_OF_STONKS": "/minecraft-item-icons/minecraft/item/paper.png",
+  "STONE": "/minecraft-item-icons/minecraft/block/stone.png",
+  "STONE_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "STONE_PLATE": "/item-icons/fallback.svg",
+  "STONE:1": "/minecraft-item-icons/minecraft/block/stone.png",
+  "STONE:3": "/minecraft-item-icons/minecraft/block/stone.png",
+  "STONE:5": "/minecraft-item-icons/minecraft/block/stone.png",
+  "STONK_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/stonk.png",
   "STOPLIGHT_PETAL": {
     "src": "/hypixel-item-heads/4a809e0f71b05ff79de6ddc22494dcaf8f144cc6.png",
     "kind": "skin"
@@ -2783,12 +3186,14 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/9fd9bf6ca917f79ecc4501c64c44b8ef24a21ab7.png",
     "kind": "skin"
   },
+  "SUPER_CLEAVER": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/super_cleaver.png",
   "SUPER_COMPACTOR_3000": "/minecraft-item-icons/minecraft/block/dropper_front.png",
   "SUPER_EGG": "/minecraft-item-icons/minecraft/item/turtle_egg.png",
   "SUPER_MAGIC_MUSHROOM_SOUP": {
     "src": "/hypixel-item-heads/0e65d989d410b11fd49be15a9c40021d00107ebe.png",
     "kind": "skin"
   },
+  "SUPER_UNDEAD_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/super_undead_bow.png",
   "SUPERB_CARROT_CANDY": "/minecraft-item-icons/minecraft/item/golden_carrot.png",
   "SUPERBOOM_TNT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/superboom_tnt.png",
   "SUPERIOR_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/superior_dragon_fragment.png",
@@ -2804,13 +3209,19 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "SWEEP_BOOSTER": "/hypixel-skyblock-pack/hypixel_skyblock/item/boosters/common/booster_sweep.png",
   "SWEEP_BOOSTER_UNCOMMON": "/hypixel-skyblock-pack/hypixel_skyblock/item/boosters/uncommon/booster_sweep_upgraded.png",
+  "SWEET_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/sweet_axe.png",
   "SYNTHESIS_GARDEN_CHIP": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/chips/synthesis_chip.png",
   "SYNTHETIC_HEART": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/synthetic_heart.png",
+  "TACTICIAN_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/tacticians_sword.png",
   "TARANTULA_CATALYST": "/hypixel-skyblock-pack/hypixel_skyblock/item/combat_1/tarantula_catalyst.png",
   "TARANTULA_SILK": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/spider/tarantula_silk.png",
   "TARANTULA_WEB": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/spider/tarantula_web.png",
   "TENDER_WOOD": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/tender_wood.png",
   "TENTACLE_MEAT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/tentacle_meat.png",
+  "TEPID_GREEN_TEA": {
+    "src": "/hypixel-item-heads/c58e4087ae424898af248d5a9ae5bb34edcd43c9.png",
+    "kind": "skin"
+  },
   "TERRY_SNOWGLOBE": {
     "src": "/hypixel-item-heads/dd15b0867b6c5e36fb641aaf0c8a8bae7768a8a4.png",
     "kind": "skin"
@@ -2833,6 +3244,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/0d2adaf80ec221e58e1f192b654a72e7824fec50.png",
     "kind": "skin"
   },
+  "TIC_TAC_TOE": {
+    "src": "/hypixel-item-heads/21327601fc39499e517b39dd540fe2f0fab2f3da.png",
+    "kind": "skin"
+  },
   "TIGER_SHARK_TOOTH": "/hypixel-skyblock-pack/hypixel_skyblock/item/community_center/mayor/marina/tiger_shark_tooth.png",
   "TIGHTLY_TIED_HAY_BALE": {
     "src": "/hypixel-item-heads/183b7ca75e2f3c8f1ed9ee1f976f8fb4b5719629.png",
@@ -2844,17 +3259,23 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "TITANIC_EXP_BOTTLE": "/minecraft-item-icons/minecraft/item/experience_bottle.png",
   "TITANIUM_ORE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/titanium.png",
+  "TITANIUM_PICKAXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/titanium_pickaxe.png",
   "TITANIUM_TESSERACT": {
     "src": "/hypixel-item-heads/fd98c189a48ba2f4c9049bc1508204bb2874db65.png",
     "kind": "skin"
   },
   "TITANOBOA_SHED": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/titanboa_shed.png",
+  "TNT": "/minecraft-item-icons/minecraft/block/tnt_side.png",
   "TOIL_LOG": {
     "src": "/hypixel-item-heads/1af3f6ae57dbfd0c8743eada84b3b18ad82f6a8d.png",
     "kind": "skin"
   },
   "TOOL_EXP_CAPSULE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/tool_xp_capsule.png",
+  "TORCH": "/minecraft-item-icons/minecraft/block/torch.png",
   "TORN_CLOTH": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/torn_cloth.png",
+  "TORRHUS_ARTIFACT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/accessories/torrhus/torrhus_artifact.png",
+  "TORRHUS_RING": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/accessories/torrhus/torrhus_ring.png",
+  "TORRHUS_TALISMAN": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/accessories/torrhus/torrhus_talisman.png",
   "TOXIC_ARROW_POISON": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/spider/toxic_arrow_poison.png",
   "TRANSMISSION_TUNER": {
     "src": "/hypixel-item-heads/0b11be71a7ab283fe8dc057bb521deb4b1464352.png",
@@ -2862,10 +3283,13 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "TREASURE_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/bait/treasure_bait.png",
   "TREASURITE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/treasurite.png",
+  "TRIBAL_SPEAR": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/tribal_spear.png",
+  "TRIPWIRE_HOOK": "/minecraft-item-icons/minecraft/block/tripwire_hook.png",
   "TROUBLED_BUBBLE": {
     "src": "/hypixel-item-heads/9d7e784293c87199ae7d926e2c0b953da34e4911.png",
     "kind": "skin"
   },
+  "TRUE_ESSENCE": "/minecraft-item-icons/minecraft/item/gray_dye.png",
   "TRUNK_POLISH": {
     "src": "/hypixel-item-heads/0919edc3adc93973ea46c17748c78c48f3c4ab2e.png",
     "kind": "skin"
@@ -2882,6 +3306,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "TUSK_FOSSIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/fossils/tusk_fossil.png",
+  "TUTTI_FRUTTI_POISON": {
+    "src": "/hypixel-item-heads/7ab0f6665ac40e00fb86d04e41fbd792162dee93.png",
+    "kind": "skin"
+  },
   "TWILIGHT_ARROW_POISON": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/enderman/twilight_arrow_poison.png",
   "UGLY_FOSSIL": "/hypixel-skyblock-pack/hypixel_skyblock/item/glacite/fossils/ugly_fossil.png",
   "ULTIMATE_CARROT_CANDY": "/minecraft-item-icons/minecraft/item/golden_carrot.png",
@@ -2892,7 +3320,9 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/7e847b92ae67cc4c18b74d40f54b6c474c2d16fb.png",
     "kind": "skin"
   },
+  "UNDEAD_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/undead_bow.png",
   "UNDEAD_CATALYST": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/zombie/catalysts/undead_catalyst.png",
+  "UNDEAD_SWORD": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/undead_sword.png",
   "UNLUCKY_DOUBLOON": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/lotus_atoll/unlucky_doubloon.png",
   "UNSTABLE_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/unstable_dragon_fragment.png",
   "VEILSHROOM": {
@@ -2906,12 +3336,21 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "VERY_MOLDY_BREAD": "/minecraft-item-icons/minecraft/item/bread.png",
+  "VIAL_OF_SPRING_WATER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/vial_of_spring_water.png",
   "VIAL_OF_VENOM": {
     "src": "/hypixel-item-heads/625111f6ece04959fed3b58de5e164397e6b9460.png",
     "kind": "skin"
   },
   "VIBRANT_CORAL": {
     "src": "/hypixel-item-heads/719517676d08671333b672a2d60cd0b440c3101d.png",
+    "kind": "skin"
+  },
+  "VIKING_TEAR": {
+    "src": "/hypixel-item-heads/d11493c9204fc2c4a44837957d60344552802d74.png",
+    "kind": "skin"
+  },
+  "VILLAGE_TALISMAN": {
+    "src": "/hypixel-item-heads/dfa6a5ff8f7dabf1d55f9290ece1a48d3545f7b6.png",
     "kind": "skin"
   },
   "VINESAP": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/vinesap.png",
@@ -2930,6 +3369,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "WARTY": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/warty.png",
+  "WATER_BUCKET": "/minecraft-item-icons/minecraft/item/water_bucket.png",
   "WATER_HYACINTH": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/enchantmentupgrades/water_hyacinth.png",
   "WATER_LILY": "/minecraft-item-icons/minecraft/block/lily_pad.png",
   "WATER_ORB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/crimson_isle/bobbin_time/water_orb.png",
@@ -2945,7 +3385,9 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/6bf675420348e591f16c138edeb68655542a2710.png",
     "kind": "skin"
   },
+  "white_wool": "/item-icons/fallback.svg",
   "WILD_ROSE": "/minecraft-item-icons/minecraft/block/rose_bush_top.png",
+  "WINDING_IVY": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/petitems/winding_ivy.png",
   "WINTER_FRAGMENT": {
     "src": "/hypixel-item-heads/213c7306a6b6e2cd2c922f8a0d55b0863064e9ea.png",
     "kind": "skin"
@@ -2957,18 +3399,34 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/06bc5e12fd2144c13da8a0dfc2b583d9955a6ca7.png",
     "kind": "skin"
   },
+  "WITHER_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/wither_bow.png",
   "WITHER_CATALYST": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/wither_catalyst.png",
+  "WITHER_GOGGLES": {
+    "src": "/hypixel-item-heads/115c6d0b84fd8cdc0b14ec77b704100c2e26b4e6.png",
+    "kind": "skin"
+  },
   "WITHER_SHIELD_SCROLL": "/minecraft-item-icons/minecraft/item/writable_book.png",
   "WITHER_SOUL": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/wither_soul.png",
   "WITHERBLOOM": {
     "src": "/hypixel-item-heads/5bc8d877a685811e4e6af34e81edf452d5323780.png",
     "kind": "skin"
   },
+  "WOLF_FUR_MIXIN": {
+    "src": "/hypixel-item-heads/9655d05af9fd1293535b0eca57ef047b316a7290.png",
+    "kind": "skin"
+  },
   "WOLF_TOOTH": "/hypixel-skyblock-pack/hypixel_skyblock/item/slayer/wolf/wolf_tooth.png",
+  "WOOD": "/item-icons/fallback.svg",
+  "WOOD_AXE": "/item-icons/fallback.svg",
+  "WOOD_HOE": "/item-icons/fallback.svg",
+  "WOOD_PICKAXE": "/item-icons/fallback.svg",
+  "WOOD_PLATE": "/item-icons/fallback.svg",
   "WOOD_SINGULARITY": {
     "src": "/hypixel-item-heads/d4c7aac6dca46571faa5a56be7e9083d681c1957.png",
     "kind": "skin"
   },
+  "WOOD_SPADE": "/item-icons/fallback.svg",
+  "WOOD_SWORD": "/item-icons/fallback.svg",
   "WOODEN_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/wooden_bait.png",
   "WOOL": "/minecraft-item-icons/minecraft/block/white_wool.png",
   "WORM_BAIT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/worm_bait.png",
@@ -2982,6 +3440,11 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "YOGGIE": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/yoggie.png",
   "YOUNG_FRAGMENT": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/young_dragon_fragment.png",
   "Z": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/z.png",
+  "ZOMBIE_BRAIN_MIXIN": {
+    "src": "/hypixel-item-heads/99d869aa63b927ed2076aa6c5a2cf86ae4f00552.png",
+    "kind": "skin"
+  },
+  "ZOMBIE_TALISMAN": "/item-icons/fallback.svg",
   "ZOMBUD": {
     "src": "/hypixel-item-heads/4b9d5c31718f9980479d426d632ef3bb73653616.png",
     "kind": "skin"

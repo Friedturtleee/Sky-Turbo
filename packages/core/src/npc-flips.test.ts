@@ -41,11 +41,24 @@ describe("calculateNpcFlips", () => {
 
   it("uses lowest BIN for AH outputs and excludes unknown prices", () => {
     const ahOffer = { ...offer, output: { productId: "AH_ITEM", name: "AH Item", amount: 1 } };
-    expect(calculateNpcFlips([ahOffer], market, { AH_ITEM: 2_000 }).flips[0]).toMatchObject({
+    expect(calculateNpcFlips([ahOffer], market, { AH_ITEM: { lowestBin: 2_000 } }).flips[0]).toMatchObject({
       saleSource: "ah-lowest-bin",
       salePriceGross: 2_000,
       salePriceNet: 1_960,
     });
     expect(calculateNpcFlips([ahOffer], market, {}).unpricedCount).toBe(1);
+  });
+
+  it("caps manipulated AH listings at the recent sold median", () => {
+    const ahOffer = { ...offer, output: { productId: "AH_ITEM", name: "AH Item", amount: 1 } };
+    expect(calculateNpcFlips([ahOffer], market, {
+      AH_ITEM: { lowestBin: 50_000_000, recentMedian: 299_000, recentVolume: 15 },
+    }).flips[0]).toMatchObject({
+      salePriceGross: 299_000,
+      auctionLowestBin: 50_000_000,
+      auctionRecentMedian: 299_000,
+      auctionRecentVolume: 15,
+      auctionPriceCapped: true,
+    });
   });
 });

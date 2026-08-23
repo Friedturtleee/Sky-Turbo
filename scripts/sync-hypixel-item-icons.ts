@@ -16,6 +16,7 @@ const MINECRAFT_ROOT = resolve(PUBLIC_ROOT, "minecraft-item-icons");
 const HEADS_ROOT = resolve(PUBLIC_ROOT, "hypixel-item-heads");
 const SKYSHARDS_ROOT = resolve(PUBLIC_ROOT, "skyshards");
 const FUSION_DATA = resolve("packages/core/data/fusion-data.json");
+const NPC_SHOP_DATA = resolve("packages/core/data/npc-shop-data.json");
 const GENERATED_MAP = resolve("apps/web/lib/hypixel-item-textures.generated.ts");
 const GENERIC_ICON = "/item-icons/fallback.svg";
 
@@ -37,6 +38,12 @@ type Model = { parent?: string; textures?: Record<string, string> };
 type MojangManifest = { versions?: Array<{ id: string; url: string }> };
 type MojangVersion = { downloads?: { client?: { url: string; sha1: string; size: number } } };
 type FusionData = { shards?: Record<string, { internal_id?: string }> };
+type NpcShopData = {
+  offers?: Array<{
+    output?: { productId?: string };
+    costs?: Array<{ kind?: string; productId?: string }>;
+  }>;
+};
 type TextureMapValue = string | { src: string; kind: "skin" };
 type TextureSource = "hypixelPack" | "skyShards" | "hypixelHead" | "minecraft" | "categoryFallback" | "genericFallback";
 
@@ -240,9 +247,9 @@ async function mapWithConcurrency<T>(values: T[], concurrency: number, action: (
 async function main(): Promise<void> {
   const desiredFormat = requestedPackFormat();
   const minecraftVersion = argumentValue("minecraft-version", DEFAULT_MINECRAFT_VERSION);
-  const [packsPayload, itemsPayload, bazaarPayload, mojangManifest, skyShardsArchive, fusionSource] = await Promise.all([
+  const [packsPayload, itemsPayload, bazaarPayload, mojangManifest, skyShardsArchive, fusionSource, npcShopSource] = await Promise.all([
     fetchJson<PacksResponse>(PACKS_URL), fetchJson<ItemsResponse>(ITEMS_URL), fetchJson<BazaarResponse>(BAZAAR_URL),
-    fetchJson<MojangManifest>(MOJANG_MANIFEST_URL), fetchBytes(SKYSHARDS_ARCHIVE_URL), readFile(FUSION_DATA, "utf8"),
+    fetchJson<MojangManifest>(MOJANG_MANIFEST_URL), fetchBytes(SKYSHARDS_ARCHIVE_URL), readFile(FUSION_DATA, "utf8"), readFile(NPC_SHOP_DATA, "utf8"),
   ]);
   if (!packsPayload.success || !packsPayload.packs) throw new Error("Hypixel packs response is invalid");
   if (!itemsPayload.success || !itemsPayload.items) throw new Error("Hypixel items response is invalid");
@@ -266,6 +273,7 @@ async function main(): Promise<void> {
   const minecraftEntries = unzipSync(minecraftArchive, { filter: (file) => file.name.startsWith("assets/minecraft/items/") || file.name.startsWith("assets/minecraft/models/") || file.name.startsWith("assets/minecraft/textures/") });
   const skyShardsEntries = unzipSync(skyShardsArchive);
   const fusionData = JSON.parse(fusionSource) as FusionData;
+  const npcShopData = JSON.parse(npcShopSource) as NpcShopData;
   await Promise.all([HYPIXEL_ROOT, MINECRAFT_ROOT, HEADS_ROOT, SKYSHARDS_ROOT].map(prepareOutputDirectory));
 
   const mapping: Record<string, TextureMapValue> = {};
@@ -278,12 +286,19 @@ async function main(): Promise<void> {
     sourceCounts[source] += 1;
   };
   const bazaarProductIds = new Set(Object.keys(bazaarPayload.products));
-  const bazaarItems = itemsPayload.items.filter((item) => item.id && bazaarProductIds.has(item.id));
+  const targetProductIds = new Set(bazaarProductIds);
+  for (const offer of npcShopData.offers ?? []) {
+    if (offer.output?.productId) targetProductIds.add(offer.output.productId);
+    for (const cost of offer.costs ?? []) {
+      if (cost.kind === "item" && cost.productId) targetProductIds.add(cost.productId);
+    }
+  }
+  const targetItems = itemsPayload.items.filter((item) => item.id && targetProductIds.has(item.id));
   const hypixelCopied = new Set<string>();
   const minecraftCopied = new Set<string>();
   let unresolvedPackModels = 0;
 
-  for (const item of bazaarItems) {
+  for (const item of targetItems) {
     if (!item.id || !item.item_model) continue;
     const texture = await emitResolvedTexture(hypixelEntries, item.item_model, HYPIXEL_ROOT, "/hypixel-skyblock-pack", hypixelCopied);
     if (texture) assign(item.id, texture, "hypixelPack");
@@ -291,7 +306,7 @@ async function main(): Promise<void> {
   }
 
   const skinProducts = new Map<string, string[]>();
-  for (const item of bazaarItems) {
+  for (const item of targetItems) {
     if (!item.id || mapping[item.id]) continue;
     const skinUrl = decodeSkinUrl(item.skin?.value);
     if (skinUrl) skinProducts.set(skinUrl, [...(skinProducts.get(skinUrl) ?? []), item.id]);
@@ -311,7 +326,7 @@ async function main(): Promise<void> {
     }
   });
 
-  for (const item of bazaarItems) {
+  for (const item of targetItems) {
     if (!item.id || mapping[item.id]) continue;
     let texture = item.item_model
       ? await emitResolvedTexture(minecraftEntries, item.item_model, MINECRAFT_ROOT, "/minecraft-item-icons", minecraftCopied)
@@ -323,7 +338,7 @@ async function main(): Promise<void> {
 
   let copiedShardIcons = 0;
   for (const [code, shard] of Object.entries(fusionData.shards ?? {})) {
-    if (!shard.internal_id || !bazaarProductIds.has(shard.internal_id) || mapping[shard.internal_id]) continue;
+    if (!shard.internal_id || !targetProductIds.has(shard.internal_id) || mapping[shard.internal_id]) continue;
     const icon = entryEndingWith(skyShardsEntries, `/public/shardIcons/${code}.png`);
     if (!icon) continue;
     await writeFile(resolve(SKYSHARDS_ROOT, `${code}.png`), icon);
@@ -337,7 +352,7 @@ async function main(): Promise<void> {
     cookie: await emitResolvedTexture(minecraftEntries, "minecraft:cookie", MINECRAFT_ROOT, "/minecraft-item-icons", minecraftCopied),
     hollow: await emitResolvedTexture(minecraftEntries, "minecraft:carved_pumpkin", MINECRAFT_ROOT, "/minecraft-item-icons", minecraftCopied),
   };
-  for (const productId of bazaarProductIds) {
+  for (const productId of targetProductIds) {
     if (mapping[productId]) continue;
     const categoryTexture = productId.startsWith("ENCHANTMENT_") ? categoryIcons.enchantment
       : productId.startsWith("ESSENCE_") ? categoryIcons.essence
@@ -363,7 +378,7 @@ async function main(): Promise<void> {
     },
     packId: pack.id, deployId: pack.deployId, packFormat: selected.packFormat, sha1: selected.hash,
     lastUpdated: pack.lastUpdated, itemsLastUpdated: itemsPayload.lastUpdated,
-    bazaarProducts: bazaarProductIds.size, mappedItems: Object.keys(mapping).length, sourceCounts,
+    bazaarProducts: bazaarProductIds.size, targetProducts: targetProductIds.size, mappedItems: Object.keys(mapping).length, sourceCounts,
     copiedTextures: { hypixel: hypixelCopied.size, minecraft: minecraftCopied.size, skyShards: copiedShardIcons, playerHeads: copiedHeads },
     unresolvedPackModels, failedHeads, genericFallbackProducts,
   }, null, 2)}\n`);
@@ -375,7 +390,7 @@ async function main(): Promise<void> {
     `export type HypixelItemTexture = string | Readonly<{ src: string; kind: "skin" }>;\n` +
     `export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>> = ${JSON.stringify(orderedMapping, null, 2)};\n`,
   );
-  console.log(`Mapped ${Object.keys(mapping).length}/${bazaarProductIds.size} Bazaar products.`);
+  console.log(`Mapped ${Object.keys(mapping).length}/${targetProductIds.size} Bazaar + NPC products.`);
   console.log(`Sources: ${Object.entries(sourceCounts).map(([source, count]) => `${source}=${count}`).join(", ")}`);
   if (genericFallbackProducts.length) console.log(`Generic fallback: ${genericFallbackProducts.join(", ")}`);
 }

@@ -9,6 +9,7 @@ import { RefreshButton } from "./refresh-button";
 import { useBackgroundRefresh } from "./use-background-refresh";
 
 type SortKey = "profit" | "marginPercent" | "salePriceGross" | "maxDailyProfit" | "totalCost";
+type MarketFilter = "all" | "bazaar" | "ah-lowest-bin";
 type NpcFlipResponse = {
   flips: NpcFlip[];
   unpricedCount: number;
@@ -27,6 +28,7 @@ export function NpcFlipDashboard() {
   });
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortKey>("profit");
+  const [marketFilter, setMarketFilter] = useState<MarketFilter>("all");
   const [minProfit, setMinProfit] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -64,6 +66,7 @@ export function NpcFlipDashboard() {
     return data.flips
       .filter((flip) =>
         flip.profit >= minProfit &&
+        (marketFilter === "all" || flip.saleSource === marketFilter) &&
         (!query ||
           flip.name.toLowerCase().includes(query) ||
           flip.productId.toLowerCase().includes(query) ||
@@ -77,7 +80,7 @@ export function NpcFlipDashboard() {
         }
         return right[sort] - left[sort];
       });
-  }, [data.flips, minProfit, search, sort]);
+  }, [data.flips, marketFilter, minProfit, search, sort]);
 
   return <>
     <div className="toolbar panel npc-flip-toolbar">
@@ -88,6 +91,11 @@ export function NpcFlipDashboard() {
         <option value="maxDailyProfit">每日上限 Profit</option>
         <option value="salePriceGross">出售價格</option>
         <option value="totalCost">購買成本</option>
+      </select></label>
+      <label><span>市場分類</span><select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value as MarketFilter)}>
+        <option value="all">全部（BZ + AH）</option>
+        <option value="bazaar">Bazaar</option>
+        <option value="ah-lowest-bin">Auction House</option>
       </select></label>
       <label><span>Min Profit</span><input type="number" min="0" step="100" value={minProfit} onChange={(event) => setMinProfit(Math.max(0, Number(event.target.value) || 0))} /></label>
       <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
@@ -107,11 +115,16 @@ export function NpcFlipDashboard() {
           <td><span className="stack"><strong>{flip.npc}</strong>{flip.requirement ? <small>{flip.requirement}</small> : null}</span></td>
           <td><span className="stack npc-cost-list">{flip.costs.map((cost, index) => <span key={`${cost.productId ?? "coins"}-${index}`}><strong>{formatCoins(cost.amount)}× {cost.name}</strong><small>{cost.priceSource === "coins" ? "固定 coins" : `${cost.priceSource === "bazaar" ? "BZ insta buy" : "AH LBIN"} · ${formatCoins(cost.totalPrice)}`}</small></span>)}</span></td>
           <td>{formatCoins(flip.totalCost)}</td>
-          <td><span className="stack"><strong>{formatCoins(flip.salePriceGross)}</strong><small><span className="market-source-badge">{flip.saleSource === "bazaar" ? "BZ insta sell" : "AH lowest BIN"}</span> · 稅後 {formatCoins(flip.salePriceNet)}</small></span></td>
+          <td><span className="stack"><strong>{formatCoins(flip.salePriceGross)}</strong>{flip.saleSource === "bazaar"
+            ? <small><span className="market-source-badge">BZ insta sell</span> · 稅後 {formatCoins(flip.salePriceNet)}</small>
+            : <><small><span className="market-source-badge">AH 成交估價</span> · 稅後 {formatCoins(flip.salePriceNet)}</small>{flip.auctionPriceModel === "exact-lbin-and-median"
+              ? <small className={flip.auctionPriceCapped ? "price-warning" : undefined}>LBIN {formatCoins(flip.auctionLowestBin ?? 0)}{flip.auctionRecentMedian ? ` · 近期中位 ${formatCoins(flip.auctionRecentMedian)}` : " · 無近期成交價"}</small>
+              : <small>SkyCofl 批次調整估價 · {formatCoins(flip.salePriceGross)}</small>}</>}
+          </span></td>
           <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)}</small></span></td>
           <td>{flip.maxPurchases === undefined ? <span className="neutral">未標示</span> : <span className="stack"><strong>{formatCoins(flip.maxPurchases)} 次</strong><small className={tone(flip.maxDailyProfit)}>{formatCoins(flip.maxDailyProfit ?? 0)} Profit</small></span>}</td>
           <td><a className="source-link" href={flip.source.url} target="_blank" rel="noreferrer">{flip.source.label}</a></td>
         </tr>)}</tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">目前沒有符合條件且可完整定價的 NPC Flip。</div> : null}</div>}
-    <p className="npc-disclaimer">AH 使用 active lowest BIN，Bazaar 使用立即買入成本／立即賣出價格。AH 手續費依價格區間估算；商店解鎖條件、活動期間與未標示的購買限制仍需在遊戲內確認。AH 價格由 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供。</p>
+    <p className="npc-disclaimer">Bazaar 使用立即買入成本／立即賣出價格。AH 大量項目使用 SkyCofl 批次調整估價，避免首次載入觸發速率限制；Celeste 系列另以 active lowest BIN 和近期實際成交中位數取較低者，避免單一異常掛單製造假 Profit。AH 手續費依價格區間估算，商店解鎖條件、活動期間與未標示的購買限制仍需在遊戲內確認。AH 價格由 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供。</p>
   </>;
 }

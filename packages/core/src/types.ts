@@ -294,6 +294,13 @@ export type NpcFlipCost = {
   priceSource: "coins" | "bazaar" | "ah-lowest-bin";
 };
 
+export type AuctionPriceQuote = {
+  lowestBin: number;
+  recentMedian?: number;
+  recentVolume?: number;
+  model?: "exact-lbin-and-median" | "adjusted-estimate";
+};
+
 export type NpcFlip = {
   offerId: string;
   npc: string;
@@ -306,6 +313,11 @@ export type NpcFlip = {
   salePriceGross: number;
   salePriceNet: number;
   saleFeeRate: number;
+  auctionLowestBin?: number;
+  auctionRecentMedian?: number;
+  auctionRecentVolume?: number;
+  auctionPriceCapped?: boolean;
+  auctionPriceModel?: "exact-lbin-and-median" | "adjusted-estimate";
   profit: number;
   marginPercent: number;
   dailyLimit?: number;
