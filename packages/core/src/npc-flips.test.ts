@@ -8,8 +8,8 @@ const market = {
   updatedAt: 1,
   taxRate: 0.01125,
   items: [
-    { productId: "COUPON", instantBuyPrice: 100, instantSellPrice: 90, sellOrderPrice: 100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
-    { productId: "OUTPUT", instantBuyPrice: 1_100, instantSellPrice: 1_000, sellOrderPrice: 1_100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
+    { productId: "COUPON", buyOrderPrice: 90, instantBuyPrice: 100, instantSellPrice: 90, sellOrderPrice: 100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
+    { productId: "OUTPUT", buyOrderPrice: 1_000, instantBuyPrice: 1_100, instantSellPrice: 1_000, sellOrderPrice: 1_100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
   ],
 } as MarketSnapshot;
 
@@ -26,23 +26,43 @@ const offer: NpcShopOffer = {
 };
 
 describe("calculateNpcFlips", () => {
-  it("includes item currencies at their instant-buy cost", () => {
+  it("defaults to buy-order costs and sell-order revenue", () => {
     const result = calculateNpcFlips([offer], market, {});
     expect(result.unpricedCount).toBe(0);
     expect(result.flips[0]).toMatchObject({
-      totalCost: 300,
+      totalCost: 280,
+      strategy: "bo-so",
       saleSource: "bazaar",
-      salePriceGross: 1_000,
-      salePriceNet: 988.75,
-      profit: 688.75,
+      salePriceGross: 1_100,
+      salePriceNet: 1_087.625,
+      profit: 807.625,
+      bazaarInstaSellPriceGross: 1_000,
+      bazaarInstaSellPriceNet: 988.75,
+      bazaarInstaSellProfit: 708.75,
       bazaarSellOrderPriceGross: 1_100,
       bazaarSellOrderPriceNet: 1_087.625,
-      bazaarSellOrderProfit: 787.625,
+      bazaarSellOrderProfit: 807.625,
       bazaarMatchedVolume7d: 840,
       maxPurchases: 640,
       maxProfitStrategy: "sell-order",
-      maxProfitPerPurchase: 787.625,
-      maxDailyProfit: 504_080,
+      maxProfitPerPurchase: 807.625,
+      maxDailyProfit: 516_880,
+    });
+  });
+
+  it.each([
+    ["bo-so", 280, 1_100, 807.625, "sell-order"],
+    ["ib-so", 300, 1_100, 787.625, "sell-order"],
+    ["bo-is", 280, 1_000, 708.75, "insta-sell"],
+    ["ib-is", 300, 1_000, 688.75, "insta-sell"],
+  ] as const)("calculates the %s NPC strategy independently", (strategy, totalCost, salePriceGross, profit, outputMethod) => {
+    expect(calculateNpcFlips([offer], market, {}, {}, strategy).flips[0]).toMatchObject({
+      strategy,
+      totalCost,
+      salePriceGross,
+      profit,
+      maxProfitPerPurchase: profit,
+      maxProfitStrategy: outputMethod,
     });
   });
 
@@ -51,8 +71,8 @@ describe("calculateNpcFlips", () => {
     expect(calculateNpcProfitPlan(flip)).toMatchObject({
       purchaseCount: 640,
       outputQuantity: 640,
-      totalCost: 192_000,
-      totalProfit: 504_080,
+      totalCost: 179_200,
+      totalProfit: 516_880,
       profitStrategy: "sell-order",
       costs: [
         { name: "Coins", requiredAmount: 64_000 },

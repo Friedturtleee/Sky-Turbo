@@ -7,6 +7,7 @@ import {
   type NpcFlipCost,
   type NpcProfitPlan,
   type NpcShopOffer,
+  type NpcStrategy,
 } from "./types";
 
 export const AUCTION_FEE_MODEL = "2% under 10m, 4% from 10m, 5% from 100m";
@@ -30,7 +31,7 @@ export function npcBazaarQuotesFromResponse(
     return [product.product_id, {
       productId: product.product_id,
       ...(isPositivePrice(instantBuyPrice) ? { instantBuyPrice, sellOrderPrice: instantBuyPrice } : {}),
-      ...(isPositivePrice(instantSellPrice) ? { instantSellPrice } : {}),
+      ...(isPositivePrice(instantSellPrice) ? { instantSellPrice, buyOrderPrice: instantSellPrice } : {}),
       buyMovingWeek: Number.isFinite(product.quick_status.buyMovingWeek) ? product.quick_status.buyMovingWeek : 0,
       sellMovingWeek: Number.isFinite(product.quick_status.sellMovingWeek) ? product.quick_status.sellMovingWeek : 0,
     }];
@@ -58,9 +59,7 @@ export function calculateNpcProfitPlan(
   const purchaseCount = fraction === 1
     ? maximumPurchases
     : Math.ceil(maximumPurchases * fraction);
-  const revenuePerPurchase = flip.maxProfitStrategy === "sell-order"
-    ? flip.bazaarSellOrderPriceNet ?? flip.salePriceNet
-    : flip.salePriceNet;
+  const revenuePerPurchase = flip.salePriceNet;
   return {
     fraction,
     purchaseCount,
@@ -90,7 +89,10 @@ export function calculateNpcFlips(
   market: MarketSnapshot,
   auctionPrices: Readonly<Record<string, AuctionPriceQuote>>,
   bazaarQuotes: Readonly<Record<string, NpcBazaarQuote>> = {},
+  strategy: NpcStrategy = "bo-so",
 ): { flips: NpcFlip[]; unpricedCount: number } {
+  const inputUsesInstant = strategy.startsWith("ib");
+  const outputUsesInstant = strategy.endsWith("is");
   const bazaar = new Map(market.items.map((item) => [item.productId, item]));
   const flips: NpcFlip[] = [];
   let unpricedCount = 0;
@@ -113,8 +115,10 @@ export function calculateNpcFlips(
 
       const marketItem = bazaar.get(cost.productId);
       const bazaarQuote = bazaarQuotes[cost.productId];
-      const unitPrice = marketItem?.instantBuyPrice
-        || bazaarQuote?.instantBuyPrice
+      const bazaarUnitPrice = inputUsesInstant
+        ? marketItem?.instantBuyPrice ?? bazaarQuote?.instantBuyPrice
+        : marketItem?.buyOrderPrice ?? bazaarQuote?.buyOrderPrice;
+      const unitPrice = bazaarUnitPrice
         || (bazaarQuote ? undefined : auctionPrices[cost.productId]?.lowestBin);
       if (!isPositivePrice(unitPrice)) {
         priced = false;
@@ -127,36 +131,46 @@ export function calculateNpcFlips(
         amount: cost.amount,
         unitPrice,
         totalPrice: unitPrice * cost.amount,
-        priceSource: marketItem || bazaarQuote?.instantBuyPrice ? "bazaar" : "ah-lowest-bin",
+        priceSource: marketItem || isPositivePrice(bazaarUnitPrice) ? "bazaar" : "ah-lowest-bin",
       });
     }
 
     const outputMarket = bazaar.get(offer.output.productId);
     const outputBazaarQuote = bazaarQuotes[offer.output.productId];
-    const outputAuction = outputBazaarQuote ? undefined : auctionPrices[offer.output.productId];
+    const isBazaarOutput = Boolean(outputMarket || outputBazaarQuote);
+    const outputAuction = isBazaarOutput ? undefined : auctionPrices[offer.output.productId];
     const outputLowestBin = outputAuction?.lowestBin;
     const instantSellUnitPrice = outputMarket?.instantSellPrice ?? outputBazaarQuote?.instantSellPrice;
     const sellOrderUnitPrice = outputMarket?.sellOrderPrice ?? outputBazaarQuote?.sellOrderPrice;
-    const hasBazaarSale = isPositivePrice(instantSellUnitPrice) || isPositivePrice(sellOrderUnitPrice);
-    if (!priced || (!hasBazaarSale && !isPositivePrice(outputLowestBin))) {
+    const selectedBazaarUnitPrice = outputUsesInstant ? instantSellUnitPrice : sellOrderUnitPrice;
+    if (!priced || (isBazaarOutput ? !isPositivePrice(selectedBazaarUnitPrice) : !isPositivePrice(outputLowestBin))) {
       unpricedCount += 1;
       continue;
     }
 
     const totalCost = costs.reduce((sum, cost) => sum + cost.totalPrice, 0);
-    const saleSource = hasBazaarSale ? "bazaar" : "ah-lowest-bin";
+    const saleSource = isBazaarOutput ? "bazaar" : "ah-lowest-bin";
     // A lone manipulated listing is not a realistic sale estimate. Preserve the
     // current LBIN for display, but cap AH proceeds at the recent sold median.
     const auctionUnitSalePrice = outputAuction?.recentMedian && outputAuction.recentMedian > 0
       ? Math.min(outputAuction.lowestBin, outputAuction.recentMedian)
       : outputAuction?.lowestBin;
-    const salePriceGross = hasBazaarSale
-      ? (instantSellUnitPrice ?? sellOrderUnitPrice ?? 0) * offer.output.amount
+    const salePriceGross = isBazaarOutput
+      ? (selectedBazaarUnitPrice ?? 0) * offer.output.amount
       : (auctionUnitSalePrice ?? 0) * offer.output.amount;
-    const saleFeeRate = hasBazaarSale ? market.taxRate : auctionFeeRate(salePriceGross);
+    const saleFeeRate = isBazaarOutput ? market.taxRate : auctionFeeRate(salePriceGross);
     const salePriceNet = salePriceGross * (1 - saleFeeRate);
     const profit = salePriceNet - totalCost;
-    const bazaarSellOrderPriceGross = hasBazaarSale && sellOrderUnitPrice
+    const bazaarInstaSellPriceGross = isBazaarOutput && instantSellUnitPrice
+      ? instantSellUnitPrice * offer.output.amount
+      : undefined;
+    const bazaarInstaSellPriceNet = bazaarInstaSellPriceGross === undefined
+      ? undefined
+      : bazaarInstaSellPriceGross * (1 - market.taxRate);
+    const bazaarInstaSellProfit = bazaarInstaSellPriceNet === undefined
+      ? undefined
+      : bazaarInstaSellPriceNet - totalCost;
+    const bazaarSellOrderPriceGross = isBazaarOutput && sellOrderUnitPrice
       ? sellOrderUnitPrice * offer.output.amount
       : undefined;
     const bazaarSellOrderPriceNet = bazaarSellOrderPriceGross === undefined
@@ -166,22 +180,17 @@ export function calculateNpcFlips(
       ? undefined
       : bazaarSellOrderPriceNet - totalCost;
     const instaSellAvailable = isPositivePrice(instantSellUnitPrice);
-    const maxProfitStrategy: NpcFlip["maxProfitStrategy"] = hasBazaarSale
-      ? !instaSellAvailable && bazaarSellOrderProfit !== undefined
-        ? "sell-order"
-        : bazaarSellOrderProfit !== undefined && bazaarSellOrderProfit > profit
-        ? "sell-order"
-        : "insta-sell"
+    const maxProfitStrategy: NpcFlip["maxProfitStrategy"] = isBazaarOutput
+      ? outputUsesInstant ? "insta-sell" : "sell-order"
       : "ah";
-    const maxProfitPerPurchase = maxProfitStrategy === "sell-order"
-      ? bazaarSellOrderProfit ?? profit
-      : profit;
+    const maxProfitPerPurchase = profit;
     const maxPurchases = offer.dailyLimit === undefined
       ? undefined
       : Math.floor(offer.dailyLimit / Math.max(offer.output.amount, 1));
 
     flips.push({
       offerId: offer.id,
+      strategy,
       npc: offer.npc,
       productId: offer.output.productId,
       name: offer.output.name,
@@ -192,8 +201,11 @@ export function calculateNpcFlips(
       salePriceGross,
       salePriceNet,
       saleFeeRate,
-      ...(hasBazaarSale ? {
+      ...(isBazaarOutput ? {
         bazaarInstaSellAvailable: instaSellAvailable,
+        bazaarInstaSellPriceGross,
+        bazaarInstaSellPriceNet,
+        bazaarInstaSellProfit,
         bazaarSellOrderPriceGross,
         bazaarSellOrderPriceNet,
         bazaarSellOrderProfit,
@@ -202,7 +214,7 @@ export function calculateNpcFlips(
           outputMarket?.sellMovingWeek ?? outputBazaarQuote?.sellMovingWeek ?? 0,
         ),
       } : {}),
-      ...(!hasBazaarSale && outputAuction ? {
+      ...(!isBazaarOutput && outputAuction ? {
         auctionLowestBin: outputAuction.lowestBin,
         auctionRecentMedian: outputAuction.recentMedian,
         auctionRecentVolume: outputAuction.recentVolume,

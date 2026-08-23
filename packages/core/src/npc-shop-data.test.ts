@@ -70,6 +70,12 @@ describe("generated NPC shop data", () => {
     expect(standard.every((offer) => offer.dailyLimit === 640 && offer.diazEligible)).toBe(true);
   });
 
+  it("keeps Hypixel's legacy Cocoa Beans Bazaar ID while preserving the friendly name", () => {
+    const cocoa = data.offers.filter((offer) => offer.output.name === "Cocoa Beans");
+    expect(cocoa.length).toBeGreaterThan(0);
+    expect(cocoa.every((offer) => offer.output.productId === "INK_SACK:3")).toBe(true);
+  });
+
   it("audits Bazaar outputs skipped by the upstream parser", () => {
     expect(data.audit?.generatedOffers).toBe(data.offers.length);
     expect(data.audit?.skippedBazaarOffers).toEqual([{

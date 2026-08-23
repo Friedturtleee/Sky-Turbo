@@ -157,6 +157,7 @@ export type FusionData = {
 
 export type ShardStrategy = "bo-so" | "ib-so" | "bo-is" | "ib-is";
 export type CraftStrategy = ShardStrategy;
+export type NpcStrategy = ShardStrategy;
 
 export type MinProfitThreshold = {
   mode: "percent" | "coins";
@@ -313,6 +314,7 @@ export type NpcFlipCost = {
 export type NpcBazaarQuote = {
   productId: string;
   instantBuyPrice?: number;
+  buyOrderPrice?: number;
   instantSellPrice?: number;
   sellOrderPrice?: number;
   buyMovingWeek: number;
@@ -328,6 +330,7 @@ export type AuctionPriceQuote = {
 
 export type NpcFlip = {
   offerId: string;
+  strategy: NpcStrategy;
   npc: string;
   productId: string;
   name: string;
@@ -338,8 +341,11 @@ export type NpcFlip = {
   salePriceGross: number;
   salePriceNet: number;
   saleFeeRate: number;
-  /** Bazaar sell-order proceeds and profit, using the same instant-buy costs. */
+  /** Both Bazaar output paths, calculated against the currently selected input-cost strategy. */
   bazaarInstaSellAvailable?: boolean;
+  bazaarInstaSellPriceGross?: number;
+  bazaarInstaSellPriceNet?: number;
+  bazaarInstaSellProfit?: number;
   bazaarSellOrderPriceGross?: number;
   bazaarSellOrderPriceNet?: number;
   bazaarSellOrderProfit?: number;

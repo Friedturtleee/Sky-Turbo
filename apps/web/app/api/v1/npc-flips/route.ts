@@ -1,4 +1,10 @@
-import { calculateNpcFlips, npcBazaarQuotesFromResponse, type MarketSnapshot, type NpcShopData } from "@sky-turbo/core";
+import {
+  calculateNpcFlips,
+  npcBazaarQuotesFromResponse,
+  type MarketSnapshot,
+  type NpcShopData,
+  type NpcStrategy,
+} from "@sky-turbo/core";
 import npcShopDataJson from "@sky-turbo/core/npc-shop-data";
 import { jsonError, jsonOk } from "@/lib/http";
 import { getAuctionSevenDaySales, getExactAuctionPrices, getRoughAuctionPrices } from "@/lib/lowest-bin";
@@ -8,6 +14,7 @@ import { getBazaarResponse, getNpcMayorContext } from "@/lib/hypixel";
 export const dynamic = "force-dynamic";
 
 const npcShopData = npcShopDataJson as NpcShopData;
+const strategies = new Set<NpcStrategy>(["bo-so", "ib-so", "bo-is", "ib-is"]);
 const exactAuctionTargets = [
   "CELESTE_BOOTS", "CELESTE_CHESTPLATE", "CELESTE_HELMET", "CELESTE_LEGGINGS", "CELESTE_WAND",
   "SERIOUSLY_DAMAGED_AXE", "DECENT_AXE",
@@ -24,8 +31,10 @@ function exactPriceTargets(
   return new Set(exactAuctionTargets.filter((productId) => !bazaarIds.has(productId)));
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const strategy = (new URL(request.url).searchParams.get("strategy") ?? "bo-so") as NpcStrategy;
+    if (!strategies.has(strategy)) return jsonError("不支援的 NPC Flip 交易策略", 400);
     const [bazaarResponse, roughAh, mayor] = await Promise.all([
       getBazaarResponse(),
       getRoughAuctionPrices(),
@@ -43,6 +52,7 @@ export async function GET() {
       market,
       auctionPrices,
       npcBazaarQuotesFromResponse(bazaarResponse),
+      strategy,
     );
     const sortedFlips = calculated.flips.sort((left, right) => right.profit - left.profit);
     const ahProductIds = sortedFlips.filter((flip) => flip.saleSource === "ah-lowest-bin").map((flip) => flip.productId);
@@ -61,7 +71,7 @@ export async function GET() {
       marketUpdatedAt: market.updatedAt,
       auctionUpdatedAt: exactAh.fetchedAt,
       shopDataGeneratedAt: npcShopData.generatedAt,
-      priceModel: `BZ insta sell / sell order；每日上限已套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
+      priceModel: `${strategy.toUpperCase()}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
     });
   } catch (error) {
     return jsonError(
