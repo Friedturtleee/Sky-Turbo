@@ -1,5 +1,6 @@
 "use client";
 
+import { normalizeCraftRequirement } from "@sky-turbo/core";
 import { useAuth } from "@clerk/nextjs";
 import {
   createContext,
@@ -18,16 +19,36 @@ type CraftRequirementPreferences = {
   saving: boolean;
   syncError: string;
   storageLabel: string;
+  canRetry: boolean;
   replace: (requirements: Iterable<string>) => void;
+  retrySync: () => void;
   toggle: (requirement: string) => void;
 };
 
 const CraftRequirementPreferencesContext = createContext<CraftRequirementPreferences | null>(null);
 const STORAGE_KEY = "sky-turbo:craft-excluded-requirements";
 
+function normalizeRequirement(value: unknown): string | undefined {
+  if (typeof value !== "string" || value.length > 160) return undefined;
+  const normalized = normalizeCraftRequirement(value);
+  return normalized && /^Requires:\s+.{1,150}$/.test(normalized) ? normalized : undefined;
+}
+
+function normalizeRequirements(values: Iterable<unknown>): Set<string> {
+  const result = new Set<string>();
+  for (const value of values) {
+    const normalized = normalizeRequirement(value);
+    if (normalized) result.add(normalized);
+  }
+  return result;
+}
+
 function normalizeStored(value: unknown): Set<string> {
-  if (!Array.isArray(value)) return new Set();
-  return new Set(value.filter((item): item is string => typeof item === "string" && item.length <= 160));
+  return Array.isArray(value) ? normalizeRequirements(value) : new Set();
+}
+
+function serialize(requirements: Set<string>): string {
+  return JSON.stringify([...requirements].sort());
 }
 
 function readLocal(): Set<string> {
@@ -40,9 +61,18 @@ function readLocal(): Set<string> {
 
 function writeLocal(requirements: Set<string>) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...requirements].sort()));
+    localStorage.setItem(STORAGE_KEY, serialize(requirements));
   } catch {
     // Account sync remains available when browser storage is blocked.
+  }
+}
+
+async function responseError(response: Response): Promise<Error> {
+  try {
+    const payload = await response.json() as { error?: { message?: string } };
+    return new Error(payload.error?.message || `同步失敗 (${response.status})`);
+  } catch {
+    return new Error(`同步失敗 (${response.status})`);
   }
 }
 
@@ -50,20 +80,24 @@ function LocalCraftRequirementPreferences({ children }: { children: ReactNode })
   const [excludedRequirements, setExcludedRequirements] = useState<Set<string>>(new Set());
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    setExcludedRequirements(readLocal());
+    const local = readLocal();
+    setExcludedRequirements(local);
+    writeLocal(local);
     setReady(true);
   }, []);
 
   const replace = useCallback((requirements: Iterable<string>) => {
-    const next = new Set(requirements);
+    const next = normalizeRequirements(requirements);
     setExcludedRequirements(next);
     writeLocal(next);
   }, []);
   const toggle = useCallback((requirement: string) => {
+    const normalized = normalizeRequirement(requirement);
+    if (!normalized) return;
     setExcludedRequirements((current) => {
       const next = new Set(current);
-      if (next.has(requirement)) next.delete(requirement);
-      else next.add(requirement);
+      if (next.has(normalized)) next.delete(normalized);
+      else next.add(normalized);
       writeLocal(next);
       return next;
     });
@@ -74,7 +108,9 @@ function LocalCraftRequirementPreferences({ children }: { children: ReactNode })
     saving: false,
     syncError: "",
     storageLabel: "儲存在此瀏覽器",
+    canRetry: false,
     replace,
+    retrySync: () => undefined,
     toggle,
   }), [excludedRequirements, ready, replace, toggle]);
   return <CraftRequirementPreferencesContext.Provider value={value}>{children}</CraftRequirementPreferencesContext.Provider>;
@@ -86,8 +122,24 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
   const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
   const [syncError, setSyncError] = useState("");
+  const [retryRevision, setRetryRevision] = useState(0);
   const hydratedRef = useRef(false);
+  const lastSavedRef = useRef("");
   const edgeUrl = process.env.NEXT_PUBLIC_EDGE_API_URL?.replace(/\/$/, "");
+
+  const saveRemote = useCallback(async (requirements: Set<string>, signal?: AbortSignal) => {
+    if (!edgeUrl) throw new Error("缺少 NEXT_PUBLIC_EDGE_API_URL，無法同步帳號");
+    const token = await getToken();
+    if (!token) throw new Error("無法取得登入憑證，請重新登入");
+    const response = await fetch(`${edgeUrl}/v1/me/preferences/craft-requirements`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ excludedRequirements: [...requirements].sort() }),
+      cache: "no-store",
+      signal,
+    });
+    if (!response.ok) throw await responseError(response);
+  }, [edgeUrl, getToken]);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -100,7 +152,8 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
       if (!isSignedIn || !edgeUrl) {
         if (!cancelled) {
           setExcludedRequirements(local);
-          setSyncError("");
+          setSyncError(isSignedIn ? "缺少 NEXT_PUBLIC_EDGE_API_URL，帳號同步尚未啟用" : "");
+          lastSavedRef.current = serialize(local);
           hydratedRef.current = true;
           setReady(true);
         }
@@ -108,11 +161,12 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
       }
       try {
         const token = await getToken();
+        if (!token) throw new Error("無法取得登入憑證，請重新登入");
         const response = await fetch(`${edgeUrl}/v1/me/preferences/craft-requirements`, {
           headers: { Authorization: `Bearer ${token}` },
           cache: "no-store",
         });
-        if (!response.ok) throw new Error(`同步失敗 (${response.status})`);
+        if (!response.ok) throw await responseError(response);
         const payload = await response.json() as {
           data?: { excludedRequirements?: unknown; exists?: boolean };
         };
@@ -122,6 +176,7 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
           setExcludedRequirements(next);
           writeLocal(next);
           setSyncError("");
+          lastSavedRef.current = payload.data?.exists ? serialize(next) : "";
           hydratedRef.current = true;
           setReady(true);
         }
@@ -129,6 +184,7 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
         if (!cancelled) {
           setExcludedRequirements(local);
           setSyncError(error instanceof Error ? error.message : "帳號同步失敗");
+          lastSavedRef.current = "";
           hydratedRef.current = true;
           setReady(true);
         }
@@ -139,17 +195,14 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
   }, [edgeUrl, getToken, isLoaded, isSignedIn]);
 
   useEffect(() => {
-    if (!hydratedRef.current || !isSignedIn || !edgeUrl) return;
+    if (!ready || !hydratedRef.current || !isSignedIn || !edgeUrl) return;
+    const serialized = serialize(excludedRequirements);
+    if (serialized === lastSavedRef.current) return;
     const controller = new AbortController();
     const timeout = window.setTimeout(() => {
       setSaving(true);
-      void getToken().then((token) => fetch(`${edgeUrl}/v1/me/preferences/craft-requirements`, {
-        method: "PUT",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ excludedRequirements: [...excludedRequirements].sort() }),
-        signal: controller.signal,
-      })).then((response) => {
-        if (!response.ok) throw new Error(`同步失敗 (${response.status})`);
+      void saveRemote(excludedRequirements, controller.signal).then(() => {
+        lastSavedRef.current = serialized;
         setSyncError("");
       }).catch((error: unknown) => {
         if (error instanceof Error && error.name === "AbortError") return;
@@ -162,21 +215,28 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [edgeUrl, excludedRequirements, getToken, isSignedIn]);
+  }, [edgeUrl, excludedRequirements, isSignedIn, ready, retryRevision, saveRemote]);
 
   const replace = useCallback((requirements: Iterable<string>) => {
-    const next = new Set(requirements);
+    const next = normalizeRequirements(requirements);
     setExcludedRequirements(next);
     writeLocal(next);
   }, []);
   const toggle = useCallback((requirement: string) => {
+    const normalized = normalizeRequirement(requirement);
+    if (!normalized) return;
     setExcludedRequirements((current) => {
       const next = new Set(current);
-      if (next.has(requirement)) next.delete(requirement);
-      else next.add(requirement);
+      if (next.has(normalized)) next.delete(normalized);
+      else next.add(normalized);
       writeLocal(next);
       return next;
     });
+  }, []);
+  const retrySync = useCallback(() => {
+    lastSavedRef.current = "";
+    setSyncError("");
+    setRetryRevision((current) => current + 1);
   }, []);
   const value = useMemo<CraftRequirementPreferences>(() => ({
     excludedRequirements,
@@ -184,9 +244,11 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
     saving,
     syncError,
     storageLabel: isSignedIn && edgeUrl ? "已隨登入帳號同步" : "儲存在此瀏覽器",
+    canRetry: Boolean(isSignedIn && edgeUrl),
     replace,
+    retrySync,
     toggle,
-  }), [edgeUrl, excludedRequirements, isSignedIn, ready, replace, saving, syncError, toggle]);
+  }), [edgeUrl, excludedRequirements, isSignedIn, ready, replace, retrySync, saving, syncError, toggle]);
   return <CraftRequirementPreferencesContext.Provider value={value}>{children}</CraftRequirementPreferencesContext.Provider>;
 }
 

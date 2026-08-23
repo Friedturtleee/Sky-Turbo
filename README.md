@@ -19,9 +19,9 @@ pnpm dev
 
 Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting recipes，並支援 `Buy Order → Sell Order`、`Instant Buy → Sell Order`、`Buy Order → Instant Sell`、`Instant Buy → Instant Sell` 四種策略。Max Profit 會逐檔計算 Instant 深度、以近 7 日原料與成品流動性限制最大合成次數；點擊成品可查看最大獲利或至少 80% Max Profit 所需的完整原料與總成本。配方資料會記錄 NEU 上游的精確 commit，SkyBlock 更新後重新執行 `pnpm sync:flip-data` 即可刷新。
 
-NPC Flip 會計算單次最佳出售方式與每日 Max Profit。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。點擊商品或「查看詳細」可切換「拿完每日庫存」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
+NPC Flip 會計算單次與深度內 Max Profit。Instant Buy／Instant Sell 逐檔消耗 Hypixel 可見掛單，並在累積利潤最高的數量停止；Buy Order／Sell Order 使用目前最佳掛單價。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。AH 成品預設只估算一次 NPC 購買。點擊商品或「查看詳細」可切換「100% Max Profit」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
 
-AH Flip 只分析現行 BIN。它會完整解析拍賣 NBT，辨認 Gemstone、Dye、Hot Potato / Fuming Book、Reforge、附魔、星級、Pet、Attribute 與其他升級，再優先使用 SkyCofl 的完整 NBT 中位估值。星級 fallback 會依 Hypixel Items API 的每件物品逐級成本，累加 Essence、材料與 Coins；10／15 星的 Essence 物品不會被誤認成 Dungeon Master Stars。無法取得精準估值時仍會顯示保守的 Component Estimate，但一律標記為高風險。Profit 已扣除依出售總額級距計算的 AH 稅費；`Nearest` 依拍賣建立時間由新到舊排序。
+AH Flip 目前因估值與介面仍需整理而暫時從導覽及公開頁面隱藏；底層收集器與歷史資料保留，方便修復後重新啟用。
 
 圖示同步來源依序為 Hypixel 官方 SkyBlock 資源包、Items API 的玩家頭顱、Minecraft 原版材質與 SkyShards 的 Shard 圖示；附魔等級與 Essence 等沒有獨立材質的項目則共用對應分類圖示。Hypixel 與 Minecraft 下載檔會驗證 SHA-1，所有實際使用的 PNG 都會保存成網站靜態檔，不需在訪客開啟頁面時連線外部圖片服務。
 

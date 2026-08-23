@@ -12,8 +12,10 @@ function requirementLabel(requirement: string): string {
 export function CraftRequirementFilter({ requirements }: { requirements: string[] }) {
   const {
     excludedRequirements,
+    canRetry,
     ready,
     replace,
+    retrySync,
     saving,
     storageLabel,
     syncError,
@@ -38,14 +40,15 @@ export function CraftRequirementFilter({ requirements }: { requirements: string[
     <div className="craft-requirement-panel">
       <div className="craft-requirement-heading">
         <div><strong>排除無法達成的配方需求</strong><small>勾選後，含有該項 Requires 的 Craft Flip 將不再顯示。</small></div>
-        <span className={syncError ? "negative" : undefined}>{saving ? "同步中…" : syncError || storageLabel}</span>
+        <div className="craft-requirement-sync"><span className={syncError ? "negative" : undefined}>{saving ? "同步中…" : syncError || storageLabel}</span>{syncError && canRetry ? <button className="detail-button" type="button" onClick={retrySync}>重新同步</button> : null}</div>
       </div>
       <div className="craft-requirement-actions">
         <label><span>搜尋 Requirement</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="例如 Chili Pepper IV、Slayer 7" /></label>
         <button className="button subtle" type="button" disabled={!ready || !query.trim() || matching.length === 0} onClick={() => replace([...excludedRequirements, ...matching])}>排除搜尋結果 ({matching.length})</button>
         <button className="button subtle" type="button" disabled={!ready || excludedRequirements.size === 0} onClick={() => replace([])}>清除全部排除</button>
       </div>
-      <div className="craft-requirement-options" aria-busy={!ready}>
+      <div className="craft-requirement-scroll-hint"><span>拖曳右側捲動條瀏覽需求</span><span>{matching.length.toLocaleString("zh-TW")} 項</span></div>
+      <div className="craft-requirement-options" aria-busy={!ready} tabIndex={0}>
         {!ready ? <span className="craft-requirement-state"><span className="spinner" />正在載入帳號設定…</span> : visible.map((requirement) => <label key={requirement}>
           <input type="checkbox" checked={excludedRequirements.has(requirement)} onChange={() => toggle(requirement)} />
           <span>{requirementLabel(requirement)}</span>

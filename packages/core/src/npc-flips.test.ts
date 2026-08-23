@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { calculateNpcFlips, calculateNpcProfitPlan } from "./npc-flips";
-import type { MarketSnapshot, NpcShopOffer } from "./types";
+import { calculateNpcFlips, calculateNpcProfitPlan, npcBazaarQuotesFromResponse } from "./npc-flips";
+import type { HypixelBazaarResponse, MarketSnapshot, NpcShopOffer } from "./types";
 
 const market = {
   source: "hypixel",
@@ -105,12 +105,87 @@ describe("calculateNpcFlips", () => {
 
   it("uses lowest BIN for AH outputs and excludes unknown prices", () => {
     const ahOffer = { ...offer, output: { productId: "AH_ITEM", name: "AH Item", amount: 1 } };
-    expect(calculateNpcFlips([ahOffer], market, { AH_ITEM: { lowestBin: 2_000 } }).flips[0]).toMatchObject({
+    const flip = calculateNpcFlips([ahOffer], market, { AH_ITEM: { lowestBin: 2_000 } }).flips[0]!;
+    expect(flip).toMatchObject({
       saleSource: "ah-lowest-bin",
       salePriceGross: 2_000,
       salePriceNet: 1_960,
     });
+    expect(calculateNpcProfitPlan(flip)).toMatchObject({
+      purchaseCount: 1,
+      outputQuantity: 1,
+      stockPurchaseLimit: 640,
+      executionPurchaseLimit: 1,
+      limitedBy: "AH 預設只估算 1 次購買",
+    });
     expect(calculateNpcFlips([ahOffer], market, {}).unpricedCount).toBe(1);
+  });
+
+  it("walks Instant depth and stops at the highest cumulative profit", () => {
+    const quotes = {
+      COUPON: {
+        productId: "COUPON",
+        instantBuyPrice: 100,
+        buyOrderPrice: 90,
+        instantSellPrice: 90,
+        sellOrderPrice: 100,
+        instantBuyDepth: [
+          { amount: 4, orders: 1, pricePerUnit: 100 },
+          { amount: 4, orders: 1, pricePerUnit: 300 },
+        ],
+        instantSellDepth: [],
+        buyMovingWeek: 1_680,
+        sellMovingWeek: 840,
+      },
+      OUTPUT: {
+        productId: "OUTPUT",
+        instantBuyPrice: 1_100,
+        buyOrderPrice: 1_000,
+        instantSellPrice: 1_000,
+        sellOrderPrice: 1_100,
+        instantBuyDepth: [],
+        instantSellDepth: [
+          { amount: 2, orders: 1, pricePerUnit: 1_000 },
+          { amount: 2, orders: 1, pricePerUnit: 400 },
+        ],
+        buyMovingWeek: 1_680,
+        sellMovingWeek: 840,
+      },
+    };
+    const noTaxMarket = { ...market, taxRate: 0 };
+    const flip = calculateNpcFlips([offer], noTaxMarket, {}, quotes, "ib-is").flips[0]!;
+    expect(calculateNpcProfitPlan(flip)).toMatchObject({
+      purchaseCount: 2,
+      outputQuantity: 2,
+      executionPurchaseLimit: 4,
+      maxProfitPurchaseCount: 2,
+      depthLimited: true,
+      totalCost: 600,
+      revenueAfterTax: 2_000,
+      totalProfit: 1_400,
+    });
+  });
+
+  it("maps Hypixel maker-side summaries to the correct taker depth", () => {
+    const response = {
+      success: true,
+      lastUpdated: 1,
+      products: {
+        OUTPUT: {
+          product_id: "OUTPUT",
+          buy_summary: [{ amount: 3, orders: 1, pricePerUnit: 1_100 }],
+          sell_summary: [{ amount: 4, orders: 1, pricePerUnit: 1_000 }],
+          quick_status: {
+            productId: "OUTPUT", buyPrice: 0, buyVolume: 0, buyMovingWeek: 10, buyOrders: 0,
+            sellPrice: 0, sellVolume: 0, sellMovingWeek: 8, sellOrders: 0,
+          },
+        },
+      },
+    } satisfies HypixelBazaarResponse;
+    expect(npcBazaarQuotesFromResponse(response).OUTPUT).toMatchObject({
+      instantBuyDepth: [{ amount: 3, pricePerUnit: 1_100 }],
+      instantSellDepth: [{ amount: 4, pricePerUnit: 1_000 }],
+    });
   });
 
   it("keeps one-sided Bazaar products when a sell order can still be placed", () => {

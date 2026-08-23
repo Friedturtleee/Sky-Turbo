@@ -309,6 +309,9 @@ export type NpcFlipCost = {
   unitPrice: number;
   totalPrice: number;
   priceSource: "coins" | "bazaar" | "ah-lowest-bin";
+  /** Visible sell offers consumed when the selected input strategy is Instant Buy. */
+  executionDepth?: OrderLevel[];
+  executionDepthPartial?: boolean;
 };
 
 export type NpcBazaarQuote = {
@@ -317,6 +320,12 @@ export type NpcBazaarQuote = {
   buyOrderPrice?: number;
   instantSellPrice?: number;
   sellOrderPrice?: number;
+  /** Hypixel buy_summary: sell offers available to an Instant Buy taker. */
+  instantBuyDepth?: OrderLevel[];
+  /** Hypixel sell_summary: buy orders available to an Instant Sell taker. */
+  instantSellDepth?: OrderLevel[];
+  instantBuyDepthPartial?: boolean;
+  instantSellDepthPartial?: boolean;
   buyMovingWeek: number;
   sellMovingWeek: number;
 };
@@ -349,6 +358,9 @@ export type NpcFlip = {
   bazaarSellOrderPriceGross?: number;
   bazaarSellOrderPriceNet?: number;
   bazaarSellOrderProfit?: number;
+  /** Visible buy orders consumed when the selected output strategy is Instant Sell. */
+  bazaarExecutionDepth?: OrderLevel[];
+  bazaarExecutionDepthPartial?: boolean;
   /** Estimated matched Bazaar volume for the preceding seven days. */
   bazaarMatchedVolume7d?: number;
   auctionLowestBin?: number;
@@ -389,6 +401,12 @@ export type NpcProfitPlan = {
   purchaseCount: number;
   outputQuantity: number;
   effectiveDailyLimit: number;
+  stockPurchaseLimit: number;
+  executionPurchaseLimit: number;
+  maxProfitPurchaseCount: number;
+  depthLimited: boolean;
+  depthPartial: boolean;
+  limitedBy: string;
   totalCost: number;
   revenueAfterTax: number;
   totalProfit: number;
