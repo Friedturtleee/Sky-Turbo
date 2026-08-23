@@ -16,6 +16,7 @@
     "test": "pnpm -r --if-present test && tsx --test scripts/coflnet-backfill-lib.test.ts",
     "typecheck": "pnpm -r typecheck && tsc -p tsconfig.scripts.json",
     "sync:shards": "node scripts/sync-skyshards.mjs",
+    "sync:npc-shops": "node scripts/sync-npc-shops.mjs",
     "sync:item-icons": "tsx scripts/sync-hypixel-item-icons.ts"
   },
   "devDependencies": {

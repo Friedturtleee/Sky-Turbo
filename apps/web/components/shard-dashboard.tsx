@@ -25,7 +25,7 @@ import {
 import { RefreshButton } from "./refresh-button";
 import { useBackgroundRefresh } from "./use-background-refresh";
 
-type SortKey = "fusionCoins" | "profit" | "profitPerOutput" | "marginPercent" | "maxOutput" | "maxFusions" | "inputCost";
+type SortKey = "fusionCoins" | "profitPerOutput" | "marginPercent" | "maxOutput" | "maxFusions" | "inputCost";
 type ShardResponseData = { flips: ShardFlip[]; depthModel: string; updatedAt: number };
 
 const strategyLabels: Record<ShardStrategy, string> = {
@@ -149,7 +149,6 @@ export function ShardDashboard() {
       <DebouncedSearchField onSearch={updateSearch} placeholder="成品、原料或 ID" />
       <label><span>排序</span><select value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
         <option value="fusionCoins">Fusion / coins</option>
-        <option value="profit">Flip Profit</option>
         <option value="profitPerOutput">Profit / 成品</option>
         <option value="marginPercent">Margin (%)</option>
         <option value="maxOutput">最大可獲利成品</option>
@@ -171,14 +170,14 @@ export function ShardDashboard() {
     </div>
     <div className="depth-note"><span>{displayedFlips.length} 個可用成品路線{updatedAt > 0 ? ` · 更新：${new Date(updatedAt).toLocaleTimeString("zh-TW")}` : ""}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : depthModel || "市場深度使用 Hypixel 可見掛單估算。"}</span></div>
     {loading ? <div className="state-card"><span className="spinner" />正在篩選市場並重算替代 Fusion 路徑…</div> : error && !hasLoadedRef.current ? <div className="state-card error-state">{error}</div> :
-      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Flip Profit</th><th>Profit <span className="estimated">Fusion / coins</span></th><th>詳細</th></tr></thead><tbody>
+      <div className="market-table-wrap panel"><table className="market-table shard-table"><thead><tr><th>產出 Shard</th><th className="change-volume-heading">24h / Vol.</th><th>實際市場原料</th><th>單次產出</th><th>成本</th><th>Fusion / coins</th><th>Total Profit</th><th>詳細</th></tr></thead><tbody>
         {displayedFlips.slice(0, 300).map((flip) => <tr key={flip.shardId}><td><Link className="item-cell" href={`/items/${encodeURIComponent(flip.productId)}`}><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.name}</strong><small>{flip.family} · {flip.rarity}</small></span></Link></td>
           <td><span className={`stack change-volume ${tone(flip.change24h)}`}><strong>{formatPercent(flip.change24h)}</strong><small className="neutral">{flip.volatility7d === undefined ? "Vol. 累積中" : `Vol. ${flip.volatility7d.toFixed(2)}%`}</small></span></td>
           <td><span className="stack route-materials">{flip.materials.slice(0, 2).map((material) => <strong key={material.productId}>{integer(material.quantityPerFusion)}× {material.name}</strong>)}{flip.materials.length > 2 ? <small>另有 {flip.materials.length - 2} 種遞迴原料</small> : <small>已展開至直接購入原料</small>}</span></td>
           <td>{flip.expectedOutput.toFixed(2)} {flip.crocodileApplied && flip.crocodileLevel > 0 ? <span className="ev-badge">EV</span> : null}</td>
           <td>{formatCoins(flip.inputCost)}</td>
-          <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)} · {formatCoins(flip.profitPerOutput)}/ea</small></span></td>
-          <td className="shard-depth">{flip.depth.available ? <span className="stack"><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong><small>{formatCoins(flip.depth.maxProfitableFusions)} Fusion / {formatCoins(coinsPerFusion(flip))} coins · ≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
+          <td>{flip.depth.available ? <span className={`stack ${tone(coinsPerFusion(flip))}`}><strong>{formatCoins(flip.depth.maxProfitableFusions)} Fusion / {formatCoins(coinsPerFusion(flip))} coins</strong><small>平均每次 Fusion Profit</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
+          <td className="shard-depth">{flip.depth.available ? <span className="stack"><strong className={tone(flip.depth.totalProfit)}>{formatCoins(flip.depth.totalProfit)}</strong><small>≈ {formatCoins(flip.depth.maxProfitableOutput)} 成品 · {flip.depth.limitedBy}{flip.depth.partial ? " · 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>無法估算</strong><small>{flip.depth.limitedBy}</small></span>}</td>
           <td><button className="detail-button" type="button" onClick={() => setSelectedShardId(flip.shardId)}>查看詳細</button></td>
         </tr>)}
       </tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">沒有同時符合原料與成品條件的 Fusion 路線。</div> : null}</div>}

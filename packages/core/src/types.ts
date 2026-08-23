@@ -262,3 +262,55 @@ export type ShardFlip = {
   depth: ShardDepth;
   path: string[];
 };
+
+export type NpcShopCost =
+  | { kind: "coins"; amount: number }
+  | { kind: "item"; productId: string; name: string; amount: number };
+
+export type NpcShopOffer = {
+  id: string;
+  npc: string;
+  output: { productId: string; name: string; amount: number };
+  costs: NpcShopCost[];
+  dailyLimit?: number;
+  requirement?: string;
+  source: { label: string; url: string };
+};
+
+export type NpcShopData = {
+  schemaVersion: 1;
+  generatedAt: string;
+  sources: string[];
+  offers: NpcShopOffer[];
+};
+
+export type NpcFlipCost = {
+  kind: "coins" | "item";
+  productId?: string;
+  name: string;
+  amount: number;
+  unitPrice: number;
+  totalPrice: number;
+  priceSource: "coins" | "bazaar" | "ah-lowest-bin";
+};
+
+export type NpcFlip = {
+  offerId: string;
+  npc: string;
+  productId: string;
+  name: string;
+  quantity: number;
+  costs: NpcFlipCost[];
+  totalCost: number;
+  saleSource: "bazaar" | "ah-lowest-bin";
+  salePriceGross: number;
+  salePriceNet: number;
+  saleFeeRate: number;
+  profit: number;
+  marginPercent: number;
+  dailyLimit?: number;
+  maxPurchases?: number;
+  maxDailyProfit?: number;
+  requirement?: string;
+  source: { label: string; url: string };
+};

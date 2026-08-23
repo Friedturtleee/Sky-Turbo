@@ -26,6 +26,10 @@ Fallback item and block textures are extracted from the official Minecraft clien
 
 ## SkyCofl
 
-Optional historical backfill can retrieve aggregate Bazaar history from the [SkyCofl API](https://sky.coflnet.com/wiki/api). Use is subject to SkyCofl's current API access, rate-limit, attribution, redistribution, and competition restrictions. The backfill command remains disabled until the operator explicitly confirms that permission for this application's data storage and use has been obtained. SkyCofl data is marked as an imported source and never overrides first-party Hypixel snapshots in the same time bucket.
+NPC Flip retrieves current Auction House lowest-BIN values from the [SkyCofl API](https://sky.coflnet.com/wiki/api) and displays the required attribution on that page. Optional historical backfill can retrieve aggregate Bazaar history from the same API. Use is subject to SkyCofl's current API access, rate-limit, attribution, redistribution, commercial-use, and competition restrictions. SkyCofl data never overrides first-party Hypixel Bazaar snapshots.
+
+## SkyblockRepo
+
+Generated NPC shop offers are derived from [SkyblockRepo/Repo](https://github.com/SkyblockRepo/Repo), licensed under the MIT License, with current Miria shop overrides sourced from the Hypixel SkyBlock Wiki. Copyright remains with the SkyblockRepo contributors. The upstream MIT license is copied to `packages/core/data/SkyblockRepo-LICENSE.txt`.
 
 Other JavaScript dependencies retain the licenses declared in their package metadata and the generated `pnpm-lock.yaml` dependency graph.

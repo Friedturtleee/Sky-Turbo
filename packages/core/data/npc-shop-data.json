@@ -1,0 +1,6133 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-23T03:46:25.281Z",
+  "sources": [
+    "https://github.com/SkyblockRepo/Repo/tree/main/shops",
+    "https://api.hypixel.net/v2/resources/skyblock/items",
+    "https://hypixelskyblock.minecraft.wiki/w/Miria"
+  ],
+  "offers": [
+    {
+      "id": "NPC_ADVENTURER:item2",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "BONE",
+        "name": "Bone",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item5",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "SULPHUR",
+        "name": "Gunpowder",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item10",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "INTIMIDATION_TALISMAN",
+        "name": "Intimidation Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item9",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "MINE_TALISMAN",
+        "name": "Mine Affinity Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item1",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "ROTTEN_FLESH",
+        "name": "Rotten Flesh",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item11",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "SCAVENGER_TALISMAN",
+        "name": "Scavenger Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item7",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "SKELETON_TALISMAN",
+        "name": "Skeleton Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item4",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "SLIME_BALL",
+        "name": "Slimeball",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 14
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item3",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "STRING",
+        "name": "String",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item8",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "VILLAGE_TALISMAN",
+        "name": "Village Affinity Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_ADVENTURER:item6",
+      "npc": "Adventurer",
+      "output": {
+        "productId": "ZOMBIE_TALISMAN",
+        "name": "Zombie Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item5",
+      "npc": "Amelia",
+      "output": {
+        "productId": "EGG_HUNT",
+        "name": "Egg Hunt",
+        "amount": 2
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item8",
+      "npc": "Amelia",
+      "output": {
+        "productId": "CONNECT_FOUR",
+        "name": "Four in a Row",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item6",
+      "npc": "Amelia",
+      "output": {
+        "productId": "ISLAND_NPC",
+        "name": "Island NPC",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item2",
+      "npc": "Amelia",
+      "output": {
+        "productId": "PARKOUR_POINT",
+        "name": "Parkour Checkpoint",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item1",
+      "npc": "Amelia",
+      "output": {
+        "productId": "PARKOUR_CONTROLLER",
+        "name": "Parkour Start/End",
+        "amount": 2
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item3",
+      "npc": "Amelia",
+      "output": {
+        "productId": "PARKOUR_TIMES",
+        "name": "Parkour Times",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item9",
+      "npc": "Amelia",
+      "output": {
+        "productId": "ROCK_PAPER_SHEARS",
+        "name": "Rock Paper Shears",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item10",
+      "npc": "Amelia",
+      "output": {
+        "productId": "SHOWCASE_BLOCK",
+        "name": "Showcase Block",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item4",
+      "npc": "Amelia",
+      "output": {
+        "productId": "SOCIAL_DISPLAY",
+        "name": "Social Display",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_AMELIA:item7",
+      "npc": "Amelia",
+      "output": {
+        "productId": "TIC_TAC_TOE",
+        "name": "Tic Tac Toe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
+      }
+    },
+    {
+      "id": "NPC_ANITA:item1",
+      "npc": "Anita",
+      "output": {
+        "productId": "INFINIDIRT_WAND",
+        "name": "InfiniDirt™ Wand",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "JACOBS_TICKET",
+          "name": "Jacob's Ticket",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ANITA.json"
+      }
+    },
+    {
+      "id": "NPC_ARGOFAY_SERIALBATHER:c5",
+      "npc": "Argofay \"Alchemist\"",
+      "output": {
+        "productId": "RIFT_STABILITY_ELIXIR",
+        "name": "Stability Elixir",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "SHAME_CRUX",
+          "name": "Shy Crux",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ARGOFAY_SERIALBATHER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item4",
+      "npc": "Bartender",
+      "output": {
+        "productId": "BITTER_ICE_TEA",
+        "name": "Bitter Iced Tea",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1200
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item1",
+      "npc": "Bartender",
+      "output": {
+        "productId": "CHEAP_COFFEE",
+        "name": "Cheap Coffee",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item6",
+      "npc": "Bartender",
+      "output": {
+        "productId": "DECENT_COFFEE",
+        "name": "Decent Coffee",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item11",
+      "npc": "Bartender",
+      "output": {
+        "productId": "END_PORTAL_FUMES_MIXIN",
+        "name": "End Portal Fumes",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item12",
+      "npc": "Bartender",
+      "output": {
+        "productId": "GABAGOEY_MIXIN",
+        "name": "Gabagoey Mixin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item5",
+      "npc": "Bartender",
+      "output": {
+        "productId": "KNOCKOFF_COLA",
+        "name": "KnockOff™ Cola",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item3",
+      "npc": "Bartender",
+      "output": {
+        "productId": "PULPOUS_ORANGE_JUICE",
+        "name": "Pulpous Orange Juice",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item7",
+      "npc": "Bartender",
+      "output": {
+        "productId": "REVENANT_GENERATOR_12",
+        "name": "Revenant Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "REVENANT_GENERATOR_1",
+          "name": "Revenant Minion I",
+          "amount": 11
+        },
+        {
+          "kind": "item",
+          "productId": "REVENANT_VISCERA",
+          "name": "Revenant Viscera",
+          "amount": 64
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item9",
+      "npc": "Bartender",
+      "output": {
+        "productId": "SPIDER_EGG_MIXIN",
+        "name": "Spider Egg Mixin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item2",
+      "npc": "Bartender",
+      "output": {
+        "productId": "TEPID_GREEN_TEA",
+        "name": "Tepid Green Tea",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item10",
+      "npc": "Bartender",
+      "output": {
+        "productId": "WOLF_FUR_MIXIN",
+        "name": "Wolf Fur Mixin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BARTENDER:item8",
+      "npc": "Bartender",
+      "output": {
+        "productId": "ZOMBIE_BRAIN_MIXIN",
+        "name": "Zombie Brain Mixin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item2",
+      "npc": "Bubu",
+      "output": {
+        "productId": "BANDAGED_MITHRIL_PICKAXE",
+        "name": "Bandaged Mithril Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FRACTURED_MITHRIL_PICKAXE",
+          "name": "Fractured Mithril Pickaxe",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MITHRIL",
+          "name": "Enchanted Mithril",
+          "amount": 2
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item8",
+      "npc": "Bubu",
+      "output": {
+        "productId": "BIOFUEL",
+        "name": "Biofuel",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item1",
+      "npc": "Bubu",
+      "output": {
+        "productId": "FRACTURED_MITHRIL_PICKAXE",
+        "name": "Fractured Mithril Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item3",
+      "npc": "Bubu",
+      "output": {
+        "productId": "MITHRIL_PICKAXE",
+        "name": "Mithril Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "BANDAGED_MITHRIL_PICKAXE",
+          "name": "Bandaged Mithril Pickaxe",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MITHRIL",
+          "name": "Enchanted Mithril",
+          "amount": 64
+        },
+        {
+          "kind": "item",
+          "productId": "BEJEWELED_HANDLE",
+          "name": "Bejeweled Handle",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_GOLD",
+          "name": "Enchanted Gold Ingot",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item7",
+      "npc": "Bubu",
+      "output": {
+        "productId": "REFINED_TITANIUM_PICKAXE",
+        "name": "Polished Titanium Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "TITANIUM_PICKAXE",
+          "name": "Titanium Pickaxe",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "REFINED_TITANIUM",
+          "name": "Refined Titanium",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item4",
+      "npc": "Bubu",
+      "output": {
+        "productId": "REFINED_MITHRIL_PICKAXE",
+        "name": "Refined Mithril Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MITHRIL_PICKAXE",
+          "name": "Mithril Pickaxe",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "REFINED_MITHRIL",
+          "name": "Refined Mithril",
+          "amount": 2
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item5",
+      "npc": "Bubu",
+      "output": {
+        "productId": "RUSTY_TITANIUM_PICKAXE",
+        "name": "Rusty Titanium Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUBU:item6",
+      "npc": "Bubu",
+      "output": {
+        "productId": "TITANIUM_PICKAXE",
+        "name": "Titanium Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "RUSTY_TITANIUM_PICKAXE",
+          "name": "Rusty Titanium Pickaxe",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_TITANIUM",
+          "name": "Enchanted Titanium",
+          "amount": 4
+        },
+        {
+          "kind": "item",
+          "productId": "BEJEWELED_HANDLE",
+          "name": "Bejeweled Handle",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item6",
+      "npc": "Builder",
+      "output": {
+        "productId": "STONE:5",
+        "name": "Andesite",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item19",
+      "npc": "Builder",
+      "output": {
+        "productId": "QUARTZ_BLOCK",
+        "name": "Block of Quartz",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 256
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item17",
+      "npc": "Builder",
+      "output": {
+        "productId": "BRICK",
+        "name": "Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 48
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item9",
+      "npc": "Builder",
+      "output": {
+        "productId": "cracked_stone_bricks",
+        "name": "Cracked Stone Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item22",
+      "npc": "Builder",
+      "output": {
+        "productId": "dark_prismarine",
+        "name": "Dark Prismarine",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item5",
+      "npc": "Builder",
+      "output": {
+        "productId": "STONE:3",
+        "name": "Diorite",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item1",
+      "npc": "Builder",
+      "output": {
+        "productId": "DIRT",
+        "name": "Dirt",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 16
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item18",
+      "npc": "Builder",
+      "output": {
+        "productId": "GLASS",
+        "name": "Glass",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item4",
+      "npc": "Builder",
+      "output": {
+        "productId": "STONE:1",
+        "name": "Granite",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item16",
+      "npc": "Builder",
+      "output": {
+        "productId": "HARD_CLAY",
+        "name": "Hardened Clay",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item13",
+      "npc": "Builder",
+      "output": {
+        "productId": "ICE",
+        "name": "Ice",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item25",
+      "npc": "Builder",
+      "output": {
+        "productId": "LAVA_BUCKET",
+        "name": "Lava Bucket",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item7",
+      "npc": "Builder",
+      "output": {
+        "productId": "MOSSY_COBBLESTONE",
+        "name": "Moss Stone",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 96
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item8",
+      "npc": "Builder",
+      "output": {
+        "productId": "mossy_stone_bricks",
+        "name": "Mossy Stone Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item10",
+      "npc": "Builder",
+      "output": {
+        "productId": "NETHER_BRICK",
+        "name": "Nether Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item14",
+      "npc": "Builder",
+      "output": {
+        "productId": "PACKED_ICE",
+        "name": "Packed Ice",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 72
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item20",
+      "npc": "Builder",
+      "output": {
+        "productId": "PRISMARINE",
+        "name": "Prismarine",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item21",
+      "npc": "Builder",
+      "output": {
+        "productId": "prismarine_bricks",
+        "name": "Prismarine Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item12",
+      "npc": "Builder",
+      "output": {
+        "productId": "RED_SANDSTONE",
+        "name": "Red Sandstone",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 48
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item11",
+      "npc": "Builder",
+      "output": {
+        "productId": "SANDSTONE",
+        "name": "Sandstone",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 48
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item23",
+      "npc": "Builder",
+      "output": {
+        "productId": "SEA_LANTERN",
+        "name": "Sea Lantern",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 480
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item2",
+      "npc": "Builder",
+      "output": {
+        "productId": "STONE",
+        "name": "Stone",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 16
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item3",
+      "npc": "Builder",
+      "output": {
+        "productId": "SMOOTH_BRICK",
+        "name": "Stone Bricks",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 16
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item24",
+      "npc": "Builder",
+      "output": {
+        "productId": "WATER_BUCKET",
+        "name": "Water Bucket",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 12
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BUILDER_CLASSIC:item15",
+      "npc": "Builder",
+      "output": {
+        "productId": "white_wool",
+        "name": "White Wool",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 48
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item3",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "COAL_GENERATOR_12",
+        "name": "Coal Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "COAL_GENERATOR_11",
+          "name": "Coal Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_COAL_BLOCK",
+          "name": "Enchanted Coal Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item1",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "COBBLESTONE_GENERATOR_12",
+        "name": "Cobblestone Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "COBBLESTONE_GENERATOR_11",
+          "name": "Cobblestone Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_COBBLESTONE",
+          "name": "Enchanted Cobblestone",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item6",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "DIAMOND_GENERATOR_12",
+        "name": "Diamond Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "DIAMOND_GENERATOR_11",
+          "name": "Diamond Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_DIAMOND_BLOCK",
+          "name": "Enchanted Diamond Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item8",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "EMERALD_GENERATOR_12",
+        "name": "Emerald Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "EMERALD_GENERATOR_11",
+          "name": "Emerald Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_EMERALD_BLOCK",
+          "name": "Enchanted Emerald Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item5",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "GOLD_GENERATOR_12",
+        "name": "Gold Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GOLD_GENERATOR_11",
+          "name": "Gold Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_GOLD_BLOCK",
+          "name": "Enchanted Gold Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item11",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "HARD_STONE_GENERATOR_12",
+        "name": "Hard Stone Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "HARD_STONE_GENERATOR_11",
+          "name": "Hard Stone Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "CONCENTRATED_STONE",
+          "name": "Concentrated Stone",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item4",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "IRON_GENERATOR_12",
+        "name": "Iron Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "IRON_GENERATOR_11",
+          "name": "Iron Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_IRON_BLOCK",
+          "name": "Enchanted Iron Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item7",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "LAPIS_GENERATOR_12",
+        "name": "Lapis Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "LAPIS_GENERATOR_11",
+          "name": "Lapis Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_LAPIS_LAZULI_BLOCK",
+          "name": "Enchanted Lapis Lazuli Block",
+          "amount": 64
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item10",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "MITHRIL_GENERATOR_12",
+        "name": "Mithril Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MITHRIL_GENERATOR_11",
+          "name": "Mithril Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "REFINED_MITHRIL",
+          "name": "Refined Mithril",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item2",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "OBSIDIAN_GENERATOR_12",
+        "name": "Obsidian Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "OBSIDIAN_GENERATOR_11",
+          "name": "Obsidian Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_OBSIDIAN",
+          "name": "Enchanted Obsidian",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_BULVAR:item9",
+      "npc": "Bulvar",
+      "output": {
+        "productId": "REDSTONE_GENERATOR_12",
+        "name": "Redstone Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "REDSTONE_GENERATOR_11",
+          "name": "Redstone Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_REDSTONE_BLOCK",
+          "name": "Enchanted Redstone Block",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b6",
+      "npc": "Celeste Set",
+      "output": {
+        "productId": "CELESTE_BOOTS",
+        "name": "Celeste Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b4",
+      "npc": "Celeste Set",
+      "output": {
+        "productId": "CELESTE_CHESTPLATE",
+        "name": "Celeste Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b3",
+      "npc": "Celeste Set",
+      "output": {
+        "productId": "CELESTE_HELMET",
+        "name": "Celeste Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b5",
+      "npc": "Celeste Set",
+      "output": {
+        "productId": "CELESTE_LEGGINGS",
+        "name": "Celeste Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 7000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_CELESTE_SET:b2",
+      "npc": "Celeste Set",
+      "output": {
+        "productId": "CELESTE_WAND",
+        "name": "Celeste Wand",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
+      }
+    },
+    {
+      "id": "NPC_CHUNK:c5",
+      "npc": "Chunk",
+      "output": {
+        "productId": "SUPERBOOM_TNT",
+        "name": "Superboom TNT",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_CHUNK.json"
+      }
+    },
+    {
+      "id": "NPC_DRAKUU:item1",
+      "npc": "Drakuu",
+      "output": {
+        "productId": "KUUDRA_FOLLOWER_ARTIFACT",
+        "name": "Kuudra Follower Artifact",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100000000
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_RED_SAND",
+          "name": "Enchanted Red Sand",
+          "amount": 1024
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MYCELIUM",
+          "name": "Enchanted Mycelium",
+          "amount": 1024
+        },
+        {
+          "kind": "item",
+          "productId": "KUUDRA_TEETH",
+          "name": "Kuudra Teeth",
+          "amount": 64
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_DRAKUU.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item9",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "BROWN_MUSHROOM",
+        "name": "Brown Mushroom",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item11",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "CACTUS",
+        "name": "Cactus",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 15
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item7",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "INK_SACK:3",
+        "name": "Cocoa Beans",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item6",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "PUMPKIN",
+        "name": "Pumpkin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item8",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "RED_MUSHROOM",
+        "name": "Red Mushroom",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_FARM_MERCHANT:item13",
+      "npc": "Farm Merchant",
+      "output": {
+        "productId": "ROOKIE_HOE",
+        "name": "Rookie Hoe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_GOLD_FORGER:item6",
+      "npc": "Gold Forger",
+      "output": {
+        "productId": "FANCY_SWORD",
+        "name": "Fancy Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_GOLD_FORGER:item1",
+      "npc": "Gold Forger",
+      "output": {
+        "productId": "GOLD_INGOT",
+        "name": "Gold Ingot",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 110
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_GOLD_FORGER:item7",
+      "npc": "Gold Forger",
+      "output": {
+        "productId": "GOLD_AXE",
+        "name": "Golden Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_GOLD_FORGER:item8",
+      "npc": "Gold Forger",
+      "output": {
+        "productId": "GOLD_PICKAXE",
+        "name": "Golden Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_GOLD_FORGER:item9",
+      "npc": "Gold Forger",
+      "output": {
+        "productId": "GOLD_SPADE",
+        "name": "Golden Shovel",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_GREGORY:b3",
+      "npc": "Gregory",
+      "output": {
+        "productId": "DECENT_BOW",
+        "name": "Decent Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GREGORY.json"
+      }
+    },
+    {
+      "id": "NPC_GREGORY:b2",
+      "npc": "Gregory",
+      "output": {
+        "productId": "ARROW",
+        "name": "Flint Arrow",
+        "amount": 20
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 240
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GREGORY.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item4",
+      "npc": "Hilda",
+      "output": {
+        "productId": "BLAZE_GENERATOR_12",
+        "name": "Blaze Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "BLAZE_GENERATOR_11",
+          "name": "Blaze Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_BLAZE_ROD",
+          "name": "Enchanted Blaze Rod",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item1",
+      "npc": "Hilda",
+      "output": {
+        "productId": "GHAST_GENERATOR_12",
+        "name": "Ghast Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GHAST_GENERATOR_11",
+          "name": "Ghast Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "SILVER_FANG",
+          "name": "Silver Fang",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item3",
+      "npc": "Hilda",
+      "output": {
+        "productId": "GLOWSTONE_GENERATOR_12",
+        "name": "Glowstone Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GLOWSTONE_GENERATOR_11",
+          "name": "Glowstone Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_GLOWSTONE",
+          "name": "Enchanted Glowstone",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item5",
+      "npc": "Hilda",
+      "output": {
+        "productId": "MAGMA_CUBE_GENERATOR_12",
+        "name": "Magma Cube Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MAGMA_CUBE_GENERATOR_11",
+          "name": "Magma Cube Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MAGMA_CREAM",
+          "name": "Enchanted Magma Cream",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item6",
+      "npc": "Hilda",
+      "output": {
+        "productId": "MYCELIUM_GENERATOR_12",
+        "name": "Mycelium Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MYCELIUM_GENERATOR_11",
+          "name": "Mycelium Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MYCELIUM_CUBE",
+          "name": "Enchanted Mycelium Cube",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_HILDA:item2",
+      "npc": "Hilda",
+      "output": {
+        "productId": "QUARTZ_GENERATOR_12",
+        "name": "Quartz Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "QUARTZ_GENERATOR_11",
+          "name": "Quartz Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_QUARTZ_BLOCK",
+          "name": "Enchanted Quartz Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
+      }
+    },
+    {
+      "id": "NPC_IRON_FORGER:item1",
+      "npc": "Iron Forger",
+      "output": {
+        "productId": "IRON_INGOT",
+        "name": "Iron Ingot",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_IRON_FORGER.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item6",
+      "npc": "Jake",
+      "output": {
+        "productId": "CHICKEN_AXE",
+        "name": "Advanced Chicken Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item3",
+      "npc": "Jake",
+      "output": {
+        "productId": "COW_AXE",
+        "name": "Advanced Cow Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item2",
+      "npc": "Jake",
+      "output": {
+        "productId": "MUSHROOM_COW_AXE",
+        "name": "Advanced Mooshroom Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item4",
+      "npc": "Jake",
+      "output": {
+        "productId": "PIG_AXE",
+        "name": "Advanced Pig Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item5",
+      "npc": "Jake",
+      "output": {
+        "productId": "RABBIT_AXE",
+        "name": "Advanced Rabbit Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item1",
+      "npc": "Jake",
+      "output": {
+        "productId": "SHEEP_AXE",
+        "name": "Advanced Sheep Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item9",
+      "npc": "Jake",
+      "output": {
+        "productId": "GOLDEN_BALL",
+        "name": "Golden Ball",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item7",
+      "npc": "Jake",
+      "output": {
+        "productId": "HARDENED_WOOD",
+        "name": "Hardened Wood",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 15000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_JAKE:item8",
+      "npc": "Jake",
+      "output": {
+        "productId": "LUCKY_DICE",
+        "name": "Lucky Dice",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
+      }
+    },
+    {
+      "id": "NPC_MELANCHOLIC_VIKING:item3",
+      "npc": "Joyful Viking",
+      "output": {
+        "productId": "RAIDER_AXE",
+        "name": "Raider Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 130000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
+      }
+    },
+    {
+      "id": "NPC_MELANCHOLIC_VIKING:item2",
+      "npc": "Joyful Viking",
+      "output": {
+        "productId": "PARK_JUNGLE_TRAVEL_SCROLL",
+        "name": "Travel Scroll to Jungle Island",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 70000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
+      }
+    },
+    {
+      "id": "NPC_MELANCHOLIC_VIKING:item1",
+      "npc": "Joyful Viking",
+      "output": {
+        "productId": "VIKING_TEAR",
+        "name": "Viking's Tear",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 15000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item2",
+      "npc": "Librarian",
+      "output": {
+        "productId": "BOOK",
+        "name": "Book",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item8",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_BANE_OF_ARTHROPODS_1",
+        "name": "Enchantment Bane Of Arthropods 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item10",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_EFFICIENCY_1",
+        "name": "Enchantment Efficiency 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item6",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_FIRE_PROTECTION_1",
+        "name": "Enchantment Fire Protection 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item7",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_PROJECTILE_PROTECTION_1",
+        "name": "Enchantment Projectile Protection 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item5",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_PROTECTION_1",
+        "name": "Enchantment Protection 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item4",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_SCAVENGER_1",
+        "name": "Enchantment Scavenger 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 40
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item3",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_SHARPNESS_1",
+        "name": "Enchantment Sharpness 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item9",
+      "npc": "Librarian",
+      "output": {
+        "productId": "ENCHANTMENT_SMITE_1",
+        "name": "Enchantment Smite 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LIBRARIAN:item1",
+      "npc": "Librarian",
+      "output": {
+        "productId": "EXP_BOTTLE",
+        "name": "Experience Bottle",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
+      }
+    },
+    {
+      "id": "NPC_LONELY_PHILOSOPHER:c5",
+      "npc": "Lonely Philosopher",
+      "output": {
+        "productId": "HUB_CASTLE_TRAVEL_SCROLL",
+        "name": "Travel Scroll to Hub Castle",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LONELY_PHILOSOPHER.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item5",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG_2",
+        "name": "Acacia Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item2",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG:2",
+        "name": "Birch Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item4",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG_2:1",
+        "name": "Dark Oak Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item12",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "EFFICIENT_AXE",
+        "name": "Efficient Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item6",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG:3",
+        "name": "Jungle Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item1",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG",
+        "name": "Oak Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item10",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "DIRT:2",
+        "name": "Podzol",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item9",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "PROMISING_AXE",
+        "name": "Promising Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item8",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "ROOKIE_AXE",
+        "name": "Rookie Foraging Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 12
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item3",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "LOG:1",
+        "name": "Spruce Log",
+        "amount": 5
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item7",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "STICK",
+        "name": "Stick",
+        "amount": 32
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item11",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "SWEET_AXE",
+        "name": "Sweet Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item17",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "WOOD_AXE",
+        "name": "Wooden Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item16",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "WOOD_HOE",
+        "name": "Wooden Hoe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item14",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "WOOD_PICKAXE",
+        "name": "Wooden Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item15",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "WOOD_SPADE",
+        "name": "Wooden Shovel",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMBER_MERCHANT:item13",
+      "npc": "Lumber Merchant",
+      "output": {
+        "productId": "WOOD_SWORD",
+        "name": "Wooden Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_LUMINA:item2",
+      "npc": "Lumina",
+      "output": {
+        "productId": "LANTERN",
+        "name": "Dwarven Lantern",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
+      }
+    },
+    {
+      "id": "NPC_LUMINA:item3",
+      "npc": "Lumina",
+      "output": {
+        "productId": "INFINI_TORCH",
+        "name": "InfiniTorch™",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
+      }
+    },
+    {
+      "id": "NPC_LUMINA:item1",
+      "npc": "Lumina",
+      "output": {
+        "productId": "TORCH",
+        "name": "Torch",
+        "amount": 64
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item9",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "REDSTONE_COMPARATOR",
+        "name": "Comparator",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item3",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "DAYLIGHT_DETECTOR",
+        "name": "Daylight Detector",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 18
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item6",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "IRON_PLATE",
+        "name": "Heavy Weighted Pressure Plate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 12
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item13",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "HOPPER",
+        "name": "Hopper",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item8",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "LEVER",
+        "name": "Lever",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item7",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "GOLD_PLATE",
+        "name": "Light Weighted Pressure Plate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 16
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item2",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "REDSTONE",
+        "name": "Redstone Dust",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item1",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "REDSTONE_TORCH_ON",
+        "name": "Redstone Torch",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item10",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "DIODE",
+        "name": "Repeater",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 6
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item5",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "STONE_PLATE",
+        "name": "Stone Pressure Plate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item12",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "TNT",
+        "name": "TNT",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item11",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "TRIPWIRE_HOOK",
+        "name": "Tripwire Hook",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MAD_REDSTONE_ENGINEER:item4",
+      "npc": "Mad Redstone Engineer",
+      "output": {
+        "productId": "WOOD_PLATE",
+        "name": "Wooden Pressure Plate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item4",
+      "npc": "Marthos",
+      "output": {
+        "productId": "BLAZE_GENERATOR_12",
+        "name": "Blaze Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "BLAZE_GENERATOR_11",
+          "name": "Blaze Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_BLAZE_ROD",
+          "name": "Enchanted Blaze Rod",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item1",
+      "npc": "Marthos",
+      "output": {
+        "productId": "GHAST_GENERATOR_12",
+        "name": "Ghast Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GHAST_GENERATOR_11",
+          "name": "Ghast Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "SILVER_FANG",
+          "name": "Silver Fang",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item3",
+      "npc": "Marthos",
+      "output": {
+        "productId": "GLOWSTONE_GENERATOR_12",
+        "name": "Glowstone Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GLOWSTONE_GENERATOR_11",
+          "name": "Glowstone Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_GLOWSTONE",
+          "name": "Enchanted Glowstone",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item5",
+      "npc": "Marthos",
+      "output": {
+        "productId": "MAGMA_CUBE_GENERATOR_12",
+        "name": "Magma Cube Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MAGMA_CUBE_GENERATOR_11",
+          "name": "Magma Cube Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MAGMA_CREAM",
+          "name": "Enchanted Magma Cream",
+          "amount": 1024
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item2",
+      "npc": "Marthos",
+      "output": {
+        "productId": "QUARTZ_GENERATOR_12",
+        "name": "Quartz Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "QUARTZ_GENERATOR_11",
+          "name": "Quartz Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_QUARTZ_BLOCK",
+          "name": "Enchanted Quartz Block",
+          "amount": 16
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MARTHOS:item6",
+      "npc": "Marthos",
+      "output": {
+        "productId": "RED_SAND_GENERATOR_12",
+        "name": "Red Sand Minion XII",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "RED_SAND_GENERATOR_11",
+          "name": "Red Sand Minion XI",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_RED_SAND_CUBE",
+          "name": "Enchanted Red Sand Cube",
+          "amount": 32
+        },
+        {
+          "kind": "coins",
+          "amount": 2000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
+      }
+    },
+    {
+      "id": "NPC_MASTER_TACTICIAN:item1",
+      "npc": "Master Tactician",
+      "output": {
+        "productId": "TACTICIAN_SWORD",
+        "name": "Tactician's Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MASTER_TACTICIAN.json"
+      }
+    },
+    {
+      "id": "NPC_MASTER_TACTICIAN:item2",
+      "npc": "Master Tactician",
+      "output": {
+        "productId": "WOOD_SINGULARITY",
+        "name": "Wood Singularity",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_OAK_LOG",
+          "name": "Enchanted Oak Log",
+          "amount": 320
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_SPRUCE_LOG",
+          "name": "Enchanted Spruce Log",
+          "amount": 320
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_BIRCH_LOG",
+          "name": "Enchanted Birch Log",
+          "amount": 320
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_DARK_OAK_LOG",
+          "name": "Enchanted Dark Oak Log",
+          "amount": 320
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_ACACIA_LOG",
+          "name": "Enchanted Acacia Log",
+          "amount": 320
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_JUNGLE_LOG",
+          "name": "Enchanted Jungle Log",
+          "amount": 320
+        },
+        {
+          "kind": "coins",
+          "amount": 1464000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MASTER_TACTICIAN.json"
+      }
+    },
+    {
+      "id": "NPC_DIANA:b6",
+      "npc": "Mayor Diana",
+      "output": {
+        "productId": "ANCESTRAL_SPADE",
+        "name": "Ancestral Spade",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        },
+        {
+          "kind": "item",
+          "productId": "GOLD_INGOT",
+          "name": "Gold Ingot",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_DIANA.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b6",
+      "npc": "Mercenary Armor",
+      "output": {
+        "productId": "MERCENARY_BOOTS",
+        "name": "Mercenary Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b4",
+      "npc": "Mercenary Armor",
+      "output": {
+        "productId": "MERCENARY_CHESTPLATE",
+        "name": "Mercenary Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 70000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b3",
+      "npc": "Mercenary Armor",
+      "output": {
+        "productId": "MERCENARY_HELMET",
+        "name": "Mercenary Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b5",
+      "npc": "Mercenary Armor",
+      "output": {
+        "productId": "MERCENARY_LEGGINGS",
+        "name": "Mercenary Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 45000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_MERCENARY_ARMOR:b2",
+      "npc": "Mercenary Armor",
+      "output": {
+        "productId": "MERCENARY_AXE",
+        "name": "Mercenary Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_MINE_MERCHANT:item11",
+      "npc": "Mine Merchant",
+      "output": {
+        "productId": "ONYX",
+        "name": "Black Diamond",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_MINE_MERCHANT:item9",
+      "npc": "Mine Merchant",
+      "output": {
+        "productId": "COBBLESTONE",
+        "name": "Cobblestone",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 3
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_MINE_MERCHANT:item6",
+      "npc": "Mine Merchant",
+      "output": {
+        "productId": "GOLD_PICKAXE",
+        "name": "Golden Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "GOLD_INGOT",
+          "name": "Gold Ingot",
+          "amount": 3
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_MINE_MERCHANT:item5",
+      "npc": "Mine Merchant",
+      "output": {
+        "productId": "PROMISING_PICKAXE",
+        "name": "Promising Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_MINE_MERCHANT:item4",
+      "npc": "Mine Merchant",
+      "output": {
+        "productId": "ROOKIE_PICKAXE",
+        "name": "Rookie Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 12
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
+      }
+    },
+    {
+      "id": "MIRIA:EXTREMELY_MILD_ADHESIVE",
+      "npc": "Miria",
+      "output": {
+        "productId": "EXTREMELY_MILD_ADHESIVE",
+        "name": "Extremely Mild Adhesive",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 100
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:GIANT_SLOTH_CLAW",
+      "npc": "Miria",
+      "output": {
+        "productId": "GIANT_SLOTH_CLAW",
+        "name": "Giant Sloth Claw",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 60
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:LARGE_SLOTH_CLAW",
+      "npc": "Miria",
+      "output": {
+        "productId": "LARGE_SLOTH_CLAW",
+        "name": "Large Sloth Claw",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 50
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:MEDIUM_SLOTH_CLAW",
+      "npc": "Miria",
+      "output": {
+        "productId": "MEDIUM_SLOTH_CLAW",
+        "name": "Medium Sloth Claw",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 40
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:RUBBER_SNORKEL",
+      "npc": "Miria",
+      "output": {
+        "productId": "RUBBER_SNORKEL",
+        "name": "Rubber Snorkel",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 125
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:SMALL_SLOTH_CLAW",
+      "npc": "Miria",
+      "output": {
+        "productId": "SMALL_SLOTH_CLAW",
+        "name": "Small Sloth Claw",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 30
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:TORRHUS_ARTIFACT",
+      "npc": "Miria",
+      "output": {
+        "productId": "TORRHUS_ARTIFACT",
+        "name": "Torrhus Artifact",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 30
+        },
+        {
+          "kind": "item",
+          "productId": "TORRHUS_RING",
+          "name": "Torrhus Ring",
+          "amount": 1
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:TORRHUS_RING",
+      "npc": "Miria",
+      "output": {
+        "productId": "TORRHUS_RING",
+        "name": "Torrhus Ring",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 30
+        },
+        {
+          "kind": "item",
+          "productId": "TORRHUS_TALISMAN",
+          "name": "Torrhus Talisman",
+          "amount": 1
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:TORRHUS_TALISMAN",
+      "npc": "Miria",
+      "output": {
+        "productId": "TORRHUS_TALISMAN",
+        "name": "Torrhus Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 30
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:VIAL_OF_SPRING_WATER",
+      "npc": "Miria",
+      "output": {
+        "productId": "VIAL_OF_SPRING_WATER",
+        "name": "Vial of Spring Water",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_PRIZE",
+          "name": "Miria's Prize",
+          "amount": 10
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:SHARD_VULTURE",
+      "npc": "Miria",
+      "output": {
+        "productId": "SHARD_VULTURE",
+        "name": "Vulture Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 25
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:WINDING_IVY",
+      "npc": "Miria",
+      "output": {
+        "productId": "WINDING_IVY",
+        "name": "Winding Ivy",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 250
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "MIRIA:SHARD_WOODPECKER",
+      "npc": "Miria",
+      "output": {
+        "productId": "SHARD_WOODPECKER",
+        "name": "Woodpecker Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "MIRIA_COUPON",
+          "name": "Miria's Coupon",
+          "amount": 15
+        }
+      ],
+      "requirement": "需達到對應 Miria Shop Milestone",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Miria",
+        "url": "https://hypixelskyblock.minecraft.wiki/w/Miria"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item4",
+      "npc": "Moby",
+      "output": {
+        "productId": "CHUM_SINKER",
+        "name": "Chum Sinker",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 4
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 15
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item8",
+      "npc": "Moby",
+      "output": {
+        "productId": "CHUMMING_TALISMAN",
+        "name": "Chumming Talisman",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item1",
+      "npc": "Moby",
+      "output": {
+        "productId": "EMPTY_CHUM_BUCKET",
+        "name": "Empty Chum Bucket",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2000
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 8
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item7",
+      "npc": "Moby",
+      "output": {
+        "productId": "MUSHED_MUSHROOM_MIXIN",
+        "name": "Glowing Mush Mixin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 64
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 80
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item2",
+      "npc": "Moby",
+      "output": {
+        "productId": "GLOWY_CHUM_BAIT",
+        "name": "Glowy Chum Bait",
+        "amount": 16
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 4
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item3",
+      "npc": "Moby",
+      "output": {
+        "productId": "LUMINOUS_BRACELET",
+        "name": "Luminous Bracelet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 2
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item5",
+      "npc": "Moby",
+      "output": {
+        "productId": "MOBYS_SHEARS",
+        "name": "Moby's Shears",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 5
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 15
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_MOBY:item6",
+      "npc": "Moby",
+      "output": {
+        "productId": "mushed_glowy_tonic_i_potion",
+        "name": "Mushed Glowy Tonic I Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "FULL_CHUM_BUCKET",
+          "name": "Full Chum Bucket",
+          "amount": 8
+        },
+        {
+          "kind": "item",
+          "productId": "GLOWING_MUSHROOM",
+          "name": "Glowing Mushroom",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item2",
+      "npc": "Odawa",
+      "output": {
+        "productId": "JUNGLE_AMULET",
+        "name": "Jungle Amulet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "JUNGLE_HEART",
+          "name": "Jungle Heart",
+          "amount": 4
+        },
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item5",
+      "npc": "Odawa",
+      "output": {
+        "productId": "JUNGLE_KEY",
+        "name": "Jungle Key",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item4",
+      "npc": "Odawa",
+      "output": {
+        "productId": "JUNGLE_PICKAXE",
+        "name": "Jungle Pickaxe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 200
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item1",
+      "npc": "Odawa",
+      "output": {
+        "productId": "KALHUIKI_MASK",
+        "name": "Kalhuiki Mask",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "WOOD",
+          "name": "Oak Planks",
+          "amount": 20
+        },
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 20
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item6",
+      "npc": "Odawa",
+      "output": {
+        "productId": "ROUGH_AMETHYST_GEM",
+        "name": "Rough Amethyst Gemstone",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_ODAWA:item3",
+      "npc": "Odawa",
+      "output": {
+        "productId": "TRIBAL_SPEAR",
+        "name": "Tribal Spear",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "JUNGLE_HEART",
+          "name": "Jungle Heart",
+          "amount": 1
+        },
+        {
+          "kind": "item",
+          "productId": "SLUDGE_JUICE",
+          "name": "Sludge Juice",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
+      }
+    },
+    {
+      "id": "NPC_OLD_SHAMAN_NYKO:item2",
+      "npc": "Old Shaman Nyko",
+      "output": {
+        "productId": "ENCHANTMENT_TRUE_PROTECTION_1",
+        "name": "Enchantment True Protection 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 900000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OLD_SHAMAN_NYKO.json"
+      }
+    },
+    {
+      "id": "NPC_OLD_SHAMAN_NYKO:item1",
+      "npc": "Old Shaman Nyko",
+      "output": {
+        "productId": "TRUE_ESSENCE",
+        "name": "True Essence",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OLD_SHAMAN_NYKO.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item15",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "DARK_GOGGLES",
+        "name": "Dark Goggles",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item13",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "DEATH_BOW",
+        "name": "Death Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000000
+        },
+        {
+          "kind": "item",
+          "productId": "SUPER_UNDEAD_BOW",
+          "name": "Super Undead Bow",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item1",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_i_potion",
+        "name": "Dungeon I Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item2",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_ii_potion",
+        "name": "Dungeon Ii Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item3",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_iii_potion",
+        "name": "Dungeon Iii Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 15000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item4",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_iv_potion",
+        "name": "Dungeon Iv Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 20000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item5",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_v_potion",
+        "name": "Dungeon V Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item6",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_vi_potion",
+        "name": "Dungeon Vi Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item7",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "dungeon_vii_potion",
+        "name": "Dungeon Vii Potion",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item14",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "ARROW",
+        "name": "Flint Arrow",
+        "amount": 20
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 200
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item10",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "GIANT_CLEAVER",
+        "name": "Giant Cleaver",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000000
+        },
+        {
+          "kind": "item",
+          "productId": "HYPER_CLEAVER",
+          "name": "Hyper Cleaver",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item9",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "HYPER_CLEAVER",
+        "name": "Hyper Cleaver",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 800000
+        },
+        {
+          "kind": "item",
+          "productId": "SUPER_CLEAVER",
+          "name": "Super Cleaver",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item20",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "MENDER_CROWN",
+        "name": "Mender Crown",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000000
+        },
+        {
+          "kind": "item",
+          "productId": "MENDER_FEDORA",
+          "name": "Mender Fedora",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item19",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "MENDER_FEDORA",
+        "name": "Mender Fedora",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 800000
+        },
+        {
+          "kind": "item",
+          "productId": "MENDER_HELMET",
+          "name": "Mender Helmet",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item18",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "MENDER_HELMET",
+        "name": "Mender Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item23",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "METAL_CHESTPLATE",
+        "name": "Metal Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 800000
+        },
+        {
+          "kind": "item",
+          "productId": "STONE_CHESTPLATE",
+          "name": "Stone Chestplate",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item16",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "SHADOW_GOGGLES",
+        "name": "Shadow Goggles",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 800000
+        },
+        {
+          "kind": "item",
+          "productId": "DARK_GOGGLES",
+          "name": "Dark Goggles",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item24",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "STEEL_CHESTPLATE",
+        "name": "Steel Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000000
+        },
+        {
+          "kind": "item",
+          "productId": "METAL_CHESTPLATE",
+          "name": "Metal Chestplate",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item22",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "STONE_CHESTPLATE",
+        "name": "Stone Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item8",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "SUPER_CLEAVER",
+        "name": "Super Cleaver",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80000
+        },
+        {
+          "kind": "item",
+          "productId": "CLEAVER",
+          "name": "Cleaver",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item12",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "SUPER_UNDEAD_BOW",
+        "name": "Super Undead Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 800000
+        },
+        {
+          "kind": "item",
+          "productId": "UNDEAD_BOW",
+          "name": "Undead Bow",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item21",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "SUPERBOOM_TNT",
+        "name": "Superboom TNT",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 3000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item11",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "UNDEAD_BOW",
+        "name": "Undead Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 80000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_OPHELIA:item17",
+      "npc": "Ophelia",
+      "output": {
+        "productId": "WITHER_GOGGLES",
+        "name": "Wither Goggles",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000000
+        },
+        {
+          "kind": "item",
+          "productId": "SHADOW_GOGGLES",
+          "name": "Shadow Goggles",
+          "amount": 1
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
+      }
+    },
+    {
+      "id": "NPC_PAT:item1",
+      "npc": "Pat",
+      "output": {
+        "productId": "FLINT",
+        "name": "Flint",
+        "amount": 10
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 60
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PAT.json"
+      }
+    },
+    {
+      "id": "NPC_PAT:item2",
+      "npc": "Pat",
+      "output": {
+        "productId": "GRAVEL",
+        "name": "Gravel",
+        "amount": 15
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 65
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PAT.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item1",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "ENCHANTMENT_DRAGON_HUNTER_1",
+        "name": "Enchantment Dragon Hunter 1",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item2",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "ENCHANTMENT_ENDER_SLAYER_6",
+        "name": "Enchantment Ender Slayer 6",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1500000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item3",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "ENDER_STONE",
+        "name": "End Stone",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item4",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "OBSIDIAN",
+        "name": "Obsidian",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item5",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "REMNANT_OF_THE_EYE",
+        "name": "Remnant of the Eye",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 200000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item7",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "SILENT_PEARL",
+        "name": "Silent Pearl",
+        "amount": 8
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1200
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PEARL_DEALER:item6",
+      "npc": "Pearl Dealer",
+      "output": {
+        "productId": "STONK_PICKAXE",
+        "name": "Stonk",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 499999
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
+      }
+    },
+    {
+      "id": "NPC_PLUMBER_JOE:c5",
+      "npc": "Plumber Joe",
+      "output": {
+        "productId": "PLUMBER_SPONGE",
+        "name": "Plumber's Sponge",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PLUMBER_JOE.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_ARMOR:b5",
+      "npc": "Rosetta's Armor",
+      "output": {
+        "productId": "ROSETTA_BOOTS",
+        "name": "Rosetta's Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 960
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_ARMOR:b3",
+      "npc": "Rosetta's Armor",
+      "output": {
+        "productId": "ROSETTA_CHESTPLATE",
+        "name": "Rosetta's Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1320
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_ARMOR:b2",
+      "npc": "Rosetta's Armor",
+      "output": {
+        "productId": "ROSETTA_HELMET",
+        "name": "Rosetta's Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1050
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_ARMOR:b4",
+      "npc": "Rosetta's Armor",
+      "output": {
+        "productId": "ROSETTA_LEGGINGS",
+        "name": "Rosetta's Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1200
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_SCOOP:c5",
+      "npc": "Scoop",
+      "output": {
+        "productId": "SNOW_SHOVEL",
+        "name": "Snow Shovel",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SCOOP.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item1",
+      "npc": "Sherry",
+      "output": {
+        "productId": "FESTIVE_SINKER",
+        "name": "Festive Sinker",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item3",
+      "npc": "Sherry",
+      "output": {
+        "productId": "SNOW_BLASTER",
+        "name": "Frosty the Snow Blaster",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 75000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item4",
+      "npc": "Sherry",
+      "output": {
+        "productId": "ICE",
+        "name": "Ice",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item2",
+      "npc": "Sherry",
+      "output": {
+        "productId": "ICE_BAIT",
+        "name": "Ice Bait",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 12
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item5",
+      "npc": "Sherry",
+      "output": {
+        "productId": "PACKED_ICE",
+        "name": "Packed Ice",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 9
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHERRY:item6",
+      "npc": "Sherry",
+      "output": {
+        "productId": "LARGE_WINTER_SACK",
+        "name": "Winter Sack",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 250000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
+      }
+    },
+    {
+      "id": "NPC_SHIFTY:item2",
+      "npc": "Shifty",
+      "output": {
+        "productId": "DR_PAPER",
+        "name": "Dctr. Paper",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
+      }
+    },
+    {
+      "id": "NPC_SHIFTY:item3",
+      "npc": "Shifty",
+      "output": {
+        "productId": "SLAYER_ENERGY_DRINK",
+        "name": "Slayer© Energy Drink",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
+      }
+    },
+    {
+      "id": "NPC_SHIFTY:item1",
+      "npc": "Shifty",
+      "output": {
+        "productId": "TUTTI_FRUTTI_POISON",
+        "name": "Tutti-Frutti Flavored Poison",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b6",
+      "npc": "Squire Armor",
+      "output": {
+        "productId": "SQUIRE_BOOTS",
+        "name": "Squire Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b4",
+      "npc": "Squire Armor",
+      "output": {
+        "productId": "SQUIRE_CHESTPLATE",
+        "name": "Squire Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 8000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b3",
+      "npc": "Squire Armor",
+      "output": {
+        "productId": "SQUIRE_HELMET",
+        "name": "Squire Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b5",
+      "npc": "Squire Armor",
+      "output": {
+        "productId": "SQUIRE_LEGGINGS",
+        "name": "Squire Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 7000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_SQUIRE_ARMOR:b2",
+      "npc": "Squire Armor",
+      "output": {
+        "productId": "SQUIRE_SWORD",
+        "name": "Squire Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b6",
+      "npc": "Starlight Set",
+      "output": {
+        "productId": "STARLIGHT_BOOTS",
+        "name": "Starlight Boots",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b4",
+      "npc": "Starlight Set",
+      "output": {
+        "productId": "STARLIGHT_CHESTPLATE",
+        "name": "Starlight Chestplate",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 70000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b3",
+      "npc": "Starlight Set",
+      "output": {
+        "productId": "STARLIGHT_HELMET",
+        "name": "Starlight Helmet",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 35000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b5",
+      "npc": "Starlight Set",
+      "output": {
+        "productId": "STARLIGHT_LEGGINGS",
+        "name": "Starlight Leggings",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 45000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_ROSETTA_STARLIGHT_SET:b2",
+      "npc": "Starlight Set",
+      "output": {
+        "productId": "STARLIGHT_WAND",
+        "name": "Starlight Wand",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 30000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
+      }
+    },
+    {
+      "id": "NPC_TERRY:item4",
+      "npc": "Terry",
+      "output": {
+        "productId": "FROZEN_BAUBLE",
+        "name": "Frozen Bauble",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "ICE_HUNK",
+          "name": "Hunk of Ice",
+          "amount": 64
+        },
+        {
+          "kind": "item",
+          "productId": "BLUE_ICE_HUNK",
+          "name": "Hunk of Blue Ice",
+          "amount": 32
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
+      }
+    },
+    {
+      "id": "NPC_TERRY:item2",
+      "npc": "Terry",
+      "output": {
+        "productId": "RUSTY_ANCHOR",
+        "name": "Rusty Anchor",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "BLUE_ICE_HUNK",
+          "name": "Hunk of Blue Ice",
+          "amount": 64
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
+      }
+    },
+    {
+      "id": "NPC_TERRY:item1",
+      "npc": "Terry",
+      "output": {
+        "productId": "SALT_CUBE",
+        "name": "Salt Cube",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "ICE_HUNK",
+          "name": "Hunk of Ice",
+          "amount": 64
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
+      }
+    },
+    {
+      "id": "NPC_TERRY:item3",
+      "npc": "Terry",
+      "output": {
+        "productId": "TERRY_SNOWGLOBE",
+        "name": "Terry's Snowglobe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "ICE_HUNK",
+          "name": "Hunk of Ice",
+          "amount": 32
+        },
+        {
+          "kind": "item",
+          "productId": "BLUE_ICE_HUNK",
+          "name": "Hunk of Blue Ice",
+          "amount": 8
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
+      }
+    },
+    {
+      "id": "NPC_TRINITY:item1",
+      "npc": "Trinity",
+      "output": {
+        "productId": "potion_regeneration_9",
+        "name": "Potion Regeneration 9",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10000000
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TRINITY.json"
+      }
+    },
+    {
+      "id": "NPC_WALTER:c5",
+      "npc": "Walter",
+      "output": {
+        "productId": "SUPERBOOM_TNT",
+        "name": "Superboom TNT",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 2500
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WALTER.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item8",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "ARTISANAL_SHORTBOW",
+        "name": "Artisanal Shortbow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 600
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item5",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "BOW",
+        "name": "Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item4",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "DIAMOND_SWORD",
+        "name": "Diamond Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 60
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item2",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "END_SWORD",
+        "name": "End Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 150
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item6",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "ARROW",
+        "name": "Flint Arrow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 40
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item3",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "SPIDER_SWORD",
+        "name": "Spider Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item1",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "UNDEAD_SWORD",
+        "name": "Undead Sword",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WEAPONSMITH_MERCHANT:item7",
+      "npc": "Weaponsmith",
+      "output": {
+        "productId": "WITHER_BOW",
+        "name": "Wither Bow",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 250
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item9",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "BROWN_MUSHROOM",
+        "name": "Brown Mushroom",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item11",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "CACTUS",
+        "name": "Cactus",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 15
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item7",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "INK_SACK:3",
+        "name": "Cocoa Beans",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item6",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "PUMPKIN",
+        "name": "Pumpkin",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item8",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "RED_MUSHROOM",
+        "name": "Red Mushroom",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25
+        }
+      ],
+      "dailyLimit": 6640,
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    },
+    {
+      "id": "NPC_WINDMILL_OPERATOR:item13",
+      "npc": "Windmill Operator",
+      "output": {
+        "productId": "ROOKIE_HOE",
+        "name": "Rookie Hoe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 10
+        }
+      ],
+      "source": {
+        "label": "SkyblockRepo / Hypixel Wiki",
+        "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
+      }
+    }
+  ]
+}
