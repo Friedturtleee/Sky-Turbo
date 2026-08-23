@@ -131,18 +131,18 @@ export function calculateNpcProfitPlan(
     ? "AH 預設只估算 1 次購買"
     : "NPC 每日庫存";
   for (const cost of flip.costs) {
-    if (!cost.executionDepth) continue;
-    const limit = Math.floor(levelAmount(cost.executionDepth) / Math.max(cost.amount, 1));
+    if (!cost.capacityDepth) continue;
+    const limit = Math.floor(levelAmount(cost.capacityDepth) / Math.max(cost.amount, 1));
     if (limit < executionPurchaseLimit) {
       executionPurchaseLimit = limit;
-      limitedBy = `${cost.name} Instant Buy 可見深度`;
+      limitedBy = `${cost.name} ${flip.strategy.startsWith("ib") ? "Sell Offers" : "Buy Orders"} 可見深度`;
     }
   }
-  if (flip.bazaarExecutionDepth) {
-    const limit = Math.floor(levelAmount(flip.bazaarExecutionDepth) / Math.max(flip.quantity, 1));
+  if (flip.bazaarCapacityDepth) {
+    const limit = Math.floor(levelAmount(flip.bazaarCapacityDepth) / Math.max(flip.quantity, 1));
     if (limit < executionPurchaseLimit) {
       executionPurchaseLimit = limit;
-      limitedBy = `${flip.name} Instant Sell 可見深度`;
+      limitedBy = `${flip.name} ${flip.strategy.endsWith("is") ? "Buy Orders" : "Sell Offers"} 可見深度`;
     }
   }
   if (executionPurchaseLimit < 1) return null;
@@ -177,8 +177,8 @@ export function calculateNpcProfitPlan(
     : evaluateNpcPlan(flip, purchaseCount);
   if (!evaluated) return null;
   const depthPartial = Boolean(
-    flip.bazaarExecutionDepthPartial
-    || flip.costs.some((cost) => cost.executionDepthPartial),
+    flip.bazaarCapacityDepthPartial
+    || flip.costs.some((cost) => cost.capacityDepthPartial),
   );
   return {
     fraction,
@@ -258,6 +258,14 @@ export function calculateNpcFlips(
         unitPrice,
         totalPrice: unitPrice * cost.amount,
         priceSource: marketItem || isPositivePrice(bazaarUnitPrice) ? "bazaar" : "ah-lowest-bin",
+        ...((marketItem || isPositivePrice(bazaarUnitPrice)) && (inputUsesInstant
+          ? bazaarQuote?.instantBuyDepth
+          : bazaarQuote?.instantSellDepth) ? {
+          capacityDepth: inputUsesInstant ? bazaarQuote?.instantBuyDepth : bazaarQuote?.instantSellDepth,
+          capacityDepthPartial: inputUsesInstant
+            ? bazaarQuote?.instantBuyDepthPartial
+            : bazaarQuote?.instantSellDepthPartial,
+        } : {}),
         ...(inputUsesInstant && (marketItem || isPositivePrice(bazaarUnitPrice)) && bazaarQuote?.instantBuyDepth ? {
           executionDepth: bazaarQuote.instantBuyDepth,
           executionDepthPartial: bazaarQuote.instantBuyDepthPartial,
@@ -314,11 +322,7 @@ export function calculateNpcFlips(
       ? outputUsesInstant ? "insta-sell" : "sell-order"
       : "ah";
     const maxProfitPerPurchase = profit;
-    const maxPurchases = offer.dailyLimit === undefined
-      ? undefined
-      : Math.floor(offer.dailyLimit / Math.max(offer.output.amount, 1));
-
-    flips.push({
+    const flip: NpcFlip = {
       offerId: offer.id,
       strategy,
       npc: offer.npc,
@@ -339,6 +343,16 @@ export function calculateNpcFlips(
         bazaarSellOrderPriceGross,
         bazaarSellOrderPriceNet,
         bazaarSellOrderProfit,
+        ...((outputUsesInstant
+          ? outputBazaarQuote?.instantSellDepth
+          : outputBazaarQuote?.instantBuyDepth) ? {
+          bazaarCapacityDepth: outputUsesInstant
+            ? outputBazaarQuote?.instantSellDepth
+            : outputBazaarQuote?.instantBuyDepth,
+          bazaarCapacityDepthPartial: outputUsesInstant
+            ? outputBazaarQuote?.instantSellDepthPartial
+            : outputBazaarQuote?.instantBuyDepthPartial,
+        } : {}),
         ...(outputUsesInstant && outputBazaarQuote?.instantSellDepth ? {
           bazaarExecutionDepth: outputBazaarQuote.instantSellDepth,
           bazaarExecutionDepthPartial: outputBazaarQuote.instantSellDepthPartial,
@@ -364,10 +378,16 @@ export function calculateNpcFlips(
       diazEligible: offer.dailyLimit !== undefined && offer.diazEligible !== false,
       conditionalDailyLimitBonus: offer.conditionalDailyLimitBonus,
       conditionalLimitRequirement: offer.conditionalLimitRequirement,
-      maxPurchases,
-      maxDailyProfit: maxPurchases === undefined ? undefined : maxProfitPerPurchase * maxPurchases,
       requirement: offer.requirement,
       source: offer.source,
+    };
+    const basePlan = calculateNpcProfitPlan(flip);
+    flips.push({
+      ...flip,
+      ...(basePlan ? {
+        maxPurchases: basePlan.maxProfitPurchaseCount,
+        maxDailyProfit: basePlan.totalProfit,
+      } : {}),
     });
   }
 

@@ -309,6 +309,9 @@ export type NpcFlipCost = {
   unitPrice: number;
   totalPrice: number;
   priceSource: "coins" | "bazaar" | "ah-lowest-bin";
+  /** Selected Bazaar side used to cap the executable quantity for maker and taker strategies. */
+  capacityDepth?: OrderLevel[];
+  capacityDepthPartial?: boolean;
   /** Visible sell offers consumed when the selected input strategy is Instant Buy. */
   executionDepth?: OrderLevel[];
   executionDepthPartial?: boolean;
@@ -358,6 +361,9 @@ export type NpcFlip = {
   bazaarSellOrderPriceGross?: number;
   bazaarSellOrderPriceNet?: number;
   bazaarSellOrderProfit?: number;
+  /** Selected Bazaar side used to cap output quantity for Sell Order and Instant Sell. */
+  bazaarCapacityDepth?: OrderLevel[];
+  bazaarCapacityDepthPartial?: boolean;
   /** Visible buy orders consumed when the selected output strategy is Instant Sell. */
   bazaarExecutionDepth?: OrderLevel[];
   bazaarExecutionDepthPartial?: boolean;

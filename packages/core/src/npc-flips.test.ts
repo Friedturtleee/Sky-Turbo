@@ -166,6 +166,43 @@ describe("calculateNpcFlips", () => {
     });
   });
 
+  it("caps maker strategies by the selected Bazaar-side depth", () => {
+    const quotes = {
+      COUPON: {
+        productId: "COUPON",
+        instantBuyPrice: 100,
+        buyOrderPrice: 90,
+        instantSellPrice: 90,
+        sellOrderPrice: 100,
+        instantBuyDepth: [{ amount: 100, orders: 1, pricePerUnit: 100 }],
+        instantSellDepth: [{ amount: 4, orders: 1, pricePerUnit: 90 }],
+        buyMovingWeek: 1_680,
+        sellMovingWeek: 840,
+      },
+      OUTPUT: {
+        productId: "OUTPUT",
+        instantBuyPrice: 1_100,
+        buyOrderPrice: 1_000,
+        instantSellPrice: 1_000,
+        sellOrderPrice: 1_100,
+        instantBuyDepth: [{ amount: 10, orders: 1, pricePerUnit: 1_100 }],
+        instantSellDepth: [{ amount: 100, orders: 1, pricePerUnit: 1_000 }],
+        buyMovingWeek: 1_680,
+        sellMovingWeek: 840,
+      },
+    };
+    const flip = calculateNpcFlips([offer], { ...market, taxRate: 0 }, {}, quotes, "bo-so").flips[0]!;
+    expect(calculateNpcProfitPlan(flip)).toMatchObject({
+      purchaseCount: 2,
+      executionPurchaseLimit: 2,
+      depthLimited: true,
+      limitedBy: "Coupon Buy Orders 可見深度",
+      totalCost: 560,
+      revenueAfterTax: 2_200,
+      totalProfit: 1_640,
+    });
+  });
+
   it("maps Hypixel maker-side summaries to the correct taker depth", () => {
     const response = {
       success: true,

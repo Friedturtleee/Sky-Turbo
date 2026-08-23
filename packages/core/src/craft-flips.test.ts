@@ -94,7 +94,7 @@ describe("calculateCraftFlips", () => {
   });
 
   it.each([
-    ["bo-so", 225, 11_700, 180],
+    ["bo-so", 50, 2_600, 40],
     ["ib-so", 50, 2_102, 40],
     ["bo-is", 50, 1_254.5, 40],
     ["ib-is", 50, 756.5, 40],
@@ -122,12 +122,12 @@ describe("calculateCraftFlips", () => {
   it("expands every ingredient for the full and 80% cost plans", () => {
     const flip = calculateCraftFlips(data, market, books, "bo-so", 0.1).flips[0]!;
     expect(calculateCraftProfitPlan(flip, 1)?.ingredients).toEqual([
-      { productId: "A", name: "A", amount: 450, unitCost: 5, totalCost: 2_250 },
-      { productId: "B", name: "B", amount: 225, unitCost: 10, totalCost: 2_250 },
+      { productId: "A", name: "A", amount: 100, unitCost: 5, totalCost: 500 },
+      { productId: "B", name: "B", amount: 50, unitCost: 10, totalCost: 500 },
     ]);
     expect(calculateCraftProfitPlan(flip, 0.8)?.ingredients).toEqual([
-      { productId: "A", name: "A", amount: 360, unitCost: 5, totalCost: 1_800 },
-      { productId: "B", name: "B", amount: 180, unitCost: 10, totalCost: 1_800 },
+      { productId: "A", name: "A", amount: 80, unitCost: 5, totalCost: 400 },
+      { productId: "B", name: "B", amount: 40, unitCost: 10, totalCost: 400 },
     ]);
   });
 });

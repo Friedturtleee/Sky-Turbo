@@ -17,9 +17,9 @@ pnpm dev
 
 `pnpm sync:flip-data` 是更新全部 Flip 靜態資料的一鍵指令，會依序同步 Shard Fusion、NPC 商店、NEU crafting recipes、AH reforge / dye 對照表與所有相關物品圖示。只需更新合成配方與 AH 升級對照表時可執行 `pnpm sync:craft-recipes`；只需重建圖示時可執行 `pnpm sync:item-icons`。這些同步不需要 Hypixel API key。
 
-Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting recipes，並支援 `Buy Order → Sell Order`、`Instant Buy → Sell Order`、`Buy Order → Instant Sell`、`Instant Buy → Instant Sell` 四種策略。Max Profit 會逐檔計算 Instant 深度、以近 7 日原料與成品流動性限制最大合成次數；點擊成品可查看最大獲利或至少 80% Max Profit 所需的完整原料與總成本。配方資料會記錄 NEU 上游的精確 commit，SkyBlock 更新後重新執行 `pnpm sync:flip-data` 即可刷新。
+Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting recipes，並支援 `Buy Order → Sell Order`、`Instant Buy → Sell Order`、`Buy Order → Instant Sell`、`Instant Buy → Instant Sell` 四種策略。Max Profit 的 Instant 策略會逐檔計價；Order 策略使用最佳掛單價，但四種策略都會受到所選 Bazaar 方向的可見深度與近 7 日流動性限制。點擊成品可查看最大獲利或至少 80% Max Profit 所需的完整原料與總成本。配方資料會記錄 NEU 上游的精確 commit，SkyBlock 更新後重新執行 `pnpm sync:flip-data` 即可刷新。
 
-NPC Flip 會計算單次與深度內 Max Profit。Instant Buy／Instant Sell 逐檔消耗 Hypixel 可見掛單，並在累積利潤最高的數量停止；Buy Order／Sell Order 使用目前最佳掛單價。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。AH 成品預設只估算一次 NPC 購買。點擊商品或「查看詳細」可切換「100% Max Profit」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
+NPC Flip 會計算單次與深度內 Max Profit。Instant Buy／Instant Sell 逐檔消耗 Hypixel 可見掛單，並在累積利潤最高的數量停止；Buy Order／Sell Order 使用目前最佳掛單價，但同樣以對應掛單方向的可見深度限制數量。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。AH 成品預設只估算一次 NPC 購買。點擊商品或「查看詳細」可切換「100% Max Profit」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
 
 AH Flip 目前因估值與介面仍需整理而暫時從導覽及公開頁面隱藏；底層收集器與歷史資料保留，方便修復後重新啟用。
 
@@ -104,7 +104,7 @@ pnpm collect:ah -- --once --dry-run --max-pages=1 --candidates=80 --verbose
 
 正式啟用前要先套用新增的 D1 migration `0003_ah_flips.sql`，再部署 Worker。`COFLNET_USAGE_APPROVED=true` 僅應在確認 SkyCofl 授權與用途後設定；未設定時網站仍可掃描，但會跳過精準 NBT API，所有 component fallback 都會顯示高風險。
 
-Craft Flip 的 Requirement 排除清單會在登入後寫入帳號偏好；部署此功能前需一併套用 D1 migration `0004_user_preferences.sql`。未登入時則使用瀏覽器本機儲存。
+Craft Flip 會把 Requirement 整理為各分類的進度拉桿；登入後會將所選等級寫入帳號偏好，舊版 Requirement 排除清單會自動換算成等級上限。部署此功能前需一併套用 D1 migration `0004_user_preferences.sql`。未登入時則使用瀏覽器本機儲存。
 
 ## 專案結構
 

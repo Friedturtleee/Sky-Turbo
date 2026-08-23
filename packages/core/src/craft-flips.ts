@@ -130,7 +130,9 @@ function priceLevels(
       : right.pricePerUnit - left.pricePerUnit);
   if (!consumeOrders) {
     const price = valid[0]?.pricePerUnit;
-    return price === undefined ? undefined : { total: price * requestedQuantity, average: price };
+    return price === undefined || levelAmount(valid) + 1e-6 < requestedQuantity
+      ? undefined
+      : { total: price * requestedQuantity, average: price };
   }
   if (levelAmount(valid) + 1e-6 < requestedQuantity) return undefined;
   let remaining = requestedQuantity;
@@ -194,9 +196,8 @@ function calculateCraftDepth(
   const outputMarket = marketByProduct.get(recipe.output.productId);
   if (!outputMarket) return emptyDepth("成品沒有 Bazaar 行情");
   const partial = Boolean(
-    (outputUsesInstant(strategy) && orderBooks[recipe.output.productId]?.partial)
-    || (inputUsesInstant(strategy) && recipe.ingredients.some((ingredient) =>
-      orderBooks[ingredient.productId]?.partial)),
+    orderBooks[recipe.output.productId]?.partial
+    || recipe.ingredients.some((ingredient) => orderBooks[ingredient.productId]?.partial),
   );
 
   const outputWeekly = Math.min(outputMarket.buyMovingWeek, outputMarket.sellMovingWeek);
@@ -204,12 +205,13 @@ function calculateCraftDepth(
     crafts: Math.floor(outputWeekly / recipe.output.amount),
     reason: "成品近 7 日成交量",
   });
-  if (outputUsesInstant(strategy)) {
-    limits.push({
-      crafts: Math.floor(levelAmount(orderBooks[recipe.output.productId]?.buyOrders ?? []) / recipe.output.amount),
-      reason: "成品 Buy Orders 可見深度",
-    });
-  }
+  const outputLevels = outputUsesInstant(strategy)
+    ? orderBooks[recipe.output.productId]?.buyOrders ?? []
+    : orderBooks[recipe.output.productId]?.sellOffers ?? [];
+  limits.push({
+    crafts: Math.floor(levelAmount(outputLevels) / recipe.output.amount),
+    reason: `成品 ${outputUsesInstant(strategy) ? "Buy Orders" : "Sell Offers"} 可見深度`,
+  });
 
   for (const ingredient of recipe.ingredients) {
     const ingredientMarket = marketByProduct.get(ingredient.productId);
@@ -219,12 +221,13 @@ function calculateCraftDepth(
       crafts: Math.floor(weekly / ingredient.amount),
       reason: `${ingredient.name} 近 7 日成交量`,
     });
-    if (inputUsesInstant(strategy)) {
-      limits.push({
-        crafts: Math.floor(levelAmount(orderBooks[ingredient.productId]?.sellOffers ?? []) / ingredient.amount),
-        reason: `${ingredient.name} Sell Offers 可見深度`,
-      });
-    }
+    const inputLevels = inputUsesInstant(strategy)
+      ? orderBooks[ingredient.productId]?.sellOffers ?? []
+      : orderBooks[ingredient.productId]?.buyOrders ?? [];
+    limits.push({
+      crafts: Math.floor(levelAmount(inputLevels) / ingredient.amount),
+      reason: `${ingredient.name} ${inputUsesInstant(strategy) ? "Sell Offers" : "Buy Orders"} 可見深度`,
+    });
   }
 
   const finiteLimits = limits.filter((limit) => Number.isFinite(limit.crafts) && limit.crafts >= 0);

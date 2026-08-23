@@ -145,7 +145,7 @@ export function CraftDashboard() {
         </tr>;
         })}</tbody></table>{displayed.length === 0 ? <div className="empty-state">目前沒有符合條件且可由 Bazaar 完整定價的 Craft Flip。</div> : null}</div>}
     {selectedFlip ? <CraftFlipDetailModal flip={selectedFlip} onClose={() => setSelectedRecipeId(null)} /> : null}
-    <p className="npc-disclaimer">Max Profit 會依所選策略計算：Instant 逐檔消耗 Hypixel 可見掛單，Order 使用目前最佳掛單價，並以原料與成品近 7 日成交量限制最大 Craft 次數。標示「前 30 檔」時，實際可執行深度可能更高。僅顯示原料與成品全部可在 Bazaar 交易的 crafting recipes。配方來自固定 commit 的 <a href="https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO" target="_blank" rel="noreferrer">NotEnoughUpdates Recipe Repository</a>；可執行 <code>pnpm sync:flip-data</code> 更新全部 Flip 資料與圖示。</p>
+    <p className="npc-disclaimer">Max Profit 會依所選策略計算：Instant 逐檔消耗 Hypixel 可見掛單；Order 使用目前最佳掛單價，但同樣受所選方向的可見深度限制。四種策略也會以原料與成品近 7 日成交量限制最大 Craft 次數。標示「前 30 檔」時，實際可執行深度可能更高。僅顯示原料與成品全部可在 Bazaar 交易的 crafting recipes。配方來自固定 commit 的 <a href="https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO" target="_blank" rel="noreferrer">NotEnoughUpdates Recipe Repository</a>；可執行 <code>pnpm sync:flip-data</code> 更新全部 Flip 資料與圖示。</p>
   </>;
 }
 

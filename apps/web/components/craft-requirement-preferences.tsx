@@ -184,18 +184,21 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
         if (!response.ok) throw await responseError(response);
         const payload = await response.json() as {
           data?: {
+            preferenceVersion?: unknown;
             requirementLevels?: unknown;
             legacyExcludedRequirements?: unknown;
             excludedRequirements?: unknown;
             exists?: boolean;
           };
         };
-        const legacy = payload.data?.legacyExcludedRequirements ?? payload.data?.excludedRequirements;
-        const remote = Object.keys(normalizeLevels(payload.data?.requirementLevels)).length > 0
-          ? normalizeLevels(payload.data?.requirementLevels)
-          : migrateLegacyRequirements(legacy);
+        const needsFormatUpgrade = payload.data?.preferenceVersion === 1;
+        const legacy = needsFormatUpgrade
+          ? payload.data?.legacyExcludedRequirements ?? payload.data?.excludedRequirements
+          : undefined;
+        const remote = needsFormatUpgrade
+          ? migrateLegacyRequirements(legacy)
+          : normalizeLevels(payload.data?.requirementLevels);
         const next = payload.data?.exists ? remote : local;
-        const needsFormatUpgrade = Array.isArray(legacy);
         if (!cancelled) {
           setRequirementLevels(next);
           writeLocal(next);

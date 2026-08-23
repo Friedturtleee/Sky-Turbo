@@ -202,31 +202,75 @@ async function craftRequirementPreferences(request: Request, env: Env): Promise<
     const row = await env.DB.prepare(
       "SELECT payload, updated_at FROM user_preferences WHERE user_id = ? AND preference_key = ?",
     ).bind(userId, preferenceKey).first<{ payload: string; updated_at: number }>();
-    if (!row) return json(env, { excludedRequirements: [], exists: false });
-    let excludedRequirements: unknown;
+    if (!row) return json(env, {
+      preferenceVersion: 2,
+      requirementLevels: {},
+      excludedRequirements: [],
+      exists: false,
+    });
+    let stored: unknown;
     try {
-      excludedRequirements = JSON.parse(row.payload);
+      stored = JSON.parse(row.payload);
     } catch {
-      excludedRequirements = [];
+      stored = {};
     }
-    return json(env, { excludedRequirements, exists: true, updatedAt: row.updated_at });
+    if (Array.isArray(stored)) {
+      return json(env, {
+        preferenceVersion: 1,
+        requirementLevels: {},
+        legacyExcludedRequirements: stored,
+        excludedRequirements: stored,
+        exists: true,
+        updatedAt: row.updated_at,
+      });
+    }
+    const candidate = stored && typeof stored === "object"
+      ? (stored as { requirementLevels?: unknown }).requirementLevels
+      : undefined;
+    const requirementLevels = normalizeCraftRequirementLevels(candidate) ?? {};
+    return json(env, {
+      preferenceVersion: 2,
+      requirementLevels,
+      excludedRequirements: [],
+      exists: true,
+      updatedAt: row.updated_at,
+    });
   }
 
   if (request.method === "PUT") {
-    let body: { excludedRequirements?: unknown };
+    let body: { requirementLevels?: unknown; excludedRequirements?: unknown };
     try {
-      body = await readJsonLimited<{ excludedRequirements?: unknown }>(request, PREFERENCE_BODY_LIMIT);
+      body = await readJsonLimited<{ requirementLevels?: unknown; excludedRequirements?: unknown }>(request, PREFERENCE_BODY_LIMIT);
     } catch (error) {
       return errorResponse(env, error instanceof Error ? error.message : "Invalid JSON", error instanceof RangeError ? 413 : 400);
     }
-    if (!Array.isArray(body.excludedRequirements) || body.excludedRequirements.length > 800) {
-      return errorResponse(env, "Invalid Craft requirement preferences", 400);
-    }
-    const requirements = [...new Set(body.excludedRequirements.map((value) =>
-      typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "",
-    ))];
-    if (requirements.some((value) => !/^Requires:\s+.{1,150}$/.test(value))) {
-      return errorResponse(env, "Invalid Craft requirement", 400);
+    let storedPayload: string;
+    let responsePayload: {
+      preferenceVersion: 1 | 2;
+      requirementLevels: Record<string, number>;
+      excludedRequirements: string[];
+    };
+    if (body.requirementLevels !== undefined) {
+      const requirementLevels = normalizeCraftRequirementLevels(body.requirementLevels);
+      if (!requirementLevels) return errorResponse(env, "Invalid Craft requirement levels", 400);
+      storedPayload = JSON.stringify({ version: 2, requirementLevels });
+      responsePayload = { preferenceVersion: 2, requirementLevels, excludedRequirements: [] };
+    } else {
+      if (!Array.isArray(body.excludedRequirements) || body.excludedRequirements.length > 800) {
+        return errorResponse(env, "Invalid Craft requirement preferences", 400);
+      }
+      const requirements = [...new Set(body.excludedRequirements.map((value) =>
+        typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "",
+      ))];
+      if (requirements.some((value) => !/^Requires:\s+.{1,150}$/.test(value))) {
+        return errorResponse(env, "Invalid Craft requirement", 400);
+      }
+      storedPayload = JSON.stringify(requirements.sort());
+      responsePayload = {
+        preferenceVersion: 1,
+        requirementLevels: {},
+        excludedRequirements: requirements,
+      };
     }
     const updatedAt = Date.now();
     await env.DB.prepare(
@@ -234,11 +278,25 @@ async function craftRequirementPreferences(request: Request, env: Env): Promise<
        ON CONFLICT (user_id, preference_key) DO UPDATE SET
          payload = excluded.payload,
          updated_at = excluded.updated_at`,
-    ).bind(userId, preferenceKey, JSON.stringify(requirements.sort()), updatedAt).run();
-    return json(env, { excludedRequirements: requirements, exists: true, updatedAt });
+    ).bind(userId, preferenceKey, storedPayload, updatedAt).run();
+    return json(env, { ...responsePayload, exists: true, updatedAt });
   }
 
   return errorResponse(env, "Method not allowed", 405);
+}
+
+function normalizeCraftRequirementLevels(value: unknown): Record<string, number> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const entries = Object.entries(value);
+  if (entries.length > 250) return null;
+  const levels: Record<string, number> = {};
+  for (const [rawKey, rawLevel] of entries) {
+    const key = rawKey.replace(/\s+/g, " ").trim();
+    if (!key || key.length > 100 || /[\u0000-\u001f\u007f]/.test(key)) return null;
+    if (typeof rawLevel !== "number" || !Number.isSafeInteger(rawLevel) || rawLevel < 0 || rawLevel > 1_000) return null;
+    levels[key] = rawLevel;
+  }
+  return Object.fromEntries(Object.entries(levels).sort(([left], [right]) => left.localeCompare(right)));
 }
 
 function isMarketIngest(value: unknown): value is MarketHistoryIngest {

@@ -47,7 +47,7 @@ export async function GET(request: Request) {
       recipeGeneratedAt: craftData.generatedAt,
       recipeCommit: craftData.source.commit,
       strategy,
-      priceModel: "Max Profit：Instant 逐檔使用 Hypixel 前 30 檔，Order 使用最佳掛單價；最大次數受原料與成品近 7 日流動性限制，收入扣 1.125% Bazaar 稅。",
+      priceModel: "Max Profit：Instant 逐檔使用 Hypixel 前 30 檔；Order 使用最佳掛單價，但四種策略都受對應 Bazaar 可見深度與原料／成品近 7 日流動性限制；收入扣 1.125% Bazaar 稅。",
     });
   } catch (error) {
     return jsonError("Craft Flip 計算失敗", 502, error instanceof Error ? error.message : undefined);
