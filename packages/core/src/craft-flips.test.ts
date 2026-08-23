@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateCraftFlips } from "./craft-flips";
+import { calculateCraftFlips, calculateCraftProfitPlan } from "./craft-flips";
 import type { CraftData, CraftStrategy, MarketItem, ShardOrderBook } from "./types";
 
 const data: CraftData = {
@@ -82,5 +82,43 @@ describe("calculateCraftFlips", () => {
       flips: [],
       skippedCount: 1,
     });
+  });
+
+  it.each([
+    ["bo-so", 225, 11_700, 180],
+    ["ib-so", 50, 2_102, 40],
+    ["bo-is", 50, 1_254.5, 40],
+    ["ib-is", 50, 756.5, 40],
+  ] satisfies Array<[CraftStrategy, number, number, number]>) (
+    "finds %s Max Profit across liquidity and visible order depth",
+    (strategy, maxCrafts, maxProfit, eightyPercentCrafts) => {
+      const flip = calculateCraftFlips(data, market, books, strategy, 0.1).flips[0]!;
+      expect(flip.depth).toMatchObject({
+        available: true,
+        maxCrafts,
+        maxOutput: maxCrafts * 2,
+        maxProfit,
+      });
+      expect(calculateCraftProfitPlan(flip, 1)).toMatchObject({
+        fraction: 1,
+        craftCount: maxCrafts,
+        outputQuantity: maxCrafts * 2,
+        totalProfit: maxProfit,
+      });
+      expect(calculateCraftProfitPlan(flip, 0.8)?.craftCount).toBe(eightyPercentCrafts);
+      expect(calculateCraftProfitPlan(flip, 0.8)?.totalProfit).toBeGreaterThanOrEqual(maxProfit * 0.8);
+    },
+  );
+
+  it("expands every ingredient for the full and 80% cost plans", () => {
+    const flip = calculateCraftFlips(data, market, books, "bo-so", 0.1).flips[0]!;
+    expect(calculateCraftProfitPlan(flip, 1)?.ingredients).toEqual([
+      { productId: "A", name: "A", amount: 450, unitCost: 5, totalCost: 2_250 },
+      { productId: "B", name: "B", amount: 225, unitCost: 10, totalCost: 2_250 },
+    ]);
+    expect(calculateCraftProfitPlan(flip, 0.8)?.ingredients).toEqual([
+      { productId: "A", name: "A", amount: 360, unitCost: 5, totalCost: 1_800 },
+      { productId: "B", name: "B", amount: 180, unitCost: 10, totalCost: 1_800 },
+    ]);
   });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateNpcFlips } from "./npc-flips";
+import { calculateNpcFlips, calculateNpcProfitPlan } from "./npc-flips";
 import type { MarketSnapshot, NpcShopOffer } from "./types";
 
 const market = {
@@ -40,7 +40,47 @@ describe("calculateNpcFlips", () => {
       bazaarSellOrderProfit: 787.625,
       bazaarMatchedVolume7d: 840,
       maxPurchases: 640,
+      maxProfitStrategy: "sell-order",
+      maxProfitPerPurchase: 787.625,
+      maxDailyProfit: 504_080,
     });
+  });
+
+  it("plans all or 80% of the maximum profit and expands every required cost", () => {
+    const flip = calculateNpcFlips([offer], market, {}).flips[0]!;
+    expect(calculateNpcProfitPlan(flip)).toMatchObject({
+      purchaseCount: 640,
+      outputQuantity: 640,
+      totalCost: 192_000,
+      totalProfit: 504_080,
+      profitStrategy: "sell-order",
+      costs: [
+        { name: "Coins", requiredAmount: 64_000 },
+        { name: "Coupon", requiredAmount: 1_280 },
+      ],
+    });
+    expect(calculateNpcProfitPlan(flip, { fraction: 0.8 })?.purchaseCount).toBe(512);
+  });
+
+  it("applies Diaz only to eligible shops and supports conditional stock bonuses", () => {
+    const regular = calculateNpcFlips([offer], market, {}).flips[0]!;
+    expect(calculateNpcProfitPlan(regular, { diazActive: true })?.purchaseCount).toBe(6_400);
+
+    const kiaraOffer: NpcShopOffer = {
+      ...offer,
+      id: "KIARA:SHARD_VIPER",
+      npc: "Kiara",
+      dailyLimit: 10,
+      diazEligible: false,
+      conditionalDailyLimitBonus: 1,
+      conditionalLimitRequirement: "Kiara Abiphone Contact",
+    };
+    const kiara = calculateNpcFlips([kiaraOffer], market, {}).flips[0]!;
+    expect(calculateNpcProfitPlan(kiara, { diazActive: true })?.purchaseCount).toBe(10);
+    expect(calculateNpcProfitPlan(kiara, {
+      diazActive: true,
+      conditionalBonusActive: true,
+    })?.purchaseCount).toBe(11);
   });
 
   it("uses lowest BIN for AH outputs and excludes unknown prices", () => {
@@ -51,6 +91,28 @@ describe("calculateNpcFlips", () => {
       salePriceNet: 1_960,
     });
     expect(calculateNpcFlips([ahOffer], market, {}).unpricedCount).toBe(1);
+  });
+
+  it("keeps one-sided Bazaar products when a sell order can still be placed", () => {
+    const oneSided = {
+      ...offer,
+      output: { productId: "ONE_SIDED", name: "One Sided", amount: 1 },
+      costs: [{ kind: "coins" as const, amount: 100 }],
+    };
+    expect(calculateNpcFlips([oneSided], market, {}, {
+      ONE_SIDED: {
+        productId: "ONE_SIDED",
+        instantBuyPrice: 500,
+        sellOrderPrice: 500,
+        buyMovingWeek: 100,
+        sellMovingWeek: 0,
+      },
+    }).flips[0]).toMatchObject({
+      saleSource: "bazaar",
+      salePriceGross: 500,
+      maxProfitStrategy: "sell-order",
+      maxProfitPerPurchase: 394.375,
+    });
   });
 
   it("caps manipulated AH listings at the recent sold median", () => {

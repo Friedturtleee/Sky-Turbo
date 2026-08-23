@@ -38,14 +38,14 @@ export async function GET(request: Request) {
       snapshot.taxRate,
     );
     return jsonOk({
-      flips: calculated.flips.sort((left, right) => right.profit - left.profit),
+      flips: calculated.flips.sort((left, right) => right.depth.maxProfit - left.depth.maxProfit),
       skippedCount: calculated.skippedCount,
       totalRecipes: craftData.recipes.length,
       updatedAt: snapshot.updatedAt,
       recipeGeneratedAt: craftData.generatedAt,
       recipeCommit: craftData.source.commit,
       strategy,
-      priceModel: "Instant 逐檔使用 Hypixel 前 30 檔；Order 使用目前最佳掛單價；收入扣 1.125% Bazaar 稅。",
+      priceModel: "Max Profit：Instant 逐檔使用 Hypixel 前 30 檔，Order 使用最佳掛單價；最大次數受原料與成品近 7 日流動性限制，收入扣 1.125% Bazaar 稅。",
     });
   } catch (error) {
     return jsonError("Craft Flip 計算失敗", 502, error instanceof Error ? error.message : undefined);

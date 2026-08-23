@@ -17,7 +17,9 @@ pnpm dev
 
 `pnpm sync:flip-data` 是更新全部 Flip 靜態資料的一鍵指令，會依序同步 Shard Fusion、NPC 商店、NEU crafting recipes、AH reforge / dye 對照表與所有相關物品圖示。只需更新合成配方與 AH 升級對照表時可執行 `pnpm sync:craft-recipes`；只需重建圖示時可執行 `pnpm sync:item-icons`。這些同步不需要 Hypixel API key。
 
-Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting recipes，並支援 `Buy Order → Sell Order`、`Instant Buy → Sell Order`、`Buy Order → Instant Sell`、`Instant Buy → Instant Sell` 四種策略。配方資料會記錄 NEU 上游的精確 commit，SkyBlock 更新後重新執行 `pnpm sync:flip-data` 即可刷新。
+Craft Flip 只顯示原料與成品全部存在於 Bazaar 的標準 crafting recipes，並支援 `Buy Order → Sell Order`、`Instant Buy → Sell Order`、`Buy Order → Instant Sell`、`Instant Buy → Instant Sell` 四種策略。Max Profit 會逐檔計算 Instant 深度、以近 7 日原料與成品流動性限制最大合成次數；點擊成品可查看最大獲利或至少 80% Max Profit 所需的完整原料與總成本。配方資料會記錄 NEU 上游的精確 commit，SkyBlock 更新後重新執行 `pnpm sync:flip-data` 即可刷新。
+
+NPC Flip 會計算單次最佳出售方式與每日 Max Profit。標準商店轉售商品使用 640 個每日上限；現任市長資料由 Hypixel Election API 自動判斷，Diaz 的 Shopping Spree 對適用商店乘 10。Kiara 的 Viper、Crocodile、Eel、Gecko Shard 使用各自特殊庫存、不套用 Diaz，並可選擇是否套用 Abiphone Contact 的 +1 庫存；Agatha、Miria 與 Galatea 新商店的可交易品也包含在同步資料中。點擊商品或「查看詳細」可切換「拿完每日庫存」及「至少 80% Max Profit」，查看全部所需 Coins／成本物品。
 
 AH Flip 只分析現行 BIN。它會完整解析拍賣 NBT，辨認 Gemstone、Dye、Hot Potato / Fuming Book、Reforge、附魔、星級、Pet、Attribute 與其他升級，再優先使用 SkyCofl 的完整 NBT 中位估值。無法取得精準估值時仍會顯示保守的 Component Estimate，但一律標記為高風險。Profit 已扣除依出售總額級距計算的 AH 稅費；`Nearest` 依拍賣建立時間由新到舊排序。
 

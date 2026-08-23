@@ -273,15 +273,30 @@ export type NpcShopOffer = {
   npc: string;
   output: { productId: string; name: string; amount: number };
   costs: NpcShopCost[];
+  /** Base number of output items available per day, before conditional bonuses or Diaz. */
   dailyLimit?: number;
+  dailyLimitSource?: "shop-stock" | "standard-shop-limit" | "manual-wiki";
+  /** Shopping Spree normally multiplies a limited shop by 10; Kiara is a known exception. */
+  diazEligible?: boolean;
+  conditionalDailyLimitBonus?: number;
+  conditionalLimitRequirement?: string;
   requirement?: string;
   source: { label: string; url: string };
 };
 
 export type NpcShopData = {
-  schemaVersion: 1;
+  schemaVersion: 2;
   generatedAt: string;
   sources: string[];
+  audit?: {
+    sourceShopFiles: number;
+    selectedShopFiles: number;
+    generatedOffers: number;
+    skippedNoCost: number;
+    skippedNonSingleOutput: number;
+    skippedUnsupportedCost: number;
+    skippedBazaarOffers: Array<{ file: string; slotId: string; productId: string; reason: string }>;
+  };
   offers: NpcShopOffer[];
 };
 
@@ -293,6 +308,15 @@ export type NpcFlipCost = {
   unitPrice: number;
   totalPrice: number;
   priceSource: "coins" | "bazaar" | "ah-lowest-bin";
+};
+
+export type NpcBazaarQuote = {
+  productId: string;
+  instantBuyPrice?: number;
+  instantSellPrice?: number;
+  sellOrderPrice?: number;
+  buyMovingWeek: number;
+  sellMovingWeek: number;
 };
 
 export type AuctionPriceQuote = {
@@ -315,6 +339,7 @@ export type NpcFlip = {
   salePriceNet: number;
   saleFeeRate: number;
   /** Bazaar sell-order proceeds and profit, using the same instant-buy costs. */
+  bazaarInstaSellAvailable?: boolean;
   bazaarSellOrderPriceGross?: number;
   bazaarSellOrderPriceNet?: number;
   bazaarSellOrderProfit?: number;
@@ -329,11 +354,49 @@ export type NpcFlip = {
   ahSalesLast7d?: number;
   profit: number;
   marginPercent: number;
+  maxProfitPerPurchase: number;
+  maxProfitStrategy: "insta-sell" | "sell-order" | "ah";
   dailyLimit?: number;
+  dailyLimitSource?: "shop-stock" | "standard-shop-limit" | "manual-wiki";
+  diazEligible: boolean;
+  conditionalDailyLimitBonus?: number;
+  conditionalLimitRequirement?: string;
   maxPurchases?: number;
   maxDailyProfit?: number;
   requirement?: string;
   source: { label: string; url: string };
+};
+
+export type NpcProfitPlanCost = {
+  kind: "coins" | "item";
+  productId?: string;
+  name: string;
+  amountPerPurchase: number;
+  requiredAmount: number;
+  unitPrice: number;
+  totalPrice: number;
+  priceSource: "coins" | "bazaar" | "ah-lowest-bin";
+};
+
+export type NpcProfitPlan = {
+  fraction: 1 | 0.8;
+  purchaseCount: number;
+  outputQuantity: number;
+  effectiveDailyLimit: number;
+  totalCost: number;
+  revenueAfterTax: number;
+  totalProfit: number;
+  profitStrategy: NpcFlip["maxProfitStrategy"];
+  diazApplied: boolean;
+  conditionalBonusApplied: boolean;
+  costs: NpcProfitPlanCost[];
+};
+
+export type NpcMayorContext = {
+  name: string;
+  lastUpdated: number;
+  shoppingSpreeActive: boolean;
+  shoppingSpreeHolder?: string;
 };
 
 export type CraftRecipeIngredient = {
@@ -370,6 +433,33 @@ export type CraftFlipIngredient = CraftRecipeIngredient & {
   totalCost: number;
 };
 
+export type CraftProfitPlanIngredient = CraftRecipeIngredient & {
+  unitCost: number;
+  totalCost: number;
+};
+
+export type CraftProfitPlan = {
+  fraction: 1 | 0.8;
+  craftCount: number;
+  outputQuantity: number;
+  ingredients: CraftProfitPlanIngredient[];
+  inputCost: number;
+  grossRevenue: number;
+  revenueAfterTax: number;
+  totalProfit: number;
+};
+
+export type CraftProfitDepth = {
+  available: boolean;
+  partial: boolean;
+  maxCrafts: number;
+  maxOutput: number;
+  maxProfit: number;
+  limitedBy: string;
+  fullPlan?: CraftProfitPlan;
+  eightyPercentPlan?: CraftProfitPlan;
+};
+
 export type CraftFlip = {
   recipeId: string;
   strategy: CraftStrategy;
@@ -387,6 +477,7 @@ export type CraftFlip = {
   sellMovingWeek: number;
   matchedVolume7d: number;
   partial: boolean;
+  depth: CraftProfitDepth;
   requirement?: string;
   source: { label: string; url: string; file: string };
 };

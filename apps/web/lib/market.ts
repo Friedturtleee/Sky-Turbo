@@ -1,4 +1,4 @@
-import { enrichWithHistory, type MarketSnapshot, type PricePoint } from "@sky-turbo/core";
+import { calculateMarketSnapshot, enrichWithHistory, type HypixelBazaarResponse, type MarketSnapshot, type PricePoint } from "@sky-turbo/core";
 import { enrichMarketSummary, readLatestSnapshot, readProductHistory } from "./d1-store";
 import { getLiveMarketSnapshot } from "./hypixel";
 
@@ -12,8 +12,8 @@ export async function getMarketSnapshot(): Promise<MarketSnapshot> {
   }
 }
 
-export async function getEnrichedMarketSnapshot(): Promise<MarketSnapshot> {
-  return enrichMarketSummary(await getMarketSnapshot());
+export async function getEnrichedMarketSnapshot(response?: HypixelBazaarResponse): Promise<MarketSnapshot> {
+  return enrichMarketSummary(response ? calculateMarketSnapshot(response) : await getMarketSnapshot());
 }
 
 export async function getProduct(productId: string) {

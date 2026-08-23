@@ -32,6 +32,8 @@ NPC Flip retrieves current Auction House lowest-BIN values from the [SkyCofl API
 
 Generated NPC shop offers are derived from [SkyblockRepo/Repo](https://github.com/SkyblockRepo/Repo), licensed under the MIT License, with current Miria shop overrides sourced from the Hypixel SkyBlock Wiki. Copyright remains with the SkyblockRepo contributors. The upstream MIT license is copied to `packages/core/data/SkyblockRepo-LICENSE.txt`.
 
+Kiara's special Shard inventory, Abiphone stock bonus, and Diaz exception are synchronized from the current Hypixel SkyBlock Wiki community documentation because that newer shop is not yet present in the upstream shop repository. The same documentation supplies the missing Agatha, Amaury, Alan, Nemo, and Albert offers.
+
 ## NotEnoughUpdates Recipe Repository
 
 Generated Craft Flip recipes are derived from [NotEnoughUpdates/NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO), licensed under the MIT License. Each synchronized dataset records the exact upstream commit and source archive. The upstream license is copied to `packages/core/data/NotEnoughUpdates-REPO-LICENSE.txt`.

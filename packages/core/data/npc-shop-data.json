@@ -1,11 +1,34 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-08-23T10:33:44.009Z",
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-23T12:50:43.693Z",
   "sources": [
     "https://github.com/SkyblockRepo/Repo/tree/main/shops",
     "https://api.hypixel.net/v2/resources/skyblock/items",
-    "https://hypixelskyblock.minecraft.wiki/w/Miria"
+    "https://api.hypixel.net/v2/skyblock/bazaar",
+    "https://hypixelskyblock.minecraft.wiki/w/Miria",
+    "https://hypixel-skyblock.fandom.com/wiki/Kiara",
+    "https://hypixel-skyblock.fandom.com/wiki/Agatha",
+    "https://hypixel-skyblock.fandom.com/wiki/Amaury",
+    "https://hypixel-skyblock.fandom.com/wiki/Alan",
+    "https://hypixel-skyblock.fandom.com/wiki/Nemo",
+    "https://hypixel-skyblock.fandom.com/wiki/Albert"
   ],
+  "audit": {
+    "sourceShopFiles": 200,
+    "selectedShopFiles": 89,
+    "skippedNoCost": 2120,
+    "skippedNonSingleOutput": 2203,
+    "skippedUnsupportedCost": 41,
+    "skippedBazaarOffers": [
+      {
+        "file": "NPC_ANITA.json",
+        "slotId": "item8",
+        "productId": "ENCHANTMENT_DELICATE_5",
+        "reason": "unsupported-cost:JACOB_MEDAL"
+      }
+    ],
+    "generatedOffers": 309
+  },
   "offers": [
     {
       "id": "NPC_ADVENTURER:item2",
@@ -21,6 +44,9 @@
           "amount": 8
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -40,6 +66,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -59,6 +88,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -78,6 +110,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -97,6 +132,9 @@
           "amount": 8
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -116,6 +154,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -135,6 +176,9 @@
           "amount": 500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -154,6 +198,9 @@
           "amount": 14
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -173,6 +220,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -192,6 +242,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
@@ -211,9 +264,318 @@
           "amount": 500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ADVENTURER.json"
+      }
+    },
+    {
+      "id": "AGATHA:SHARD_CROW",
+      "npc": "Agatha",
+      "output": {
+        "productId": "SHARD_CROW",
+        "name": "Crow Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "AGATHA_COUPON",
+          "name": "Agatha's Coupon",
+          "amount": 15
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Agatha Shop Milestone II",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Agatha",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Agatha"
+      }
+    },
+    {
+      "id": "AGATHA:SHARD_HERON",
+      "npc": "Agatha",
+      "output": {
+        "productId": "SHARD_HERON",
+        "name": "Heron Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "item",
+          "productId": "AGATHA_COUPON",
+          "name": "Agatha's Coupon",
+          "amount": 15
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Agatha Shop Milestone IV",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Agatha",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Agatha"
+      }
+    },
+    {
+      "id": "ALAN:SILVA_DOMINUS",
+      "npc": "Alan",
+      "output": {
+        "productId": "SILVA_DOMINUS",
+        "name": "Sharpened Huntaxe - Dominus",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 300000
+        },
+        {
+          "kind": "item",
+          "productId": "VENATOR_GENESIS",
+          "name": "Worn Huntaxe - Genesis",
+          "amount": 1
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Alan",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Alan"
+      }
+    },
+    {
+      "id": "ALAN:VENATOR_GENESIS",
+      "npc": "Alan",
+      "output": {
+        "productId": "VENATOR_GENESIS",
+        "name": "Worn Huntaxe - Genesis",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 25000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Alan",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Alan"
+      }
+    },
+    {
+      "id": "ALBERT:MEDIUM_POCKET_BLACK_HOLE",
+      "npc": "Albert",
+      "output": {
+        "productId": "MEDIUM_POCKET_BLACK_HOLE",
+        "name": "Medium Pocket Black Hole",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000000
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_MANGROVE_LOG",
+          "name": "Enchanted Mangrove Log",
+          "amount": 64
+        },
+        {
+          "kind": "item",
+          "productId": "ENCHANTED_OBSIDIAN",
+          "name": "Enchanted Obsidian",
+          "amount": 64
+        },
+        {
+          "kind": "item",
+          "productId": "SMALL_POCKET_BLACK_HOLE",
+          "name": "Small Pocket Black Hole",
+          "amount": 1
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Albert",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Albert"
+      }
+    },
+    {
+      "id": "ALBERT:SMALL_POCKET_BLACK_HOLE",
+      "npc": "Albert",
+      "output": {
+        "productId": "SMALL_POCKET_BLACK_HOLE",
+        "name": "Small Pocket Black Hole",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100000
+        },
+        {
+          "kind": "item",
+          "productId": "FIG_LOG",
+          "name": "Fig Log",
+          "amount": 64
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Albert",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Albert"
+      }
+    },
+    {
+      "id": "AMAURY:CANOPY_HELMET",
+      "npc": "Amaury",
+      "output": {
+        "productId": "CANOPY_HELMET",
+        "name": "Canopy Mask",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 120000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
+      }
+    },
+    {
+      "id": "AMAURY:CANOPY_LEGGINGS",
+      "npc": "Amaury",
+      "output": {
+        "productId": "CANOPY_LEGGINGS",
+        "name": "Canopy Pants",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 130000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
+      }
+    },
+    {
+      "id": "AMAURY:CANOPY_BOOTS",
+      "npc": "Amaury",
+      "output": {
+        "productId": "CANOPY_BOOTS",
+        "name": "Canopy Sandals",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 110000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
+      }
+    },
+    {
+      "id": "AMAURY:CANOPY_CHESTPLATE",
+      "npc": "Amaury",
+      "output": {
+        "productId": "CANOPY_CHESTPLATE",
+        "name": "Canopy Shirt",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 140000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
+      }
+    },
+    {
+      "id": "AMAURY:DECENT_AXE",
+      "npc": "Amaury",
+      "output": {
+        "productId": "DECENT_AXE",
+        "name": "Decent Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 1000000
+        },
+        {
+          "kind": "item",
+          "productId": "SERIOUSLY_DAMAGED_AXE",
+          "name": "Seriously Damaged Axe",
+          "amount": 1
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
+      }
+    },
+    {
+      "id": "AMAURY:SERIOUSLY_DAMAGED_AXE",
+      "npc": "Amaury",
+      "output": {
+        "productId": "SERIOUSLY_DAMAGED_AXE",
+        "name": "Seriously Damaged Axe",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 5000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Amaury",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Amaury"
       }
     },
     {
@@ -230,6 +592,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -249,6 +614,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -268,6 +636,9 @@
           "amount": 50000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -287,6 +658,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -306,6 +680,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -325,6 +702,9 @@
           "amount": 2000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -344,6 +724,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -363,6 +746,9 @@
           "amount": 50000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -382,6 +768,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -401,6 +790,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_AMELIA.json"
@@ -422,6 +814,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ANITA.json"
@@ -443,6 +838,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ARGOFAY_SERIALBATHER.json"
@@ -462,6 +860,9 @@
           "amount": 1200
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -481,6 +882,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -500,6 +904,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -519,6 +926,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -538,6 +948,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -557,6 +970,9 @@
           "amount": 1500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -576,6 +992,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -607,6 +1026,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -626,6 +1048,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -645,6 +1070,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -664,6 +1092,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -683,6 +1114,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BARTENDER.json"
@@ -710,6 +1144,9 @@
           "amount": 2
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -729,6 +1166,9 @@
           "amount": 20000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -748,6 +1188,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -787,6 +1230,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -814,6 +1260,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -841,6 +1290,9 @@
           "amount": 2
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -860,6 +1312,9 @@
           "amount": 50000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -893,6 +1348,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUBU.json"
@@ -912,6 +1370,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -931,6 +1392,9 @@
           "amount": 256
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -950,6 +1414,9 @@
           "amount": 48
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -969,6 +1436,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -988,6 +1458,9 @@
           "amount": 80
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1007,6 +1480,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1026,6 +1502,9 @@
           "amount": 16
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1045,6 +1524,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1064,6 +1546,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1083,6 +1568,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1102,6 +1590,9 @@
           "amount": 8
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1121,6 +1612,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1140,6 +1634,9 @@
           "amount": 96
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1159,6 +1656,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1178,6 +1678,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1197,6 +1700,9 @@
           "amount": 72
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1216,6 +1722,9 @@
           "amount": 80
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1235,6 +1744,9 @@
           "amount": 80
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1254,6 +1766,9 @@
           "amount": 48
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1273,6 +1788,9 @@
           "amount": 48
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1292,6 +1810,9 @@
           "amount": 480
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1311,6 +1832,9 @@
           "amount": 16
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1330,6 +1854,9 @@
           "amount": 16
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1349,6 +1876,9 @@
           "amount": 12
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1368,6 +1898,9 @@
           "amount": 48
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BUILDER_CLASSIC.json"
@@ -1399,6 +1932,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1430,6 +1966,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1461,6 +2000,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1492,6 +2034,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1523,6 +2068,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1554,6 +2102,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1585,6 +2136,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1616,6 +2170,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1647,6 +2204,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1678,6 +2238,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1709,6 +2272,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_BULVAR.json"
@@ -1728,6 +2294,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_CHUNK.json"
@@ -1765,6 +2334,9 @@
           "amount": 64
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_DRAKUU.json"
@@ -1784,7 +2356,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1804,7 +2378,9 @@
           "amount": 15
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1824,7 +2400,9 @@
           "amount": 5
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1844,7 +2422,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1864,7 +2444,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1884,6 +2466,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_FARM_MERCHANT.json"
@@ -1903,6 +2488,9 @@
           "amount": 80
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
@@ -1922,7 +2510,9 @@
           "amount": 110
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
@@ -1942,6 +2532,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
@@ -1961,6 +2554,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
@@ -1980,6 +2576,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GOLD_FORGER.json"
@@ -1999,6 +2598,9 @@
           "amount": 500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GREGORY.json"
@@ -2018,6 +2620,9 @@
           "amount": 240
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_GREGORY.json"
@@ -2049,6 +2654,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2080,6 +2688,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2111,6 +2722,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2142,6 +2756,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2173,6 +2790,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2204,6 +2824,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_HILDA.json"
@@ -2223,7 +2846,9 @@
           "amount": 100
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_IRON_FORGER.json"
@@ -2243,6 +2868,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2262,6 +2890,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2281,6 +2912,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2300,6 +2934,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2319,6 +2956,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2338,6 +2978,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2357,6 +3000,9 @@
           "amount": 1000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2376,6 +3022,9 @@
           "amount": 15000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2395,6 +3044,9 @@
           "amount": 1000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_JAKE.json"
@@ -2414,6 +3066,9 @@
           "amount": 130000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
@@ -2433,6 +3088,9 @@
           "amount": 70000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
@@ -2452,9 +3110,112 @@
           "amount": 15000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MELANCHOLIC_VIKING.json"
+      }
+    },
+    {
+      "id": "KIARA:SHARD_CROCODILE",
+      "npc": "Kiara",
+      "output": {
+        "productId": "SHARD_CROCODILE",
+        "name": "Crocodile Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 300000
+        }
+      ],
+      "dailyLimit": 6,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": false,
+      "conditionalDailyLimitBonus": 1,
+      "conditionalLimitRequirement": "解鎖 Kiara Abiphone Contact",
+      "requirement": "Galatea · North Reaches",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Kiara",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Kiara"
+      }
+    },
+    {
+      "id": "KIARA:SHARD_EEL",
+      "npc": "Kiara",
+      "output": {
+        "productId": "SHARD_EEL",
+        "name": "Eel Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 350000
+        }
+      ],
+      "dailyLimit": 6,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": false,
+      "conditionalDailyLimitBonus": 1,
+      "conditionalLimitRequirement": "解鎖 Kiara Abiphone Contact",
+      "requirement": "Galatea · North Reaches",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Kiara",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Kiara"
+      }
+    },
+    {
+      "id": "KIARA:SHARD_GECKO",
+      "npc": "Kiara",
+      "output": {
+        "productId": "SHARD_GECKO",
+        "name": "Gecko Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 600000
+        }
+      ],
+      "dailyLimit": 4,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": false,
+      "conditionalDailyLimitBonus": 1,
+      "conditionalLimitRequirement": "解鎖 Kiara Abiphone Contact",
+      "requirement": "Galatea · North Reaches",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Kiara",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Kiara"
+      }
+    },
+    {
+      "id": "KIARA:SHARD_VIPER",
+      "npc": "Kiara",
+      "output": {
+        "productId": "SHARD_VIPER",
+        "name": "Viper Shard",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 100000
+        }
+      ],
+      "dailyLimit": 10,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": false,
+      "conditionalDailyLimitBonus": 1,
+      "conditionalLimitRequirement": "解鎖 Kiara Abiphone Contact",
+      "requirement": "Galatea · North Reaches",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Kiara",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Kiara"
       }
     },
     {
@@ -2471,6 +3232,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2490,6 +3254,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2509,6 +3276,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2528,6 +3298,9 @@
           "amount": 30
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2547,6 +3320,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2566,6 +3342,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2585,6 +3364,9 @@
           "amount": 40
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2604,6 +3386,9 @@
           "amount": 30
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2623,6 +3408,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2642,6 +3430,9 @@
           "amount": 30
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LIBRARIAN.json"
@@ -2661,6 +3452,9 @@
           "amount": 150000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LONELY_PHILOSOPHER.json"
@@ -2680,6 +3474,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2699,6 +3496,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2718,6 +3518,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2737,6 +3540,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2756,6 +3562,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2775,6 +3584,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2794,6 +3606,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2813,6 +3628,9 @@
           "amount": 35
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2832,6 +3650,9 @@
           "amount": 12
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2851,6 +3672,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2870,6 +3694,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2889,6 +3716,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2908,6 +3738,9 @@
           "amount": 5
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2927,6 +3760,9 @@
           "amount": 5
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2946,6 +3782,9 @@
           "amount": 5
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2965,6 +3804,9 @@
           "amount": 5
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -2984,6 +3826,9 @@
           "amount": 5
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMBER_MERCHANT.json"
@@ -3003,6 +3848,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
@@ -3022,6 +3870,9 @@
           "amount": 100000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
@@ -3041,6 +3892,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_LUMINA.json"
@@ -3060,6 +3914,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3079,6 +3936,9 @@
           "amount": 18
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3098,6 +3958,9 @@
           "amount": 12
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3117,6 +3980,9 @@
           "amount": 50
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3136,6 +4002,9 @@
           "amount": 2
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3155,6 +4024,9 @@
           "amount": 16
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3174,6 +4046,9 @@
           "amount": 4
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3193,6 +4068,9 @@
           "amount": 2
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3212,6 +4090,9 @@
           "amount": 6
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3231,6 +4112,9 @@
           "amount": 4
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3250,6 +4134,9 @@
           "amount": 50
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3269,6 +4156,9 @@
           "amount": 4
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3288,6 +4178,9 @@
           "amount": 2
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MAD_REDSTONE_ENGINEER.json"
@@ -3319,6 +4212,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3350,6 +4246,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3381,6 +4280,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3412,6 +4314,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3443,6 +4348,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3474,6 +4382,9 @@
           "amount": 2000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MARTHOS.json"
@@ -3493,6 +4404,9 @@
           "amount": 35000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MASTER_TACTICIAN.json"
@@ -3548,6 +4462,9 @@
           "amount": 1464000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MASTER_TACTICIAN.json"
@@ -3573,6 +4490,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_DIANA.json"
@@ -3592,6 +4512,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
@@ -3611,7 +4534,9 @@
           "amount": 3
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
@@ -3633,6 +4558,9 @@
           "amount": 3
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
@@ -3652,6 +4580,9 @@
           "amount": 35
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
@@ -3671,6 +4602,9 @@
           "amount": 12
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MINE_MERCHANT.json"
@@ -3692,6 +4626,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3714,6 +4651,9 @@
           "amount": 60
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3736,6 +4676,9 @@
           "amount": 50
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3758,6 +4701,9 @@
           "amount": 40
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3780,6 +4726,9 @@
           "amount": 125
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3802,6 +4751,9 @@
           "amount": 30
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3830,6 +4782,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3858,6 +4813,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3880,6 +4838,9 @@
           "amount": 30
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3902,6 +4863,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3924,6 +4888,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3946,6 +4913,9 @@
           "amount": 250
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3968,6 +4938,9 @@
           "amount": 15
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
       "requirement": "需達到對應 Miria Shop Milestone",
       "source": {
         "label": "Hypixel SkyBlock Wiki · Miria",
@@ -3996,6 +4969,9 @@
           "amount": 15
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4017,6 +4993,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4042,6 +5021,9 @@
           "amount": 8
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4069,6 +5051,9 @@
           "amount": 80
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4096,6 +5081,9 @@
           "amount": 4
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4123,6 +5111,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4150,6 +5141,9 @@
           "amount": 15
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
@@ -4177,9 +5171,132 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_MOBY.json"
+      }
+    },
+    {
+      "id": "NEMO:ENCHANTMENT_RESPIRATION_4",
+      "npc": "Nemo",
+      "output": {
+        "productId": "ENCHANTMENT_RESPIRATION_4",
+        "name": "Enchanted Book (Respiration IV)",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 4000000
+        },
+        {
+          "kind": "item",
+          "productId": "SEA_LUMIES",
+          "name": "Sea Lumies",
+          "amount": 32
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Nemo",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Nemo"
+      }
+    },
+    {
+      "id": "NEMO:SNORKELING_LEGGINGS",
+      "npc": "Nemo",
+      "output": {
+        "productId": "SNORKELING_LEGGINGS",
+        "name": "Snorkeling Pants",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Foraging Skill 16",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Nemo",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Nemo"
+      }
+    },
+    {
+      "id": "NEMO:SNORKELING_BOOTS",
+      "npc": "Nemo",
+      "output": {
+        "productId": "SNORKELING_BOOTS",
+        "name": "Snorkeling Shoes",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Foraging Skill 16",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Nemo",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Nemo"
+      }
+    },
+    {
+      "id": "NEMO:SNORKELING_CHESTPLATE",
+      "npc": "Nemo",
+      "output": {
+        "productId": "SNORKELING_CHESTPLATE",
+        "name": "Snorkeling Vest",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Foraging Skill 16",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Nemo",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Nemo"
+      }
+    },
+    {
+      "id": "NEMO:SNORKELING_HELMET",
+      "npc": "Nemo",
+      "output": {
+        "productId": "SNORKELING_HELMET",
+        "name": "Snorkeling Visor",
+        "amount": 1
+      },
+      "costs": [
+        {
+          "kind": "coins",
+          "amount": 50000
+        }
+      ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "manual-wiki",
+      "diazEligible": true,
+      "requirement": "Foraging Skill 16",
+      "source": {
+        "label": "Hypixel SkyBlock Wiki · Nemo",
+        "url": "https://hypixel-skyblock.fandom.com/wiki/Nemo"
       }
     },
     {
@@ -4204,6 +5321,9 @@
           "amount": 500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4225,6 +5345,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4246,6 +5369,9 @@
           "amount": 200
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4273,6 +5399,9 @@
           "amount": 20
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4294,6 +5423,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4321,6 +5453,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ODAWA.json"
@@ -4340,6 +5475,9 @@
           "amount": 900000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OLD_SHAMAN_NYKO.json"
@@ -4359,6 +5497,9 @@
           "amount": 25000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OLD_SHAMAN_NYKO.json"
@@ -4378,6 +5519,9 @@
           "amount": 80000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4403,6 +5547,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4422,6 +5569,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4441,6 +5591,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4460,6 +5613,9 @@
           "amount": 15000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4479,6 +5635,9 @@
           "amount": 20000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4498,6 +5657,9 @@
           "amount": 25000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4517,6 +5679,9 @@
           "amount": 30000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4536,6 +5701,9 @@
           "amount": 35000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4555,6 +5723,9 @@
           "amount": 200
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4580,6 +5751,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4605,6 +5779,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4630,6 +5807,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4655,6 +5835,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4674,6 +5857,9 @@
           "amount": 80000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4699,6 +5885,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4724,6 +5913,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4749,6 +5941,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4768,6 +5963,9 @@
           "amount": 80000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4793,6 +5991,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4818,6 +6019,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4837,6 +6041,9 @@
           "amount": 3000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4856,6 +6063,9 @@
           "amount": 80000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4881,6 +6091,9 @@
           "amount": 1
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_OPHELIA.json"
@@ -4900,6 +6113,9 @@
           "amount": 60
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PAT.json"
@@ -4919,6 +6135,9 @@
           "amount": 65
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PAT.json"
@@ -4938,6 +6157,9 @@
           "amount": 1000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -4957,6 +6179,9 @@
           "amount": 1500000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -4976,6 +6201,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -4995,6 +6223,9 @@
           "amount": 50
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -5014,6 +6245,9 @@
           "amount": 200000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -5033,6 +6267,9 @@
           "amount": 1200
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -5052,6 +6289,9 @@
           "amount": 499999
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PEARL_DEALER.json"
@@ -5071,6 +6311,9 @@
           "amount": 50
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_PLUMBER_JOE.json"
@@ -5090,6 +6333,9 @@
           "amount": 4000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
@@ -5109,6 +6355,9 @@
           "amount": 8000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
@@ -5128,6 +6377,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
@@ -5147,6 +6399,9 @@
           "amount": 7000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
@@ -5166,6 +6421,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_CELESTE_SET.json"
@@ -5185,6 +6443,9 @@
           "amount": 30000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
@@ -5204,6 +6465,9 @@
           "amount": 70000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
@@ -5223,6 +6487,9 @@
           "amount": 35000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
@@ -5242,6 +6509,9 @@
           "amount": 45000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
@@ -5261,6 +6531,9 @@
           "amount": 30000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_MERCENARY_ARMOR.json"
@@ -5280,6 +6553,9 @@
           "amount": 960
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
@@ -5299,6 +6575,9 @@
           "amount": 1320
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
@@ -5318,6 +6597,9 @@
           "amount": 1050
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
@@ -5337,6 +6619,9 @@
           "amount": 1200
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_ARMOR.json"
@@ -5356,6 +6641,9 @@
           "amount": 4000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
@@ -5375,6 +6663,9 @@
           "amount": 8000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
@@ -5394,6 +6685,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
@@ -5413,6 +6707,9 @@
           "amount": 7000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
@@ -5432,6 +6729,9 @@
           "amount": 5000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_SQUIRE_ARMOR.json"
@@ -5451,6 +6751,9 @@
           "amount": 30000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
@@ -5470,6 +6773,9 @@
           "amount": 70000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
@@ -5489,6 +6795,9 @@
           "amount": 35000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
@@ -5508,6 +6817,9 @@
           "amount": 45000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
@@ -5527,6 +6839,9 @@
           "amount": 30000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_ROSETTA_STARLIGHT_SET.json"
@@ -5546,6 +6861,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SCOOP.json"
@@ -5565,6 +6883,9 @@
           "amount": 50000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5584,6 +6905,9 @@
           "amount": 75000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5603,7 +6927,9 @@
           "amount": 1
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5623,6 +6949,9 @@
           "amount": 12
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5642,7 +6971,9 @@
           "amount": 9
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5662,6 +6993,9 @@
           "amount": 250000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHERRY.json"
@@ -5681,6 +7015,9 @@
           "amount": 4000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
@@ -5700,6 +7037,9 @@
           "amount": 10000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
@@ -5719,6 +7059,9 @@
           "amount": 1000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_SHIFTY.json"
@@ -5746,6 +7089,9 @@
           "amount": 32
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
@@ -5767,6 +7113,9 @@
           "amount": 64
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
@@ -5788,6 +7137,9 @@
           "amount": 64
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
@@ -5815,6 +7167,9 @@
           "amount": 8
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TERRY.json"
@@ -5834,6 +7189,9 @@
           "amount": 10000000
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_TRINITY.json"
@@ -5853,6 +7211,9 @@
           "amount": 2500
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WALTER.json"
@@ -5872,6 +7233,9 @@
           "amount": 600
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5891,6 +7255,9 @@
           "amount": 25
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5910,6 +7277,9 @@
           "amount": 60
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5929,6 +7299,9 @@
           "amount": 150
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5948,6 +7321,9 @@
           "amount": 40
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5967,6 +7343,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -5986,6 +7365,9 @@
           "amount": 100
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -6005,6 +7387,9 @@
           "amount": 250
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WEAPONSMITH_MERCHANT.json"
@@ -6024,7 +7409,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
@@ -6044,7 +7431,9 @@
           "amount": 15
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
@@ -6064,7 +7453,9 @@
           "amount": 5
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
@@ -6084,7 +7475,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
@@ -6104,7 +7497,9 @@
           "amount": 25
         }
       ],
-      "dailyLimit": 6640,
+      "dailyLimit": 640,
+      "dailyLimitSource": "shop-stock",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
@@ -6124,6 +7519,9 @@
           "amount": 10
         }
       ],
+      "dailyLimit": 640,
+      "dailyLimitSource": "standard-shop-limit",
+      "diazEligible": true,
       "source": {
         "label": "SkyblockRepo / Hypixel Wiki",
         "url": "https://raw.githubusercontent.com/SkyblockRepo/Repo/main/shops/NPC_WINDMILL_OPERATOR.json"
