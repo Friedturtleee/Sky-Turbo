@@ -1,4 +1,4 @@
-import { BAZAAR_TAX_RATE, type AuctionPriceQuote, type MarketSnapshot, type NpcFlip, type NpcFlipCost, type NpcShopOffer } from "./types";
+import { type AuctionPriceQuote, type MarketSnapshot, type NpcFlip, type NpcFlipCost, type NpcShopOffer } from "./types";
 
 export const AUCTION_FEE_MODEL = "2% under 10m, 4% from 10m, 5% from 100m";
 
@@ -75,6 +75,15 @@ export function calculateNpcFlips(
     const saleFeeRate = outputMarket ? market.taxRate : auctionFeeRate(salePriceGross);
     const salePriceNet = salePriceGross * (1 - saleFeeRate);
     const profit = salePriceNet - totalCost;
+    const bazaarSellOrderPriceGross = outputMarket
+      ? outputMarket.sellOrderPrice * offer.output.amount
+      : undefined;
+    const bazaarSellOrderPriceNet = bazaarSellOrderPriceGross === undefined
+      ? undefined
+      : bazaarSellOrderPriceGross * (1 - market.taxRate);
+    const bazaarSellOrderProfit = bazaarSellOrderPriceNet === undefined
+      ? undefined
+      : bazaarSellOrderPriceNet - totalCost;
     const maxPurchases = offer.dailyLimit === undefined
       ? undefined
       : Math.floor(offer.dailyLimit / Math.max(offer.output.amount, 1));
@@ -91,6 +100,12 @@ export function calculateNpcFlips(
       salePriceGross,
       salePriceNet,
       saleFeeRate,
+      ...(outputMarket ? {
+        bazaarSellOrderPriceGross,
+        bazaarSellOrderPriceNet,
+        bazaarSellOrderProfit,
+        bazaarMatchedVolume7d: Math.min(outputMarket.buyMovingWeek, outputMarket.sellMovingWeek),
+      } : {}),
       ...(!outputMarket && outputAuction ? {
         auctionLowestBin: outputAuction.lowestBin,
         auctionRecentMedian: outputAuction.recentMedian,

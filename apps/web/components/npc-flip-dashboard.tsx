@@ -109,7 +109,7 @@ export function NpcFlipDashboard() {
       : error && !hasLoadedRef.current
         ? <div className="state-card error-state">{error}</div>
         : <div className="market-table-wrap panel"><table className="market-table npc-flip-table"><thead><tr>
-          <th>NPC 商品</th><th>NPC</th><th>購買需求</th><th>總成本</th><th>出售價格</th><th>Profit</th><th>每日上限</th><th>資料來源</th>
+          <th>NPC 商品</th><th>NPC</th><th>購買需求</th><th>總成本</th><th>出售價格</th><th>7日成交量</th><th>Profit</th><th>每日上限</th><th>資料來源</th>
         </tr></thead><tbody>{displayedFlips.slice(0, 300).map((flip) => <tr key={flip.offerId}>
           <td><span className="item-cell"><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</strong><small>{flip.productId}</small></span></span></td>
           <td><span className="stack"><strong>{flip.npc}</strong>{flip.requirement ? <small>{flip.requirement}</small> : null}</span></td>
@@ -121,10 +121,17 @@ export function NpcFlipDashboard() {
               ? <small className={flip.auctionPriceCapped ? "price-warning" : undefined}>LBIN {formatCoins(flip.auctionLowestBin ?? 0)}{flip.auctionRecentMedian ? ` · 近期中位 ${formatCoins(flip.auctionRecentMedian)}` : " · 無近期成交價"}</small>
               : <small>SkyCofl 批次調整估價 · {formatCoins(flip.salePriceGross)}</small>}</>}
           </span></td>
-          <td><span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)}</small></span></td>
+          <td>{flip.saleSource === "bazaar"
+            ? <span className="stack"><strong>{(flip.bazaarMatchedVolume7d ?? 0).toLocaleString("zh-TW")}</strong><small>近 7 天 BZ 成交</small></span>
+            : flip.ahSalesLast7d === undefined
+            ? <span className="neutral">累積中</span>
+            : <span className="stack"><strong>{flip.ahSalesLast7d.toLocaleString("zh-TW")} 筆</strong><small>近 7 天 AH 成交</small></span>}</td>
+          <td>{flip.saleSource === "bazaar"
+            ? <span className="stack"><strong className={tone(flip.profit)}>Insta Sell {formatCoins(flip.profit)}</strong><small className={tone(flip.bazaarSellOrderProfit)}>Sell Order {formatCoins(flip.bazaarSellOrderProfit ?? 0)}</small></span>
+            : <span className={`stack ${tone(flip.profit)}`}><strong>{formatCoins(flip.profit)}</strong><small>{formatPercent(flip.marginPercent)}</small></span>}</td>
           <td>{flip.maxPurchases === undefined ? <span className="neutral">未標示</span> : <span className="stack"><strong>{formatCoins(flip.maxPurchases)} 次</strong><small className={tone(flip.maxDailyProfit)}>{formatCoins(flip.maxDailyProfit ?? 0)} Profit</small></span>}</td>
           <td><a className="source-link" href={flip.source.url} target="_blank" rel="noreferrer">{flip.source.label}</a></td>
         </tr>)}</tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">目前沒有符合條件且可完整定價的 NPC Flip。</div> : null}</div>}
-    <p className="npc-disclaimer">Bazaar 使用立即買入成本／立即賣出價格。AH 大量項目使用 SkyCofl 批次調整估價，避免首次載入觸發速率限制；Celeste 系列另以 active lowest BIN 和近期實際成交中位數取較低者，避免單一異常掛單製造假 Profit。AH 手續費依價格區間估算，商店解鎖條件、活動期間與未標示的購買限制仍需在遊戲內確認。AH 價格由 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供。</p>
+    <p className="npc-disclaimer">Bazaar Profit 以 insta buy 成本計算：Insta Sell 為立即賣給 Buy Order 的利潤，Sell Order 為掛 Sell Offer 後的預估利潤；BZ 7 日成交量取買入與賣出移動週量中較低者，避免雙邊重複計算。AH 大量項目使用 SkyCofl 批次調整估價，Celeste 系列另以 active lowest BIN 和近期實際成交中位數取較低者。AH 手續費依價格區間估算，商店解鎖條件、活動期間與未標示的購買限制仍需在遊戲內確認。AH 價格由 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供。</p>
   </>;
 }

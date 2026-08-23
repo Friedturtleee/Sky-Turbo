@@ -313,11 +313,19 @@ export type NpcFlip = {
   salePriceGross: number;
   salePriceNet: number;
   saleFeeRate: number;
+  /** Bazaar sell-order proceeds and profit, using the same instant-buy costs. */
+  bazaarSellOrderPriceGross?: number;
+  bazaarSellOrderPriceNet?: number;
+  bazaarSellOrderProfit?: number;
+  /** Estimated matched Bazaar volume for the preceding seven days. */
+  bazaarMatchedVolume7d?: number;
   auctionLowestBin?: number;
   auctionRecentMedian?: number;
   auctionRecentVolume?: number;
   auctionPriceCapped?: boolean;
   auctionPriceModel?: "exact-lbin-and-median" | "adjusted-estimate";
+  /** Number of AH sales recorded during the preceding seven days. */
+  ahSalesLast7d?: number;
   profit: number;
   marginPercent: number;
   dailyLimit?: number;

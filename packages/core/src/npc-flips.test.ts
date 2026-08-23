@@ -8,8 +8,8 @@ const market = {
   updatedAt: 1,
   taxRate: 0.01125,
   items: [
-    { productId: "COUPON", instantBuyPrice: 100, instantSellPrice: 90 },
-    { productId: "OUTPUT", instantBuyPrice: 1_100, instantSellPrice: 1_000 },
+    { productId: "COUPON", instantBuyPrice: 100, instantSellPrice: 90, sellOrderPrice: 100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
+    { productId: "OUTPUT", instantBuyPrice: 1_100, instantSellPrice: 1_000, sellOrderPrice: 1_100, buyMovingWeek: 1_680, sellMovingWeek: 840 },
   ],
 } as MarketSnapshot;
 
@@ -35,6 +35,10 @@ describe("calculateNpcFlips", () => {
       salePriceGross: 1_000,
       salePriceNet: 988.75,
       profit: 688.75,
+      bazaarSellOrderPriceGross: 1_100,
+      bazaarSellOrderPriceNet: 1_087.625,
+      bazaarSellOrderProfit: 787.625,
+      bazaarMatchedVolume7d: 840,
       maxPurchases: 640,
     });
   });

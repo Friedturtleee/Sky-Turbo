@@ -1,7 +1,7 @@
 import { calculateNpcFlips, type MarketSnapshot, type NpcShopData } from "@sky-turbo/core";
 import npcShopDataJson from "@sky-turbo/core/npc-shop-data";
 import { jsonError, jsonOk } from "@/lib/http";
-import { getExactAuctionPrices, getRoughAuctionPrices } from "@/lib/lowest-bin";
+import { getAuctionSevenDaySales, getExactAuctionPrices, getRoughAuctionPrices } from "@/lib/lowest-bin";
 import { getEnrichedMarketSnapshot } from "@/lib/market";
 
 export const dynamic = "force-dynamic";
@@ -29,14 +29,23 @@ export async function GET() {
     ]));
     Object.assign(auctionPrices, exactAh.prices);
     const calculated = calculateNpcFlips(npcShopData.offers, market, auctionPrices);
+    const sortedFlips = calculated.flips.sort((left, right) => right.profit - left.profit);
+    const ahProductIds = sortedFlips.filter((flip) => flip.saleSource === "ah-lowest-bin").map((flip) => flip.productId);
+    const activity = await getAuctionSevenDaySales([
+      "CELESTE_BOOTS", "CELESTE_CHESTPLATE", "CELESTE_HELMET", "CELESTE_LEGGINGS", "CELESTE_WAND",
+      ...ahProductIds,
+    ]);
+    const flips = sortedFlips.map((flip) => flip.saleSource === "ah-lowest-bin" && activity.sales[flip.productId] !== undefined
+      ? { ...flip, ahSalesLast7d: activity.sales[flip.productId] }
+      : flip);
     return jsonOk({
-      flips: calculated.flips.sort((left, right) => right.profit - left.profit),
+      flips,
       unpricedCount: calculated.unpricedCount,
-      updatedAt: Math.max(market.updatedAt, exactAh.fetchedAt),
+      updatedAt: Math.max(market.updatedAt, exactAh.fetchedAt, activity.fetchedAt),
       marketUpdatedAt: market.updatedAt,
       auctionUpdatedAt: exactAh.fetchedAt,
       shopDataGeneratedAt: npcShopData.generatedAt,
-      priceModel: "BZ insta sell / buy；AH 批次調整估價，Celeste 額外核對 LBIN 與近期成交",
+      priceModel: "BZ insta sell / buy；AH 顯示近 7 天成交筆數，分批快取更新",
     });
   } catch (error) {
     return jsonError(
