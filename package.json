@@ -13,10 +13,14 @@
     "lint": "pnpm -r lint",
     "smoke:live": "tsx scripts/smoke-live.ts",
     "backfill:history": "tsx scripts/backfill-coflnet.ts",
-    "test": "pnpm -r --if-present test && tsx --test scripts/coflnet-backfill-lib.test.ts",
+    "backfill:ah-history": "tsx scripts/backfill-coflnet-ah.ts",
+    "collect:ah": "tsx scripts/collect-ah-flips.ts",
+    "test": "pnpm -r --if-present test && tsx --test scripts/coflnet-backfill-lib.test.ts scripts/coflnet-ah-history-lib.test.ts",
     "typecheck": "pnpm -r typecheck && tsc -p tsconfig.scripts.json",
     "sync:shards": "node scripts/sync-skyshards.mjs",
     "sync:npc-shops": "node scripts/sync-npc-shops.mjs",
+    "sync:craft-recipes": "tsx scripts/sync-craft-recipes.ts",
+    "sync:flip-data": "pnpm sync:shards && pnpm sync:npc-shops && pnpm sync:craft-recipes && pnpm sync:item-icons",
     "sync:item-icons": "tsx scripts/sync-hypixel-item-icons.ts"
   },
   "devDependencies": {

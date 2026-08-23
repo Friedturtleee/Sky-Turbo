@@ -5,8 +5,14 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./ah-server": "./src/ah-server.ts",
+    "./ah-upgrade-data": "./data/ah-upgrade-data.json",
     "./fusion-data": "./data/fusion-data.json",
-    "./npc-shop-data": "./data/npc-shop-data.json"
+    "./npc-shop-data": "./data/npc-shop-data.json",
+    "./craft-data": "./data/craft-data.json"
+  },
+  "dependencies": {
+    "prismarine-nbt": "2.8.0"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -15,6 +21,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
+    "@types/node": "24.3.0",
     "typescript": "7.0.2",
     "vitest": "4.1.11"
   }

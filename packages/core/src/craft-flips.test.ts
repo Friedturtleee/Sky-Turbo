@@ -1,0 +1,86 @@
+import { describe, expect, it } from "vitest";
+import { calculateCraftFlips } from "./craft-flips";
+import type { CraftData, CraftStrategy, MarketItem, ShardOrderBook } from "./types";
+
+const data: CraftData = {
+  schemaVersion: 1,
+  generatedAt: "2026-01-01T00:00:00.000Z",
+  source: { project: "test", commit: "abc", branch: "main", archiveUrl: "https://example.com", license: "MIT" },
+  warnings: [],
+  recipes: [{
+    id: "OUTPUT:test",
+    type: "crafting",
+    output: { productId: "OUTPUT", name: "Output", amount: 2 },
+    ingredients: [
+      { productId: "A", name: "A", amount: 2 },
+      { productId: "B", name: "B", amount: 1 },
+    ],
+    source: { label: "test", url: "https://example.com", file: "OUTPUT.json" },
+  }],
+};
+
+const market = [
+  { productId: "A", buyMovingWeek: 1_000, sellMovingWeek: 900 },
+  { productId: "B", buyMovingWeek: 1_000, sellMovingWeek: 900 },
+  { productId: "OUTPUT", buyMovingWeek: 500, sellMovingWeek: 450 },
+] as MarketItem[];
+
+const books: Record<string, ShardOrderBook> = {
+  A: {
+    buyOrders: [{ amount: 100, orders: 1, pricePerUnit: 5 }],
+    sellOffers: [{ amount: 1, orders: 1, pricePerUnit: 7 }, { amount: 100, orders: 1, pricePerUnit: 9 }],
+    partial: false,
+  },
+  B: {
+    buyOrders: [{ amount: 100, orders: 1, pricePerUnit: 10 }],
+    sellOffers: [{ amount: 100, orders: 1, pricePerUnit: 12 }],
+    partial: false,
+  },
+  OUTPUT: {
+    buyOrders: [{ amount: 1, orders: 1, pricePerUnit: 30 }, { amount: 100, orders: 1, pricePerUnit: 25 }],
+    sellOffers: [{ amount: 100, orders: 1, pricePerUnit: 40 }],
+    partial: false,
+  },
+};
+
+describe("calculateCraftFlips", () => {
+  it.each([
+    ["bo-so", 20, 80, 52],
+    ["ib-so", 28, 80, 44],
+    ["bo-is", 20, 55, 29.5],
+    ["ib-is", 28, 55, 21.5],
+  ] satisfies Array<[CraftStrategy, number, number, number]>) (
+    "calculates %s with the selected order-book sides",
+    (strategy, inputCost, grossRevenue, profit) => {
+      const result = calculateCraftFlips(data, market, books, strategy, 0.1);
+      expect(result.skippedCount).toBe(0);
+      expect(result.flips[0]).toMatchObject({
+        strategy,
+        outputAmount: 2,
+        inputCost,
+        grossRevenue,
+        revenueAfterTax: grossRevenue * 0.9,
+        profit,
+        profitPerOutput: profit / 2,
+        matchedVolume7d: 450,
+      });
+    },
+  );
+
+  it("skips a recipe when a material is not Bazaar-tradeable", () => {
+    const result = calculateCraftFlips(data, market.filter((item) => item.productId !== "B"), books, "bo-so", 0.1);
+    expect(result.flips).toEqual([]);
+    expect(result.skippedCount).toBe(1);
+  });
+
+  it("skips an instant strategy when visible depth cannot fill one craft", () => {
+    const shallow = {
+      ...books,
+      A: { ...books.A!, sellOffers: [{ amount: 1, orders: 1, pricePerUnit: 7 }] },
+    };
+    expect(calculateCraftFlips(data, market, shallow, "ib-so", 0.1)).toMatchObject({
+      flips: [],
+      skippedCount: 1,
+    });
+  });
+});

@@ -1,0 +1,599 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-23T11:49:57.591Z",
+  "source": {
+    "project": "NotEnoughUpdates/NotEnoughUpdates-REPO",
+    "commit": "ddde4bfd69eb6a2a77b1f0ad033ea31366d0a9c4",
+    "branch": "master",
+    "archiveUrl": "https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO/archive/ddde4bfd69eb6a2a77b1f0ad033ea31366d0a9c4.zip",
+    "license": "MIT"
+  },
+  "reforgeStones": {
+    "ambered": {
+      "productId": "AMBER_MATERIAL",
+      "name": "Amber Material"
+    },
+    "warped": {
+      "productId": "AOTE_STONE",
+      "name": "Warped Stone"
+    },
+    "beady": {
+      "productId": "BEADY_EYES",
+      "name": "Beady Eyes"
+    },
+    "blazing": {
+      "productId": "BLAZEN_SPHERE",
+      "name": "Blazen Sphere"
+    },
+    "waxed": {
+      "productId": "BLAZE_WAX",
+      "name": "Blaze Wax"
+    },
+    "blessed": {
+      "productId": "BLESSED_FRUIT",
+      "name": "Blessed Fruit"
+    },
+    "thorny": {
+      "productId": "BLOOMING_THORNS",
+      "name": "Blooming Thorns"
+    },
+    "bulky": {
+      "productId": "BULKY_STONE",
+      "name": "Bulky Stone"
+    },
+    "rooted": {
+      "productId": "BURROWING_SPORES",
+      "name": "Burrowing Spores"
+    },
+    "calcified": {
+      "productId": "CALCIFIED_HEART",
+      "name": "Calcified Heart"
+    },
+    "candied": {
+      "productId": "CANDY_CORN",
+      "name": "Candy Corn"
+    },
+    "buzzing": {
+      "productId": "CLIPPED_WINGS",
+      "name": "Clipped Wings"
+    },
+    "erudite": {
+      "productId": "DAEDALUS_NOTES",
+      "name": "Daedalus' Notes"
+    },
+    "submerged": {
+      "productId": "DEEP_SEA_ORB",
+      "name": "Deep Sea Orb"
+    },
+    "perfect": {
+      "productId": "DIAMOND_ATOM",
+      "name": "Diamond Atom"
+    },
+    "fleet": {
+      "productId": "DIAMONITE",
+      "name": "Diamonite"
+    },
+    "dirty": {
+      "productId": "DIRT_BOTTLE",
+      "name": "Dirt Bottle"
+    },
+    "fabled": {
+      "productId": "DRAGON_CLAW",
+      "name": "Dragon Claw"
+    },
+    "renowned": {
+      "productId": "DRAGON_HORN",
+      "name": "Dragon Horn"
+    },
+    "spiked": {
+      "productId": "DRAGON_SCALE",
+      "name": "Dragon Scale"
+    },
+    "royal": {
+      "productId": "DWARVEN_TREASURE",
+      "name": "Dwarven Treasure"
+    },
+    "hyper": {
+      "productId": "ENDSTONE_GEODE",
+      "name": "End Stone Geode"
+    },
+    "coldfused": {
+      "productId": "ENTROPY_SUPPRESSOR",
+      "name": "Entropy Suppressor"
+    },
+    "sticky": {
+      "productId": "EXTREMELY_MILD_ADHESIVE",
+      "name": "Extremely Mild Adhesive"
+    },
+    "blooming": {
+      "productId": "FLOWERING_BOUQUET",
+      "name": "Flowering Bouquet"
+    },
+    "glacial": {
+      "productId": "FRIGID_HUSK",
+      "name": "Frigid Husk"
+    },
+    "festive": {
+      "productId": "FROZEN_BAUBLE",
+      "name": "Frozen Bauble"
+    },
+    "fanged": {
+      "productId": "FULL_JAW_FANGING_KIT",
+      "name": "Full-Jaw Fanging Kit"
+    },
+    "geometric": {
+      "productId": "GEOMETRIC_ODDITY",
+      "name": "Geometric Oddity"
+    },
+    "giant": {
+      "productId": "GIANT_TOOTH",
+      "name": "Giant Tooth"
+    },
+    "lustrous": {
+      "productId": "GLEAMING_CRYSTAL",
+      "name": "Gleaming Crystal"
+    },
+    "bountiful": {
+      "productId": "GOLDEN_BALL",
+      "name": "Golden Ball"
+    },
+    "stiff": {
+      "productId": "HARDENED_WOOD",
+      "name": "Hardened Wood"
+    },
+    "deep_fried": {
+      "productId": "HASHBROWN",
+      "name": "Hashbrown"
+    },
+    "heated": {
+      "productId": "HOT_STUFF",
+      "name": "Scorched Topaz"
+    },
+    "jaded": {
+      "productId": "JADERALD",
+      "name": "Jaderald"
+    },
+    "jerry_s": {
+      "productId": "JERRY_STONE",
+      "name": "Jerry Stone"
+    },
+    "chomp": {
+      "productId": "KUUDRA_MANDIBLE",
+      "name": "Kuudra Mandible"
+    },
+    "magnetic": {
+      "productId": "LAPIS_CRYSTAL",
+      "name": "Lapis Crystal"
+    },
+    "earthy": {
+      "productId": "LARGE_WALNUT",
+      "name": "Large Walnut"
+    },
+    "lucky": {
+      "productId": "LUCKY_DICE",
+      "name": "Lucky Dice"
+    },
+    "groovy": {
+      "productId": "MANGROVE_GEM",
+      "name": "Mangrove Gem"
+    },
+    "mantid": {
+      "productId": "MANTID_CLAW",
+      "name": "Mantid Claw"
+    },
+    "fortified": {
+      "productId": "METEOR_SHARD",
+      "name": "Meteor Chunk"
+    },
+    "gilded": {
+      "productId": "MIDAS_JEWEL",
+      "name": "Midas Jewel"
+    },
+    "moil": {
+      "productId": "MOIL_LOG",
+      "name": "Moil Log"
+    },
+    "cubic": {
+      "productId": "MOLTEN_CUBE",
+      "name": "Molten Cube"
+    },
+    "moonglade": {
+      "productId": "MOONGLADE_JEWEL",
+      "name": "Moonglade Jewel"
+    },
+    "lunar": {
+      "productId": "MOONSTONE",
+      "name": "Moonstone"
+    },
+    "majestic": {
+      "productId": "MORNING_DEW",
+      "name": "Morning Dew"
+    },
+    "necrotic": {
+      "productId": "NECROMANCER_BROOCH",
+      "name": "Necromancer's Brooch"
+    },
+    "fruitful": {
+      "productId": "ONYX",
+      "name": "Black Diamond"
+    },
+    "precise": {
+      "productId": "OPTICAL_LENS",
+      "name": "Optical Lens"
+    },
+    "trashy": {
+      "productId": "OVERFLOWING_TRASH_CAN",
+      "name": "Overflowing Trash Can"
+    },
+    "mossy": {
+      "productId": "OVERGROWN_GRASS",
+      "name": "Overgrown Grass"
+    },
+    "overpriced": {
+      "productId": "OVERPRICED_DRINK",
+      "name": "Overpriced Drink"
+    },
+    "stellar": {
+      "productId": "PETRIFIED_STARFALL",
+      "name": "Petrified Starfall"
+    },
+    "pitchin_": {
+      "productId": "PITCHIN_KOI",
+      "name": "Pitchin' Koi"
+    },
+    "scraped": {
+      "productId": "POCKET_ICEBERG",
+      "name": "Pocket Iceberg"
+    },
+    "ancient": {
+      "productId": "PRECURSOR_GEAR",
+      "name": "Precursor Gear"
+    },
+    "undead": {
+      "productId": "PREMIUM_FLESH",
+      "name": "Premium Flesh"
+    },
+    "mithraic": {
+      "productId": "PURE_MITHRIL",
+      "name": "Pure Mithril"
+    },
+    "reinforced": {
+      "productId": "RARE_DIAMOND",
+      "name": "Rare Diamond"
+    },
+    "ridiculous": {
+      "productId": "RED_NOSE",
+      "name": "Red Nose"
+    },
+    "loving": {
+      "productId": "RED_SCARF",
+      "name": "Red Scarf"
+    },
+    "refined": {
+      "productId": "REFINED_AMBER",
+      "name": "Andesite Whetstone"
+    },
+    "auspicious": {
+      "productId": "ROCK_GEMSTONE",
+      "name": "Dwarven Geode"
+    },
+    "empowered": {
+      "productId": "SADAN_BROOCH",
+      "name": "Sadan's Brooch"
+    },
+    "salty": {
+      "productId": "SALT_CUBE",
+      "name": "Salt Cube"
+    },
+    "glistening": {
+      "productId": "SHINY_PRISM",
+      "name": "Shiny Prism"
+    },
+    "bloodshot": {
+      "productId": "SHRIVELED_CORNEA",
+      "name": "Shriveled Cornea"
+    },
+    "bustling": {
+      "productId": "SKYMART_BROCHURE",
+      "name": "SkyMart Brochure"
+    },
+    "spiritual": {
+      "productId": "SPIRIT_DECOY",
+      "name": "Spirit Stone"
+    },
+    "squeaky": {
+      "productId": "SQUEAKY_TOY",
+      "name": "Squeaky Toy"
+    },
+    "sunny": {
+      "productId": "SUNSTONE",
+      "name": "Sunstone"
+    },
+    "suspicious": {
+      "productId": "SUSPICIOUS_VIAL",
+      "name": "Suspicious Vial"
+    },
+    "snowy": {
+      "productId": "TERRY_SNOWGLOBE",
+      "name": "Terry's Snowglobe"
+    },
+    "dimensional": {
+      "productId": "TITANIUM_TESSERACT",
+      "name": "Titanium Tesseract"
+    },
+    "toil": {
+      "productId": "TOIL_LOG",
+      "name": "Toil Log"
+    },
+    "withered": {
+      "productId": "WITHER_BLOOD",
+      "name": "Wither Blood"
+    }
+  },
+  "dyes": {
+    "DYE_AQUAMARINE": {
+      "productId": "DYE_AQUAMARINE",
+      "name": "Aquamarine Dye"
+    },
+    "DYE_ARCHFIEND": {
+      "productId": "DYE_ARCHFIEND",
+      "name": "Archfiend Dye"
+    },
+    "DYE_AURORA": {
+      "productId": "DYE_AURORA",
+      "name": "Aurora Dye"
+    },
+    "DYE_BEACH": {
+      "productId": "DYE_BEACH",
+      "name": "Beach Dye"
+    },
+    "DYE_BINGO_BLUE": {
+      "productId": "DYE_BINGO_BLUE",
+      "name": "Bingo Blue Dye"
+    },
+    "DYE_BLACK_ICE": {
+      "productId": "DYE_BLACK_ICE",
+      "name": "Black Ice Dye"
+    },
+    "DYE_BLACK_OPAL": {
+      "productId": "DYE_BLACK_OPAL",
+      "name": "Black Opal Dye"
+    },
+    "DYE_BONE": {
+      "productId": "DYE_BONE",
+      "name": "Bone Dye"
+    },
+    "DYE_BRICK_RED": {
+      "productId": "DYE_BRICK_RED",
+      "name": "Brick Red Dye"
+    },
+    "DYE_BYZANTIUM": {
+      "productId": "DYE_BYZANTIUM",
+      "name": "Byzantium Dye"
+    },
+    "DYE_CARMINE": {
+      "productId": "DYE_CARMINE",
+      "name": "Carmine Dye"
+    },
+    "DYE_CELADON": {
+      "productId": "DYE_CELADON",
+      "name": "Celadon Dye"
+    },
+    "DYE_CELESTE": {
+      "productId": "DYE_CELESTE",
+      "name": "Celeste Dye"
+    },
+    "DYE_CHARCOAL": {
+      "productId": "DYE_CHARCOAL",
+      "name": "Charcoal Dye"
+    },
+    "DYE_CHOCOLATE": {
+      "productId": "DYE_CHOCOLATE",
+      "name": "Chocolate Dye"
+    },
+    "DYE_COPPER": {
+      "productId": "DYE_COPPER",
+      "name": "Copper Dye"
+    },
+    "DYE_CYCLAMEN": {
+      "productId": "DYE_CYCLAMEN",
+      "name": "Cyclamen Dye"
+    },
+    "DYE_DARK_PURPLE": {
+      "productId": "DYE_DARK_PURPLE",
+      "name": "Dark Purple Dye"
+    },
+    "DYE_DUNG": {
+      "productId": "DYE_DUNG",
+      "name": "Dung Dye"
+    },
+    "DYE_DUSK": {
+      "productId": "DYE_DUSK",
+      "name": "Dusk Dye"
+    },
+    "DYE_EMERALD": {
+      "productId": "DYE_EMERALD",
+      "name": "Emerald Dye"
+    },
+    "DYE_FLAME": {
+      "productId": "DYE_FLAME",
+      "name": "Flame Dye"
+    },
+    "DYE_FOREST": {
+      "productId": "DYE_FOREST",
+      "name": "Forest Dye"
+    },
+    "DYE_FOSSIL": {
+      "productId": "DYE_FOSSIL",
+      "name": "Fossil Dye"
+    },
+    "DYE_FROG": {
+      "productId": "DYE_FROG",
+      "name": "Frog Dye"
+    },
+    "DYE_FROSTBITTEN": {
+      "productId": "DYE_FROSTBITTEN",
+      "name": "Frostbitten Dye"
+    },
+    "DYE_HELLEBORE": {
+      "productId": "DYE_HELLEBORE",
+      "name": "Hellebore Dye"
+    },
+    "DYE_HOLLY": {
+      "productId": "DYE_HOLLY",
+      "name": "Holly Dye"
+    },
+    "DYE_ICEBERG": {
+      "productId": "DYE_ICEBERG",
+      "name": "Iceberg Dye"
+    },
+    "DYE_JADE": {
+      "productId": "DYE_JADE",
+      "name": "Jade Dye"
+    },
+    "DYE_JERRY": {
+      "productId": "DYE_JERRY",
+      "name": "Jerry Dye"
+    },
+    "DYE_KINGFISHER": {
+      "productId": "DYE_KINGFISHER",
+      "name": "Kingfisher Dye"
+    },
+    "DYE_LAVA": {
+      "productId": "DYE_LAVA",
+      "name": "Lava Dye"
+    },
+    "DYE_LIVID": {
+      "productId": "DYE_LIVID",
+      "name": "Livid Dye"
+    },
+    "DYE_LUCKY": {
+      "productId": "DYE_LUCKY",
+      "name": "Lucky Dye"
+    },
+    "DYE_MANGO": {
+      "productId": "DYE_MANGO",
+      "name": "Mango Dye"
+    },
+    "DYE_MARINE": {
+      "productId": "DYE_MARINE",
+      "name": "Marine Dye"
+    },
+    "DYE_MATCHA": {
+      "productId": "DYE_MATCHA",
+      "name": "Matcha Dye"
+    },
+    "DYE_MIDNIGHT": {
+      "productId": "DYE_MIDNIGHT",
+      "name": "Midnight Dye"
+    },
+    "DYE_MOCHA": {
+      "productId": "DYE_MOCHA",
+      "name": "Mocha Dye"
+    },
+    "DYE_MYTHOLOGICAL": {
+      "productId": "DYE_MYTHOLOGICAL",
+      "name": "Mythological Dye"
+    },
+    "DYE_NADESHIKO": {
+      "productId": "DYE_NADESHIKO",
+      "name": "Nadeshiko Dye"
+    },
+    "DYE_NECRON": {
+      "productId": "DYE_NECRON",
+      "name": "Necron Dye"
+    },
+    "DYE_NYANZA": {
+      "productId": "DYE_NYANZA",
+      "name": "Nyanza Dye"
+    },
+    "DYE_OASIS": {
+      "productId": "DYE_OASIS",
+      "name": "Oasis Dye"
+    },
+    "DYE_OCEAN": {
+      "productId": "DYE_OCEAN",
+      "name": "Ocean Dye"
+    },
+    "DYE_PASTEL_SKY": {
+      "productId": "DYE_PASTEL_SKY",
+      "name": "Pastel Sky Dye"
+    },
+    "DYE_PEARLESCENT": {
+      "productId": "DYE_PEARLESCENT",
+      "name": "Pearlescent Dye"
+    },
+    "DYE_PELT": {
+      "productId": "DYE_PELT",
+      "name": "Pelt Dye"
+    },
+    "DYE_PERIWINKLE": {
+      "productId": "DYE_PERIWINKLE",
+      "name": "Periwinkle Dye"
+    },
+    "DYE_PORTAL": {
+      "productId": "DYE_PORTAL",
+      "name": "Portal Dye"
+    },
+    "DYE_PURE_BLACK": {
+      "productId": "DYE_PURE_BLACK",
+      "name": "Pure Black Dye"
+    },
+    "DYE_PURE_BLUE": {
+      "productId": "DYE_PURE_BLUE",
+      "name": "Pure Blue Dye"
+    },
+    "DYE_PURE_WHITE": {
+      "productId": "DYE_PURE_WHITE",
+      "name": "Pure White Dye"
+    },
+    "DYE_PURE_YELLOW": {
+      "productId": "DYE_PURE_YELLOW",
+      "name": "Pure Yellow Dye"
+    },
+    "DYE_RED_TULIP": {
+      "productId": "DYE_RED_TULIP",
+      "name": "Red Tulip Dye"
+    },
+    "DYE_ROSE": {
+      "productId": "DYE_ROSE",
+      "name": "Rose Dye"
+    },
+    "DYE_SANGRIA": {
+      "productId": "DYE_SANGRIA",
+      "name": "Sangria Dye"
+    },
+    "DYE_SECRET": {
+      "productId": "DYE_SECRET",
+      "name": "Secret Dye"
+    },
+    "DYE_SNOWFLAKE": {
+      "productId": "DYE_SNOWFLAKE",
+      "name": "Snowflake Dye"
+    },
+    "DYE_SPOOKY": {
+      "productId": "DYE_SPOOKY",
+      "name": "Spooky Dye"
+    },
+    "DYE_SUNFLOWER": {
+      "productId": "DYE_SUNFLOWER",
+      "name": "Sunflower Dye"
+    },
+    "DYE_SUNSET": {
+      "productId": "DYE_SUNSET",
+      "name": "Sunset Dye"
+    },
+    "DYE_TREASURE": {
+      "productId": "DYE_TREASURE",
+      "name": "Treasure Dye"
+    },
+    "DYE_WARDEN": {
+      "productId": "DYE_WARDEN",
+      "name": "Warden Dye"
+    },
+    "DYE_WILD_STRAWBERRY": {
+      "productId": "DYE_WILD_STRAWBERRY",
+      "name": "Wild Strawberry Dye"
+    }
+  }
+}

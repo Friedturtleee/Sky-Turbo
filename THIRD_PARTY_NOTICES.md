@@ -26,10 +26,20 @@ Fallback item and block textures are extracted from the official Minecraft clien
 
 ## SkyCofl
 
-NPC Flip retrieves current Auction House lowest-BIN values from the [SkyCofl API](https://sky.coflnet.com/wiki/api) and displays the required attribution on that page. Optional historical backfill can retrieve aggregate Bazaar history from the same API. Use is subject to SkyCofl's current API access, rate-limit, attribution, redistribution, commercial-use, and competition restrictions. SkyCofl data never overrides first-party Hypixel Bazaar snapshots.
+NPC Flip retrieves current Auction House lowest-BIN values from the [SkyCofl API](https://sky.coflnet.com/wiki/api). AH Flip uses its full-NBT valuation endpoint and optional command-driven 7-day aggregate history backfill. The relevant pages display attribution. Use is subject to SkyCofl's current API access, rate-limit, attribution, redistribution, commercial-use, and competition restrictions. SkyCofl data never overrides first-party Hypixel Bazaar snapshots or active-auction listings.
 
 ## SkyblockRepo
 
 Generated NPC shop offers are derived from [SkyblockRepo/Repo](https://github.com/SkyblockRepo/Repo), licensed under the MIT License, with current Miria shop overrides sourced from the Hypixel SkyBlock Wiki. Copyright remains with the SkyblockRepo contributors. The upstream MIT license is copied to `packages/core/data/SkyblockRepo-LICENSE.txt`.
+
+## NotEnoughUpdates Recipe Repository
+
+Generated Craft Flip recipes are derived from [NotEnoughUpdates/NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO), licensed under the MIT License. Each synchronized dataset records the exact upstream commit and source archive. The upstream license is copied to `packages/core/data/NotEnoughUpdates-REPO-LICENSE.txt`.
+
+The same pinned repository snapshot is used to generate AH reforge-stone and dye identifier mappings so NBT upgrades can be linked to market products.
+
+## prismarine-nbt
+
+Auction item NBT is parsed and assembled with [PrismarineJS/prismarine-nbt](https://github.com/PrismarineJS/prismarine-nbt), licensed under the MIT License. Copyright remains with the PrismarineJS contributors.
 
 Other JavaScript dependencies retain the licenses declared in their package metadata and the generated `pnpm-lock.yaml` dependency graph.

@@ -279,7 +279,7 @@ async function persistMarketSnapshot(env: Env, ingest: MarketHistoryIngest): Pro
 async function putImportedJson(
   request: Request,
   env: Env,
-  table: "imported_history" | "imported_meta",
+  table: "imported_history" | "imported_meta" | "imported_ah_history" | "imported_ah_meta" | "ah_flip_state",
   keyColumn: "product_id" | "key",
   key: string,
 ): Promise<Response> {
@@ -305,7 +305,7 @@ async function putImportedJson(
 async function importedJson(
   request: Request,
   env: Env,
-  table: "imported_history" | "imported_meta",
+  table: "imported_history" | "imported_meta" | "imported_ah_history" | "imported_ah_meta" | "ah_flip_state",
   keyColumn: "product_id" | "key",
   key: string,
 ): Promise<Response> {
@@ -335,6 +335,16 @@ async function latestSnapshot(env: Env): Promise<Response> {
       "X-Updated-At": String(row.updated_at),
     },
   });
+}
+
+async function latestAhFlips(env: Env): Promise<Response> {
+  const row = await env.DB.prepare(
+    "SELECT updated_at, payload FROM ah_flip_state WHERE key = 'latest'",
+  ).first<BlobRow>();
+  if (!row) return errorResponse(env, "No AH Flip snapshot stored", 404);
+  const response = compressedJsonResponse(env, row);
+  response.headers.set("Cache-Control", "public, max-age=5, stale-while-revalidate=30");
+  return response;
 }
 
 async function liveProductHistory(env: Env, productId: string, range: string): Promise<Response> {
@@ -488,6 +498,7 @@ export default {
         return json(env, { status: "ok", storage: "d1-free" });
       }
       if (url.pathname === "/v1/storage/latest" && request.method === "GET") return latestSnapshot(env);
+      if (url.pathname === "/v1/storage/ah-flips" && request.method === "GET") return latestAhFlips(env);
       if (url.pathname === "/v1/storage/history-daily" && request.method === "GET") return dailyHistory(env);
       if (url.pathname === "/v1/storage/history-24h" && request.method === "GET") return historyAt24Hours(env);
 
@@ -511,6 +522,10 @@ export default {
         return json(env, { updatedAt: ingest.snapshot.updatedAt, stored: true });
       }
 
+      if (url.pathname === "/v1/internal/ah-flips") {
+        return importedJson(request, env, "ah_flip_state", "key", "latest");
+      }
+
       const importedPrefix = "/v1/internal/history-import/";
       if (url.pathname.startsWith(importedPrefix)) {
         const productId = decodeURIComponent(url.pathname.slice(importedPrefix.length));
@@ -523,6 +538,20 @@ export default {
         const key = url.pathname.slice(metaPrefix.length);
         if (key !== "summary" && key !== "manifest") return errorResponse(env, "Invalid metadata key", 400);
         return importedJson(request, env, "imported_meta", "key", key);
+      }
+
+      const ahHistoryPrefix = "/v1/internal/ah-history-import/";
+      if (url.pathname.startsWith(ahHistoryPrefix)) {
+        const productId = decodeURIComponent(url.pathname.slice(ahHistoryPrefix.length));
+        if (!/^[A-Z0-9_:.-]{1,128}$/.test(productId)) return errorResponse(env, "Invalid product ID", 400);
+        return importedJson(request, env, "imported_ah_history", "product_id", productId);
+      }
+
+      const ahMetaPrefix = "/v1/internal/ah-history-import-meta/";
+      if (url.pathname.startsWith(ahMetaPrefix)) {
+        const key = url.pathname.slice(ahMetaPrefix.length);
+        if (key !== "summary" && key !== "manifest") return errorResponse(env, "Invalid metadata key", 400);
+        return importedJson(request, env, "imported_ah_meta", "key", key);
       }
 
       if (url.pathname === "/v1/me/bookmarks" || url.pathname.startsWith("/v1/me/bookmarks/")) {

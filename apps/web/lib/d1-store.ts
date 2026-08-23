@@ -7,6 +7,8 @@ import {
   type CompactHistoryPartition,
   type ImportedHistorySummary,
   type ImportedProductHistory,
+  type AhFlipSnapshot,
+  type AhHistorySummary,
   type MarketSnapshot,
   type PricePoint,
 } from "@sky-turbo/core";
@@ -43,6 +45,32 @@ async function readOptionalJson<T>(path: string, internal = false): Promise<T | 
 
 export async function readLatestSnapshot(): Promise<MarketSnapshot | null> {
   return readOptionalJson<MarketSnapshot>("/v1/storage/latest");
+}
+
+export async function readLatestAhFlipSnapshot(): Promise<AhFlipSnapshot | null> {
+  const value = await readOptionalJson<AhFlipSnapshot>("/v1/storage/ah-flips");
+  return value?.schemaVersion === 1 && value.source === "hypixel-auctions+skycofl" ? value : null;
+}
+
+export async function persistAhFlipSnapshot(snapshot: AhFlipSnapshot): Promise<boolean> {
+  const response = await edgeFetch(
+    "/v1/internal/ah-flips",
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(snapshot),
+      signal: AbortSignal.timeout(60_000),
+    },
+    true,
+  );
+  if (!response) return false;
+  if (!response.ok) throw new Error(`D1 Worker AH snapshot write returned ${response.status}: ${await response.text()}`);
+  return true;
+}
+
+export async function readAhHistorySummary(): Promise<AhHistorySummary | null> {
+  const value = await readOptionalJson<AhHistorySummary>("/v1/internal/ah-history-import-meta/summary", true);
+  return value?.schemaVersion === 1 && value.provider === "skycofl" ? value : null;
 }
 
 export async function persistSnapshot(snapshot: MarketSnapshot): Promise<boolean> {

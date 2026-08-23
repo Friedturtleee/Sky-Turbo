@@ -156,6 +156,7 @@ export type FusionData = {
 };
 
 export type ShardStrategy = "bo-so" | "ib-so" | "bo-is" | "ib-is";
+export type CraftStrategy = ShardStrategy;
 
 export type MinProfitThreshold = {
   mode: "percent" | "coins";
@@ -333,4 +334,199 @@ export type NpcFlip = {
   maxDailyProfit?: number;
   requirement?: string;
   source: { label: string; url: string };
+};
+
+export type CraftRecipeIngredient = {
+  productId: string;
+  name: string;
+  amount: number;
+};
+
+export type CraftRecipe = {
+  id: string;
+  type: "crafting";
+  output: { productId: string; name: string; amount: number };
+  ingredients: CraftRecipeIngredient[];
+  requirement?: string;
+  source: { label: string; url: string; file: string };
+};
+
+export type CraftData = {
+  schemaVersion: 1;
+  generatedAt: string;
+  source: {
+    project: string;
+    commit: string;
+    branch: string;
+    archiveUrl: string;
+    license: "MIT";
+  };
+  warnings: string[];
+  recipes: CraftRecipe[];
+};
+
+export type CraftFlipIngredient = CraftRecipeIngredient & {
+  unitCost: number;
+  totalCost: number;
+};
+
+export type CraftFlip = {
+  recipeId: string;
+  strategy: CraftStrategy;
+  productId: string;
+  name: string;
+  outputAmount: number;
+  ingredients: CraftFlipIngredient[];
+  inputCost: number;
+  grossRevenue: number;
+  revenueAfterTax: number;
+  profit: number;
+  profitPerOutput: number;
+  marginPercent: number;
+  buyMovingWeek: number;
+  sellMovingWeek: number;
+  matchedVolume7d: number;
+  partial: boolean;
+  requirement?: string;
+  source: { label: string; url: string; file: string };
+};
+
+export type AhRiskLevel = "low" | "medium" | "high";
+export type AhValuationSource = "skycofl-nbt" | "component-estimate";
+export type AhFeatureCategory =
+  | "reforge"
+  | "enchantment"
+  | "gemstone"
+  | "dye"
+  | "skin"
+  | "potato-book"
+  | "rarity"
+  | "stars"
+  | "pet"
+  | "attribute"
+  | "drill-part"
+  | "modifier"
+  | "counter"
+  | "special"
+  | "unknown";
+
+export type AhItemFeature = {
+  key: string;
+  label: string;
+  value: string;
+  category: AhFeatureCategory;
+  recognized: boolean;
+  marketProductId?: string;
+  replacementCost?: number;
+  estimatedContribution?: number;
+};
+
+export type AhHistoryStats = {
+  productId: string;
+  fetchedAt: number;
+  days: 7;
+  totalSales: number;
+  salesPerDay: number;
+  averagePrice: number;
+  medianPrice: number;
+  minimumPrice: number;
+  maximumPrice: number;
+  averageSellTimeSeconds: number;
+  medianSellTimeSeconds: number;
+  binPercentage: number;
+  priceStdDev: number;
+  priceCoefficientVariation: number;
+};
+
+export type AhHistorySummary = {
+  schemaVersion: 1;
+  provider: "skycofl";
+  generatedAt: number;
+  items: Record<string, AhHistoryStats>;
+};
+
+export type AhImportedHistoryRecord = {
+  schemaVersion: 1;
+  provider: "skycofl";
+  productId: string;
+  fetchedAt: number;
+  status: "ok" | "unavailable";
+  stats?: AhHistoryStats;
+};
+
+export type AhNbtEstimate = {
+  lbin: number;
+  median: number;
+  fastSell: number;
+  volume: number;
+  lbinLink?: string;
+  lbinKey?: string;
+  medianKey?: string;
+  itemKey?: string;
+};
+
+export type AhValuationInput = {
+  auctionId: string;
+  productId: string;
+  name: string;
+  category: string;
+  tier: string;
+  quantity: number;
+  listingPrice: number;
+  start: number;
+  end: number;
+  componentEstimate: number;
+  features: AhItemFeature[];
+  unknownAttributeKeys: string[];
+  nbtEstimate?: AhNbtEstimate;
+  history?: AhHistoryStats;
+};
+
+export type AhFlip = {
+  auctionId: string;
+  productId: string;
+  name: string;
+  category: string;
+  tier: string;
+  quantity: number;
+  listingPrice: number;
+  start: number;
+  end: number;
+  estimatedValue: number;
+  fastSellValue?: number;
+  componentEstimate: number;
+  resaleAfterTax: number;
+  auctionFees: number;
+  feeRate: number;
+  profit: number;
+  fastSellProfit?: number;
+  roiPercent: number;
+  discountPercent: number;
+  valuationSource: AhValuationSource;
+  riskLevel: AhRiskLevel;
+  confidence: number;
+  riskReasons: string[];
+  features: AhItemFeature[];
+  unknownAttributeKeys: string[];
+  history?: AhHistoryStats;
+  comparableVolume?: number;
+  valuationKey?: string;
+  comparableAuctionUrl?: string;
+  viewAuctionCommand: string;
+};
+
+export type AhFlipSnapshot = {
+  schemaVersion: 1;
+  source: "hypixel-auctions+skycofl";
+  generatedAt: number;
+  auctionUpdatedAt: number;
+  totalPages: number;
+  totalAuctions: number;
+  parsedAuctions: number;
+  candidateAuctions: number;
+  evaluatedAuctions: number;
+  skippedAuctions: number;
+  partial: boolean;
+  historyGeneratedAt?: number;
+  flips: AhFlip[];
 };
