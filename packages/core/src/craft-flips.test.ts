@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 import {
   calculateCraftFlips,
   calculateCraftProfitPlan,
+  formatCraftRequirementLevel,
+  groupCraftRequirements,
   listCraftRequirements,
+  meetsCraftRequirement,
   normalizeCraftRequirement,
+  parseCraftRequirement,
 } from "./craft-flips";
 import type { CraftData, CraftStrategy, MarketItem, ShardOrderBook } from "./types";
 
@@ -145,5 +149,27 @@ describe("Craft requirements", () => {
       ],
     });
     expect(requirements).toEqual(["Requires: Chili Pepper I", "Requires: Chili Pepper IV"]);
+  });
+
+  it("groups requirements into numeric progress scales", () => {
+    expect(parseCraftRequirement("Requires Chili Pepper IV")).toMatchObject({
+      key: "Chili Pepper", level: 4, format: "roman",
+    });
+    expect(parseCraftRequirement("Requires: Spider Slayer 7")).toMatchObject({
+      key: "Spider Slayer", level: 7, format: "number",
+    });
+    expect(parseCraftRequirement("Requires: 20 Museum Donations")).toMatchObject({
+      key: "Museum Donations", level: 20, format: "number",
+    });
+    expect(groupCraftRequirements([
+      "Requires: Chili Pepper I", "Requires: Chili Pepper IV", "Requires: Spider Slayer 7",
+    ])).toEqual([
+      { key: "Chili Pepper", label: "Chili Pepper", maxLevel: 4, format: "roman" },
+      { key: "Spider Slayer", label: "Spider Slayer", maxLevel: 7, format: "number" },
+    ]);
+    expect(formatCraftRequirementLevel(4, "roman")).toBe("IV");
+    expect(meetsCraftRequirement("Requires: Chili Pepper IV", { "Chili Pepper": 3 })).toBe(false);
+    expect(meetsCraftRequirement("Requires: Chili Pepper IV", { "Chili Pepper": 4 })).toBe(true);
+    expect(meetsCraftRequirement("Requires: Chili Pepper IV", {})).toBe(true);
   });
 });

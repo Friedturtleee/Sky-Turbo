@@ -4,6 +4,8 @@ import {
   type CraftFlipIngredient,
   type CraftProfitPlan,
   type CraftRecipe,
+  type CraftRequirementProgress,
+  type CraftRequirementScale,
   type CraftStrategy,
   type MarketItem,
   type OrderLevel,
@@ -25,6 +27,89 @@ export function listCraftRequirements(data: CraftData): string[] {
     .map((recipe) => normalizeCraftRequirement(recipe.requirement))
     .filter((requirement): requirement is string => Boolean(requirement)))]
     .sort((left, right) => left.localeCompare(right, "en", { numeric: true }));
+}
+
+function romanToNumber(value: string): number | undefined {
+  const values: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1_000 };
+  let total = 0;
+  let previous = 0;
+  for (const character of [...value.toUpperCase()].reverse()) {
+    const current = values[character];
+    if (!current) return undefined;
+    total += current < previous ? -current : current;
+    previous = current;
+  }
+  return total > 0 ? total : undefined;
+}
+
+export function formatCraftRequirementLevel(level: number, format: "roman" | "number"): string {
+  const normalized = Math.max(0, Math.floor(level));
+  if (format === "number" || normalized === 0) return String(normalized);
+  const numerals: Array<[number, string]> = [
+    [1_000, "M"], [900, "CM"], [500, "D"], [400, "CD"], [100, "C"], [90, "XC"],
+    [50, "L"], [40, "XL"], [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+  ];
+  let remaining = normalized;
+  let result = "";
+  for (const [amount, numeral] of numerals) {
+    while (remaining >= amount) {
+      result += numeral;
+      remaining -= amount;
+    }
+  }
+  return result;
+}
+
+export function parseCraftRequirement(requirement: string | undefined): CraftRequirementProgress | undefined {
+  const normalized = normalizeCraftRequirement(requirement);
+  if (!normalized) return undefined;
+  const body = normalized.replace(/^Requires:\s+/i, "");
+  const prefixNumber = /^(\d+)\s+(.+)$/.exec(body);
+  if (prefixNumber) {
+    return {
+      key: prefixNumber[2]!,
+      label: prefixNumber[2]!,
+      level: Number(prefixNumber[1]),
+      format: "number",
+    };
+  }
+  const suffix = /^(.+?)\s+([IVXLCDM]+|\d+)$/.exec(body);
+  if (!suffix) return undefined;
+  const numeric = /^\d+$/.test(suffix[2]!);
+  const level = numeric ? Number(suffix[2]) : romanToNumber(suffix[2]!);
+  if (!level || !Number.isSafeInteger(level)) return undefined;
+  return {
+    key: suffix[1]!,
+    label: suffix[1]!,
+    level,
+    format: numeric ? "number" : "roman",
+  };
+}
+
+export function groupCraftRequirements(requirements: readonly string[]): CraftRequirementScale[] {
+  const groups = new Map<string, CraftRequirementScale>();
+  for (const requirement of requirements) {
+    const parsed = parseCraftRequirement(requirement);
+    if (!parsed) continue;
+    const current = groups.get(parsed.key);
+    groups.set(parsed.key, {
+      key: parsed.key,
+      label: parsed.label,
+      maxLevel: Math.max(current?.maxLevel ?? 0, parsed.level),
+      format: current?.format === "number" || parsed.format === "number" ? "number" : "roman",
+    });
+  }
+  return [...groups.values()].sort((left, right) => left.label.localeCompare(right.label, "en", { numeric: true }));
+}
+
+export function meetsCraftRequirement(
+  requirement: string | undefined,
+  levels: Readonly<Record<string, number>>,
+): boolean {
+  const parsed = parseCraftRequirement(requirement);
+  if (!parsed) return true;
+  const selected = levels[parsed.key];
+  return selected === undefined || selected >= parsed.level;
 }
 
 function levelAmount(levels: OrderLevel[]): number {

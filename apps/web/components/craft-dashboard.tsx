@@ -2,6 +2,7 @@
 
 import {
   calculateCraftProfitPlan,
+  meetsCraftRequirement,
   type CraftFlip,
   type CraftProfitPlan,
   type CraftStrategy,
@@ -49,7 +50,7 @@ export function CraftDashboard() {
   const [error, setError] = useState("");
   const hasLoadedRef = useRef(false);
   const cacheRef = useRef(new Map<CraftStrategy, CraftResponse>());
-  const { excludedRequirements } = useCraftRequirementPreferences();
+  const { requirementLevels } = useCraftRequirementPreferences();
 
   const load = useCallback(async (signal: AbortSignal) => {
     const cached = cacheRef.current.get(strategy);
@@ -89,17 +90,17 @@ export function CraftDashboard() {
     const query = search.trim().toLowerCase();
     return data.flips.filter((flip) =>
       flip.profit >= minProfit &&
-      (!flip.requirement || !excludedRequirements.has(flip.requirement)) &&
+      meetsCraftRequirement(flip.requirement, requirementLevels) &&
       (!query || flip.name.toLowerCase().includes(query) || flip.productId.toLowerCase().includes(query) ||
         flip.ingredients.some((ingredient) => ingredient.name.toLowerCase().includes(query) || ingredient.productId.toLowerCase().includes(query))),
     ).sort((left, right) => sort === "maxProfit"
       ? right.depth.maxProfit - left.depth.maxProfit
       : right[sort] - left[sort]);
-  }, [data.flips, excludedRequirements, minProfit, search, sort]);
+  }, [data.flips, minProfit, requirementLevels, search, sort]);
 
   const excludedFlipCount = useMemo(() => data.flips.reduce((count, flip) =>
-    count + Number(Boolean(flip.requirement && excludedRequirements.has(flip.requirement))), 0),
-  [data.flips, excludedRequirements]);
+    count + Number(!meetsCraftRequirement(flip.requirement, requirementLevels)), 0),
+  [data.flips, requirementLevels]);
 
   const selectedFlip = useMemo(() => selectedRecipeId
     ? data.flips.find((flip) => flip.recipeId === selectedRecipeId) ?? null

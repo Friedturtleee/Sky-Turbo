@@ -429,6 +429,20 @@ export type CraftRecipeIngredient = {
   amount: number;
 };
 
+export type CraftRequirementProgress = {
+  key: string;
+  label: string;
+  level: number;
+  format: "roman" | "number";
+};
+
+export type CraftRequirementScale = {
+  key: string;
+  label: string;
+  maxLevel: number;
+  format: "roman" | "number";
+};
+
 export type CraftRecipe = {
   id: string;
   type: "crafting";

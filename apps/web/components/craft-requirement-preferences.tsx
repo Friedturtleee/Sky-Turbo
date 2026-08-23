@@ -1,6 +1,6 @@
 "use client";
 
-import { normalizeCraftRequirement } from "@sky-turbo/core";
+import { parseCraftRequirement } from "@sky-turbo/core";
 import { useAuth } from "@clerk/nextjs";
 import {
   createContext,
@@ -13,55 +13,69 @@ import {
   type ReactNode,
 } from "react";
 
+export type CraftRequirementLevels = Record<string, number>;
+
 type CraftRequirementPreferences = {
-  excludedRequirements: Set<string>;
+  requirementLevels: CraftRequirementLevels;
   ready: boolean;
   saving: boolean;
   syncError: string;
   storageLabel: string;
   canRetry: boolean;
-  replace: (requirements: Iterable<string>) => void;
+  clear: () => void;
   retrySync: () => void;
-  toggle: (requirement: string) => void;
+  setLevel: (key: string, level: number | undefined) => void;
 };
 
 const CraftRequirementPreferencesContext = createContext<CraftRequirementPreferences | null>(null);
-const STORAGE_KEY = "sky-turbo:craft-excluded-requirements";
+const STORAGE_KEY = "sky-turbo:craft-requirement-levels";
+const LEGACY_STORAGE_KEY = "sky-turbo:craft-excluded-requirements";
 
-function normalizeRequirement(value: unknown): string | undefined {
-  if (typeof value !== "string" || value.length > 160) return undefined;
-  const normalized = normalizeCraftRequirement(value);
-  return normalized && /^Requires:\s+.{1,150}$/.test(normalized) ? normalized : undefined;
-}
-
-function normalizeRequirements(values: Iterable<unknown>): Set<string> {
-  const result = new Set<string>();
-  for (const value of values) {
-    const normalized = normalizeRequirement(value);
-    if (normalized) result.add(normalized);
+function normalizeLevels(value: unknown): CraftRequirementLevels {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const normalized: CraftRequirementLevels = {};
+  for (const [key, level] of Object.entries(value)) {
+    const cleanKey = key.replace(/\s+/g, " ").trim();
+    if (!cleanKey || cleanKey.length > 100 || !Number.isFinite(level)) continue;
+    normalized[cleanKey] = Math.max(0, Math.min(1_000, Math.floor(level as number)));
   }
-  return result;
+  return normalized;
 }
 
-function normalizeStored(value: unknown): Set<string> {
-  return Array.isArray(value) ? normalizeRequirements(value) : new Set();
+function migrateLegacyRequirements(value: unknown): CraftRequirementLevels {
+  if (!Array.isArray(value)) return {};
+  const levels: CraftRequirementLevels = {};
+  for (const requirement of value) {
+    if (typeof requirement !== "string") continue;
+    const parsed = parseCraftRequirement(requirement);
+    if (!parsed) continue;
+    const maximumAllowed = Math.max(0, parsed.level - 1);
+    levels[parsed.key] = Math.min(levels[parsed.key] ?? maximumAllowed, maximumAllowed);
+  }
+  return levels;
 }
 
-function serialize(requirements: Set<string>): string {
-  return JSON.stringify([...requirements].sort());
+function stableLevels(levels: CraftRequirementLevels): CraftRequirementLevels {
+  return Object.fromEntries(Object.entries(normalizeLevels(levels)).sort(([left], [right]) => left.localeCompare(right)));
 }
 
-function readLocal(): Set<string> {
+function serialize(levels: CraftRequirementLevels): string {
+  return JSON.stringify(stableLevels(levels));
+}
+
+function readLocal(): CraftRequirementLevels {
   try {
-    return normalizeStored(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]"));
+    const current = localStorage.getItem(STORAGE_KEY);
+    if (current !== null) return normalizeLevels(JSON.parse(current));
+    return migrateLegacyRequirements(JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY) ?? "[]"));
   } catch {
-    return new Set();
+    return {};
   }
 }
 
-function writeLocal(requirements: Set<string>) {
+function writeLocal(levels: CraftRequirementLevels) {
   try {
-    localStorage.setItem(STORAGE_KEY, serialize(requirements));
+    localStorage.setItem(STORAGE_KEY, serialize(levels));
   } catch {
     // Account sync remains available when browser storage is blocked.
   }
@@ -76,49 +90,50 @@ async function responseError(response: Response): Promise<Error> {
   }
 }
 
-function LocalCraftRequirementPreferences({ children }: { children: ReactNode }) {
-  const [excludedRequirements, setExcludedRequirements] = useState<Set<string>>(new Set());
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const local = readLocal();
-    setExcludedRequirements(local);
-    writeLocal(local);
-    setReady(true);
-  }, []);
-
-  const replace = useCallback((requirements: Iterable<string>) => {
-    const next = normalizeRequirements(requirements);
-    setExcludedRequirements(next);
-    writeLocal(next);
-  }, []);
-  const toggle = useCallback((requirement: string) => {
-    const normalized = normalizeRequirement(requirement);
-    if (!normalized) return;
-    setExcludedRequirements((current) => {
-      const next = new Set(current);
-      if (next.has(normalized)) next.delete(normalized);
-      else next.add(normalized);
+function useLevelActions(setRequirementLevels: React.Dispatch<React.SetStateAction<CraftRequirementLevels>>) {
+  const setLevel = useCallback((key: string, level: number | undefined) => {
+    setRequirementLevels((current) => {
+      const next = { ...current };
+      if (level === undefined) delete next[key];
+      else next[key] = Math.max(0, Math.min(1_000, Math.floor(level)));
       writeLocal(next);
       return next;
     });
+  }, [setRequirementLevels]);
+  const clear = useCallback(() => {
+    setRequirementLevels({});
+    writeLocal({});
+  }, [setRequirementLevels]);
+  return { clear, setLevel };
+}
+
+function LocalCraftRequirementPreferences({ children }: { children: ReactNode }) {
+  const [requirementLevels, setRequirementLevels] = useState<CraftRequirementLevels>({});
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const local = readLocal();
+    setRequirementLevels(local);
+    writeLocal(local);
+    setReady(true);
   }, []);
+  const { clear, setLevel } = useLevelActions(setRequirementLevels);
   const value = useMemo<CraftRequirementPreferences>(() => ({
-    excludedRequirements,
+    requirementLevels,
     ready,
     saving: false,
     syncError: "",
     storageLabel: "儲存在此瀏覽器",
     canRetry: false,
-    replace,
+    clear,
     retrySync: () => undefined,
-    toggle,
-  }), [excludedRequirements, ready, replace, toggle]);
+    setLevel,
+  }), [clear, ready, requirementLevels, setLevel]);
   return <CraftRequirementPreferencesContext.Provider value={value}>{children}</CraftRequirementPreferencesContext.Provider>;
 }
 
 function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }) {
   const { getToken, isLoaded, isSignedIn } = useAuth();
-  const [excludedRequirements, setExcludedRequirements] = useState<Set<string>>(new Set());
+  const [requirementLevels, setRequirementLevels] = useState<CraftRequirementLevels>({});
   const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
   const [syncError, setSyncError] = useState("");
@@ -127,14 +142,14 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
   const lastSavedRef = useRef("");
   const edgeUrl = process.env.NEXT_PUBLIC_EDGE_API_URL?.replace(/\/$/, "");
 
-  const saveRemote = useCallback(async (requirements: Set<string>, signal?: AbortSignal) => {
+  const saveRemote = useCallback(async (levels: CraftRequirementLevels, signal?: AbortSignal) => {
     if (!edgeUrl) throw new Error("缺少 NEXT_PUBLIC_EDGE_API_URL，無法同步帳號");
     const token = await getToken();
     if (!token) throw new Error("無法取得登入憑證，請重新登入");
     const response = await fetch(`${edgeUrl}/v1/me/preferences/craft-requirements`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ excludedRequirements: [...requirements].sort() }),
+      body: JSON.stringify({ requirementLevels: stableLevels(levels) }),
       cache: "no-store",
       signal,
     });
@@ -151,7 +166,7 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
       const local = readLocal();
       if (!isSignedIn || !edgeUrl) {
         if (!cancelled) {
-          setExcludedRequirements(local);
+          setRequirementLevels(local);
           setSyncError(isSignedIn ? "缺少 NEXT_PUBLIC_EDGE_API_URL，帳號同步尚未啟用" : "");
           lastSavedRef.current = serialize(local);
           hydratedRef.current = true;
@@ -168,21 +183,30 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
         });
         if (!response.ok) throw await responseError(response);
         const payload = await response.json() as {
-          data?: { excludedRequirements?: unknown; exists?: boolean };
+          data?: {
+            requirementLevels?: unknown;
+            legacyExcludedRequirements?: unknown;
+            excludedRequirements?: unknown;
+            exists?: boolean;
+          };
         };
-        const remote = normalizeStored(payload.data?.excludedRequirements);
+        const legacy = payload.data?.legacyExcludedRequirements ?? payload.data?.excludedRequirements;
+        const remote = Object.keys(normalizeLevels(payload.data?.requirementLevels)).length > 0
+          ? normalizeLevels(payload.data?.requirementLevels)
+          : migrateLegacyRequirements(legacy);
         const next = payload.data?.exists ? remote : local;
+        const needsFormatUpgrade = Array.isArray(legacy);
         if (!cancelled) {
-          setExcludedRequirements(next);
+          setRequirementLevels(next);
           writeLocal(next);
           setSyncError("");
-          lastSavedRef.current = payload.data?.exists ? serialize(next) : "";
+          lastSavedRef.current = payload.data?.exists && !needsFormatUpgrade ? serialize(next) : "";
           hydratedRef.current = true;
           setReady(true);
         }
       } catch (error) {
         if (!cancelled) {
-          setExcludedRequirements(local);
+          setRequirementLevels(local);
           setSyncError(error instanceof Error ? error.message : "帳號同步失敗");
           lastSavedRef.current = "";
           hydratedRef.current = true;
@@ -196,12 +220,12 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
 
   useEffect(() => {
     if (!ready || !hydratedRef.current || !isSignedIn || !edgeUrl) return;
-    const serialized = serialize(excludedRequirements);
+    const serialized = serialize(requirementLevels);
     if (serialized === lastSavedRef.current) return;
     const controller = new AbortController();
     const timeout = window.setTimeout(() => {
       setSaving(true);
-      void saveRemote(excludedRequirements, controller.signal).then(() => {
+      void saveRemote(requirementLevels, controller.signal).then(() => {
         lastSavedRef.current = serialized;
         setSyncError("");
       }).catch((error: unknown) => {
@@ -215,40 +239,25 @@ function SyncedCraftRequirementPreferences({ children }: { children: ReactNode }
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [edgeUrl, excludedRequirements, isSignedIn, ready, retryRevision, saveRemote]);
+  }, [edgeUrl, isSignedIn, ready, requirementLevels, retryRevision, saveRemote]);
 
-  const replace = useCallback((requirements: Iterable<string>) => {
-    const next = normalizeRequirements(requirements);
-    setExcludedRequirements(next);
-    writeLocal(next);
-  }, []);
-  const toggle = useCallback((requirement: string) => {
-    const normalized = normalizeRequirement(requirement);
-    if (!normalized) return;
-    setExcludedRequirements((current) => {
-      const next = new Set(current);
-      if (next.has(normalized)) next.delete(normalized);
-      else next.add(normalized);
-      writeLocal(next);
-      return next;
-    });
-  }, []);
+  const { clear, setLevel } = useLevelActions(setRequirementLevels);
   const retrySync = useCallback(() => {
     lastSavedRef.current = "";
     setSyncError("");
     setRetryRevision((current) => current + 1);
   }, []);
   const value = useMemo<CraftRequirementPreferences>(() => ({
-    excludedRequirements,
+    requirementLevels,
     ready,
     saving,
     syncError,
     storageLabel: isSignedIn && edgeUrl ? "已隨登入帳號同步" : "儲存在此瀏覽器",
     canRetry: Boolean(isSignedIn && edgeUrl),
-    replace,
+    clear,
     retrySync,
-    toggle,
-  }), [edgeUrl, excludedRequirements, isSignedIn, ready, replace, retrySync, saving, syncError, toggle]);
+    setLevel,
+  }), [clear, edgeUrl, isSignedIn, ready, requirementLevels, retrySync, saving, setLevel, syncError]);
   return <CraftRequirementPreferencesContext.Provider value={value}>{children}</CraftRequirementPreferencesContext.Provider>;
 }
 
