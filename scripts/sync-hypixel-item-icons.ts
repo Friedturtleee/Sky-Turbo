@@ -17,6 +17,7 @@ const HEADS_ROOT = resolve(PUBLIC_ROOT, "hypixel-item-heads");
 const SKYSHARDS_ROOT = resolve(PUBLIC_ROOT, "skyshards");
 const FUSION_DATA = resolve("packages/core/data/fusion-data.json");
 const NPC_SHOP_DATA = resolve("packages/core/data/npc-shop-data.json");
+const CRAFT_DATA = resolve("packages/core/data/craft-data.json");
 const GENERATED_MAP = resolve("apps/web/lib/hypixel-item-textures.generated.ts");
 const GENERIC_ICON = "/item-icons/fallback.svg";
 
@@ -42,6 +43,12 @@ type NpcShopData = {
   offers?: Array<{
     output?: { productId?: string };
     costs?: Array<{ kind?: string; productId?: string }>;
+  }>;
+};
+type CraftData = {
+  recipes?: Array<{
+    output?: { productId?: string };
+    ingredients?: Array<{ productId?: string }>;
   }>;
 };
 type TextureMapValue = string | { src: string; kind: "skin" };
@@ -247,9 +254,9 @@ async function mapWithConcurrency<T>(values: T[], concurrency: number, action: (
 async function main(): Promise<void> {
   const desiredFormat = requestedPackFormat();
   const minecraftVersion = argumentValue("minecraft-version", DEFAULT_MINECRAFT_VERSION);
-  const [packsPayload, itemsPayload, bazaarPayload, mojangManifest, skyShardsArchive, fusionSource, npcShopSource] = await Promise.all([
+  const [packsPayload, itemsPayload, bazaarPayload, mojangManifest, skyShardsArchive, fusionSource, npcShopSource, craftSource] = await Promise.all([
     fetchJson<PacksResponse>(PACKS_URL), fetchJson<ItemsResponse>(ITEMS_URL), fetchJson<BazaarResponse>(BAZAAR_URL),
-    fetchJson<MojangManifest>(MOJANG_MANIFEST_URL), fetchBytes(SKYSHARDS_ARCHIVE_URL), readFile(FUSION_DATA, "utf8"), readFile(NPC_SHOP_DATA, "utf8"),
+    fetchJson<MojangManifest>(MOJANG_MANIFEST_URL), fetchBytes(SKYSHARDS_ARCHIVE_URL), readFile(FUSION_DATA, "utf8"), readFile(NPC_SHOP_DATA, "utf8"), readFile(CRAFT_DATA, "utf8"),
   ]);
   if (!packsPayload.success || !packsPayload.packs) throw new Error("Hypixel packs response is invalid");
   if (!itemsPayload.success || !itemsPayload.items) throw new Error("Hypixel items response is invalid");
@@ -274,6 +281,7 @@ async function main(): Promise<void> {
   const skyShardsEntries = unzipSync(skyShardsArchive);
   const fusionData = JSON.parse(fusionSource) as FusionData;
   const npcShopData = JSON.parse(npcShopSource) as NpcShopData;
+  const craftData = JSON.parse(craftSource) as CraftData;
   await Promise.all([HYPIXEL_ROOT, MINECRAFT_ROOT, HEADS_ROOT, SKYSHARDS_ROOT].map(prepareOutputDirectory));
 
   const mapping: Record<string, TextureMapValue> = {};
@@ -292,6 +300,19 @@ async function main(): Promise<void> {
     for (const cost of offer.costs ?? []) {
       if (cost.kind === "item" && cost.productId) targetProductIds.add(cost.productId);
     }
+  }
+  // Craft flips can expose items that are temporarily absent from Bazaar. Keep
+  // their icons in the generated map as well, so they never fall back to text.
+  for (const recipe of craftData.recipes ?? []) {
+    if (recipe.output?.productId) targetProductIds.add(recipe.output.productId);
+    for (const ingredient of recipe.ingredients ?? []) {
+      if (ingredient.productId) targetProductIds.add(ingredient.productId);
+    }
+  }
+  // Include the complete fusion catalogue, not only shards that happen to be
+  // listed on Bazaar at the moment the sync runs.
+  for (const shard of Object.values(fusionData.shards ?? {})) {
+    if (shard.internal_id) targetProductIds.add(shard.internal_id);
   }
   const targetItems = itemsPayload.items.filter((item) => item.id && targetProductIds.has(item.id));
   const hypixelCopied = new Set<string>();

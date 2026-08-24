@@ -261,14 +261,17 @@ async function main(): Promise<void> {
       fetchedAt: 0,
       ranges: {},
     };
+    const missingRanges = options.refresh
+      ? REQUIRED_RANGES
+      : REQUIRED_RANGES.filter((range) => !record.ranges[range]);
+    if (missingRanges.length === 0) {
+      stats.skippedRanges += REQUIRED_RANGES.length;
+      console.log(`[skip] ${productId} all history ranges already stored in D1`);
+      continue;
+    }
     let changed = false;
 
-    for (const range of REQUIRED_RANGES) {
-      if (!options.refresh && record.ranges[range]) {
-        stats.skippedRanges += 1;
-        console.log(`[skip] ${productId}/${range} already stored in D1`);
-        continue;
-      }
+    for (const range of missingRanges) {
       try {
         const result = await fetchRange(productId, range, limiter, headers, stats);
         record.ranges[range as ImportedHistoryRangeKey] = result;

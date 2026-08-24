@@ -12,6 +12,7 @@
     "dev:worker": "pnpm --filter @sky-turbo/worker dev",
     "lint": "pnpm -r lint",
     "smoke:live": "tsx scripts/smoke-live.ts",
+    "backfill": "tsx scripts/backfill-coflnet.ts",
     "backfill:history": "tsx scripts/backfill-coflnet.ts",
     "backfill:ah-history": "tsx scripts/backfill-coflnet-ah.ts",
     "collect:ah": "tsx scripts/collect-ah-flips.ts",

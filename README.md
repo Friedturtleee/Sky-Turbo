@@ -36,7 +36,7 @@ pnpm build
 
 ## 歷史資料回填
 
-`pnpm backfill:history` 會從 SkyCofl 逐商品抓取 `day`、`week`、`history`，透過受保護的 Worker 寫入 D1。每個商品／區間都是獨立 checkpoint；停止後重新執行只抓缺少的區間，不會覆蓋持續由 Hypixel 累積的時間槽。讀取時以 Hypixel 自有資料優先，SkyCofl 只補空槽。
+`pnpm backfill`（`pnpm backfill:history` 仍可使用）會從 SkyCofl 逐商品抓取 `day`、`week`、`history`，透過受保護的 Worker 寫入 D1。每個商品／區間都是獨立 checkpoint；停止後重新執行只抓缺少的區間，不會覆蓋持續由 Hypixel 累積的時間槽。完整商品會在讀取 D1 checkpoint 後立即略過，不會進入 SkyCofl 的 667ms 請求節流。讀取時以 Hypixel 自有資料優先，SkyCofl 只補空槽。
 
 商品數由程式在執行時向 Hypixel 取得；2026-08-19 實測為 2,124 個，空資料庫最多 `2,124 × 3 = 6,372` 次 SkyCofl 請求。固定 90 req/min 時理論約 70.8 分鐘，計入重試和 D1 寫入後預估 75–90 分鐘。實際時間會隨商品數及既有 checkpoint 改變。
 
@@ -55,16 +55,16 @@ COFLNET_USAGE_APPROVED=true
 
 ```bash
 # 正式補齊全部缺口
-pnpm backfill:history
+pnpm backfill
 
 # 只測試一個商品，不寫 D1
-pnpm backfill:history -- --dry-run --product=BOOSTER_COOKIE
+pnpm backfill -- --dry-run --product=BOOSTER_COOKIE
 
 # 限制本次商品數；完成品已各自存檔，下次可續跑
-pnpm backfill:history -- --limit=100
+pnpm backfill -- --limit=100
 
 # 明確重新抓取已完成的區間
-pnpm backfill:history -- --refresh
+pnpm backfill -- --refresh
 ```
 
 程式將請求平均間隔設為 667ms，同時低於 SkyCofl 的 30 req/10s 與 100 req/min 限制；遇到 `429` 會遵守 `Retry-After` 並重試。每個商品以 gzip JSON BLOB 保存於 D1，manifest 會記錄請求數、失敗數與執行時間。
