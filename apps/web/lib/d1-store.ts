@@ -11,6 +11,7 @@ import {
   type AhHistorySummary,
   type MarketSnapshot,
   type PricePoint,
+  type SkyblockIndex,
 } from "@sky-turbo/core";
 
 const edgeUrl = process.env.NEXT_PUBLIC_EDGE_API_URL?.replace(/\/$/, "");
@@ -49,6 +50,27 @@ export async function readLatestSnapshot(): Promise<MarketSnapshot | null> {
 
 export async function readDailyMarketHistory(): Promise<CompactHistoryPartition[]> {
   return (await readOptionalJson<CompactHistoryPartition[]>("/v1/storage/history-daily")) ?? [];
+}
+
+export type StoredSkyblockIndex = SkyblockIndex & {
+  range: "1d" | "7d" | "1mo";
+  resolutionMs: number;
+  updatedAt: number;
+  taxRate: number;
+};
+
+export async function readSkyblockIndex(range: "1d" | "7d" | "1mo"): Promise<StoredSkyblockIndex | null> {
+  try {
+    // The Worker has its own HTTP cache. Keep that cache usable instead of
+    // forcing a large D1 aggregation on each 20-second browser refresh.
+    const response = await edgeFetch(`/v1/storage/skyblock-index?range=${range}`);
+    if (!response || response.status === 404) return null;
+    if (!response.ok) throw new Error(`D1 Worker returned ${response.status}`);
+    return await response.json() as StoredSkyblockIndex;
+  } catch (error) {
+    console.warn("Skyblock Index could not be read from D1", error);
+    return null;
+  }
 }
 
 export async function readLatestAhFlipSnapshot(): Promise<AhFlipSnapshot | null> {

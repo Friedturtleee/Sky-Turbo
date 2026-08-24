@@ -1,4 +1,5 @@
 import {
+  calculateSkyblockIndex,
   historyPartitionForProduct,
   historyRangeConfig,
   partitionMarketSnapshot,
@@ -29,6 +30,12 @@ const GZIP_ROW_LIMIT = 1_900_000;
 const PREFERENCE_BODY_LIMIT = 128_000;
 const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
+
+const INDEX_HISTORY_CONFIG = {
+  "1d": { tier: "5m", duration: DAY_MS, bucketMs: 300_000, cacheSeconds: 60 },
+  "7d": { tier: "1h", duration: 7 * DAY_MS, bucketMs: HOUR_MS, cacheSeconds: 300 },
+  "1mo": { tier: "1d", duration: 31 * DAY_MS, bucketMs: DAY_MS, cacheSeconds: 300 },
+} as const;
 
 function corsHeaders(env: Env): HeadersInit {
   return {
@@ -527,6 +534,43 @@ async function dailyHistory(env: Env): Promise<Response> {
   });
 }
 
+async function skyblockIndexHistory(env: Env, range: string): Promise<Response> {
+  const config = INDEX_HISTORY_CONFIG[range as keyof typeof INDEX_HISTORY_CONFIG];
+  if (!config) return errorResponse(env, "Invalid index range", 400);
+  const latest = await env.DB.prepare(
+    "SELECT updated_at, payload FROM market_state WHERE key = 'latest_snapshot'",
+  ).first<StateRow>();
+  if (!latest) return errorResponse(env, "No market snapshot stored", 404);
+  const cutoffBucket = Math.floor((latest.updated_at - config.duration) / config.bucketMs);
+  const rows = await env.DB.prepare(
+    `SELECT updated_at, payload FROM market_history
+     WHERE tier = ? AND bucket >= ?
+     ORDER BY bucket ASC, partition ASC`,
+  )
+    .bind(config.tier, cutoffBucket)
+    .all<HistoryRow>();
+  const history: CompactHistoryPartition[] = [];
+  for (const row of rows.results) {
+    history.push(JSON.parse(await gunzipText(row.payload)) as CompactHistoryPartition);
+  }
+  const snapshot = JSON.parse(latest.payload) as MarketHistoryIngest["snapshot"];
+  const index = calculateSkyblockIndex(snapshot, history, { bucketMs: config.bucketMs });
+  if (!index) return errorResponse(env, "Skyblock Index history is still accumulating", 503);
+  return new Response(JSON.stringify({
+    ...index,
+    range,
+    resolutionMs: config.bucketMs,
+    updatedAt: snapshot.updatedAt,
+    taxRate: snapshot.taxRate,
+  }), {
+    headers: {
+      ...corsHeaders(env),
+      "Cache-Control": `public, max-age=${config.cacheSeconds}, stale-while-revalidate=${config.cacheSeconds * 2}`,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  });
+}
+
 async function historyAt24Hours(env: Env): Promise<Response> {
   const latest = await env.DB.prepare(
     "SELECT updated_at FROM market_state WHERE key = 'latest_compact'",
@@ -612,6 +656,9 @@ export default {
       if (url.pathname === "/v1/storage/ah-flips" && request.method === "GET") return latestAhFlips(env);
       if (url.pathname === "/v1/storage/history-daily" && request.method === "GET") return dailyHistory(env);
       if (url.pathname === "/v1/storage/history-24h" && request.method === "GET") return historyAt24Hours(env);
+      if (url.pathname === "/v1/storage/skyblock-index" && request.method === "GET") {
+        return skyblockIndexHistory(env, url.searchParams.get("range") ?? "7d");
+      }
 
       const livePrefix = "/v1/storage/history-live/";
       if (url.pathname.startsWith(livePrefix) && request.method === "GET") {

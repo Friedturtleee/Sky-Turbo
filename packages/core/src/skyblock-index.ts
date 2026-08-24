@@ -17,15 +17,15 @@ function validPrice(value: number | undefined): value is number {
   return value !== undefined && Number.isFinite(value) && value > 0;
 }
 
-function dailyPriceSnapshots(history: CompactHistoryPartition[]): PriceSnapshot[] {
+function priceSnapshots(history: CompactHistoryPartition[], bucketMs: number): PriceSnapshot[] {
   const grouped = new Map<number, Map<string, number>>();
   for (const partition of history) {
-    const day = Math.floor(partition.updatedAt / 86_400_000) * 86_400_000;
-    const prices = grouped.get(day) ?? new Map<string, number>();
+    const bucket = Math.floor(partition.updatedAt / bucketMs) * bucketMs;
+    const prices = grouped.get(bucket) ?? new Map<string, number>();
     for (const [productId, values] of Object.entries(partition.items)) {
       if (validPrice(values[0])) prices.set(productId, values[0]);
     }
-    grouped.set(day, prices);
+    grouped.set(bucket, prices);
   }
   return [...grouped.entries()]
     .map(([time, prices]) => ({ time, prices }))
@@ -72,8 +72,9 @@ function cappedWeights(rawWeights: Array<{ item: MarketItem; weight: number }>):
 export function calculateSkyblockIndex(
   snapshot: MarketSnapshot,
   history: CompactHistoryPartition[],
+  options: { bucketMs?: number } = {},
 ): SkyblockIndex | null {
-  const points = dailyPriceSnapshots(history);
+  const points = priceSnapshots(history, options.bucketMs ?? 86_400_000);
   if (points.length === 0) return null;
   const currentPrices = new Map(snapshot.items.map((item) => [item.productId, item.midpoint]));
   const baseline = points[0]!;

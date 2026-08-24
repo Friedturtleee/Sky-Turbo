@@ -68,4 +68,17 @@ describe("calculateSkyblockIndex", () => {
     expect(index!.constituents[0]!.weight).toBeCloseTo(0.05);
     expect(index!.constituents.every((constituent) => constituent.weight <= 0.05 + 1e-12)).toBe(true);
   });
+
+  it("keeps intra-day D1 snapshots when a higher resolution is requested", () => {
+    const snapshot: MarketSnapshot = {
+      source: "hypixel", success: true, updatedAt: 86_400_000 + 600_000, taxRate: 0.01125,
+      items: [item("A", 102)],
+    };
+    const index = calculateSkyblockIndex(snapshot, [
+      history(86_400_000, { A: 100 }),
+      history(86_400_000 + 300_000, { A: 101 }),
+    ], { bucketMs: 300_000 });
+    expect(index?.points).toHaveLength(3);
+    expect(index?.points[1]?.value).toBeCloseTo(1_010);
+  });
 });
