@@ -348,4 +348,18 @@ describe("Shard fusion calculations", () => {
     expect(gamma?.materials[0]?.quantityPerFusion).toBe(10);
     expect(Number.isInteger(gamma?.materials[0]?.quantityPerFusion)).toBe(true);
   });
+
+  it("does not fall back to summary prices when a supplied order book cannot fill one Fusion", () => {
+    const flips = calculateShardFlips(data, [
+      market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),
+    ], "ib-is", 0, undefined, {
+      orderBooks: {
+        // Alpha needs two units for one Fusion, but only one is executable.
+        SHARD_ALPHA: { buyOrders: [], sellOffers: [{ amount: 1, orders: 1, pricePerUnit: 11 }], partial: false },
+        SHARD_BETA: { buyOrders: [], sellOffers: [{ amount: 30, orders: 1, pricePerUnit: 12 }], partial: false },
+        SHARD_GAMMA: { buyOrders: [{ amount: 10, orders: 1, pricePerUnit: 90 }], sellOffers: [], partial: false },
+      },
+    });
+    expect(flips).toEqual([]);
+  });
 });

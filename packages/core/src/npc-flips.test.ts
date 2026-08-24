@@ -166,6 +166,37 @@ describe("calculateNpcFlips", () => {
     });
   });
 
+  it("uses the fewest purchases when several depth counts have the same maximum profit", () => {
+    const tieOffer: NpcShopOffer = {
+      ...offer,
+      costs: [{ kind: "coins", amount: 100 }],
+      dailyLimit: 4,
+    };
+    const quotes = {
+      OUTPUT: {
+        productId: "OUTPUT",
+        instantSellPrice: 200,
+        instantBuyPrice: 200,
+        sellOrderPrice: 200,
+        buyOrderPrice: 200,
+        instantBuyDepth: [],
+        instantSellDepth: [
+          { amount: 1, orders: 1, pricePerUnit: 200 },
+          { amount: 1, orders: 1, pricePerUnit: 100 },
+          { amount: 2, orders: 1, pricePerUnit: 50 },
+        ],
+        buyMovingWeek: 1_680,
+        sellMovingWeek: 840,
+      },
+    };
+    const flip = calculateNpcFlips([tieOffer], { ...market, items: [], taxRate: 0 }, {}, quotes, "bo-is").flips[0]!;
+    expect(calculateNpcProfitPlan(flip)).toMatchObject({
+      purchaseCount: 1,
+      maxProfitPurchaseCount: 1,
+      totalProfit: 100,
+    });
+  });
+
   it("caps maker strategies by the selected Bazaar-side depth", () => {
     const quotes = {
       COUPON: {

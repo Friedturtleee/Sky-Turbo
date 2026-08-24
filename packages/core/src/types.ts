@@ -427,6 +427,8 @@ export type NpcMayorContext = {
   lastUpdated: number;
   shoppingSpreeActive: boolean;
   shoppingSpreeHolder?: string;
+  derpyActive: boolean;
+  bazaarTaxMultiplier: number;
 };
 
 export type CraftRecipeIngredient = {

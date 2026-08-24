@@ -165,6 +165,13 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "CANDYCOMB": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/salts/candycomb.png",
   "CANE_KNOT": "/minecraft-item-icons/minecraft/item/kelp.png",
+  "CANOPY_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "CANOPY_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "CANOPY_HELMET": {
+    "src": "/hypixel-item-heads/74c2bfc962935836fdc9f8305b9adc620519855e.png",
+    "kind": "skin"
+  },
+  "CANOPY_LEGGINGS": "/minecraft-item-icons/minecraft/item/leather_leggings.png",
   "CAPSAICIN_EYEDROPS_NO_CHARGES": {
     "src": "/hypixel-item-heads/f14c6ae177e53ab5debbc3a530d8e7331a64925b.png",
     "kind": "skin"
@@ -326,6 +333,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   },
   "DEAD_PLANT": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/greenhouse/dead_plant.png",
   "DEATH_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/death_bow.png",
+  "DECENT_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/axes/decent_axe.png",
   "DECENT_BOW": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/decent_bow.png",
   "DECENT_COFFEE": {
     "src": "/hypixel-item-heads/99413f3a81582a0ed0388c7447f06c6538cc9ef0.png",
@@ -2138,6 +2146,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/2c717b2ecfafc4d5e2088722972ba0d53f70ffbd.png",
     "kind": "skin"
   },
+  "MEDIUM_POCKET_BLACK_HOLE": {
+    "src": "/hypixel-item-heads/37f9d7f1676d7f202b2d900c581786164a086da5.png",
+    "kind": "skin"
+  },
   "MEDIUM_SEAL_PLUSHIE": {
     "src": "/hypixel-item-heads/e92636f2774d834d56b7ec64a6762dca07ed25ac.png",
     "kind": "skin"
@@ -2672,6 +2684,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "SEEDS": "/minecraft-item-icons/minecraft/item/wheat_seeds.png",
+  "SERIOUSLY_DAMAGED_AXE": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/axes/seriously_damaged_axe.png",
   "SEVERED_HAND": {
     "src": "/hypixel-item-heads/fae85055db9365feb86ff297e8fabb571a7dbb21.png",
     "kind": "skin"
@@ -3033,6 +3046,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
   "SIGNAL_ENHANCER": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/signal_enhancer.png",
   "SIL_EX": "/minecraft-item-icons/minecraft/item/flint.png",
   "SILENT_PEARL": "/minecraft-item-icons/minecraft/item/ender_pearl.png",
+  "SILVA_DOMINUS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/hunting_weapons/sharpened_huntaxe.png",
   "SILVER_FANG": "/hypixel-skyblock-pack/hypixel_skyblock/item/uncategorized/silver_fang.png",
   "SIMPLE_CARROT_CANDY": "/minecraft-item-icons/minecraft/item/carrot.png",
   "SINGED_POWDER": "/hypixel-skyblock-pack/hypixel_skyblock/item/fishing/misc/singed_powder.png",
@@ -3059,6 +3073,10 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/ec0f861b273c5b35e8a12ff541b6f7d3e75efd73.png",
     "kind": "skin"
   },
+  "SMALL_POCKET_BLACK_HOLE": {
+    "src": "/hypixel-item-heads/74973e696c1860d78457c873e656d3d9e962f942.png",
+    "kind": "skin"
+  },
   "SMALL_SEAL_PLUSHIE": {
     "src": "/hypixel-item-heads/5a509e7c58b7796fd52e5c61e9ae035cdcc4e270.png",
     "kind": "skin"
@@ -3073,6 +3091,13 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "src": "/hypixel-item-heads/ef68231682fe19667ec0a7a1ff4374dfa7a6d3cd.png",
     "kind": "skin"
   },
+  "SNORKELING_BOOTS": "/minecraft-item-icons/minecraft/item/leather_boots.png",
+  "SNORKELING_CHESTPLATE": "/minecraft-item-icons/minecraft/item/leather_chestplate.png",
+  "SNORKELING_HELMET": {
+    "src": "/hypixel-item-heads/2dadcbdafa25ae5b1e805ec16e5412b88214e942.png",
+    "kind": "skin"
+  },
+  "SNORKELING_LEGGINGS": "/minecraft-item-icons/minecraft/item/leather_leggings.png",
   "SNOW_BALL": "/minecraft-item-icons/minecraft/item/snowball.png",
   "SNOW_BLASTER": {
     "src": "/hypixel-item-heads/184a5bae65ff3e89c889bd3e1420eda098ada726.png",
@@ -3330,6 +3355,7 @@ export const HYPIXEL_ITEM_TEXTURES: Readonly<Record<string, HypixelItemTexture>>
     "kind": "skin"
   },
   "VEILSHROOM_BUNCH": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_3/resources/veilshroom_bunch.png",
+  "VENATOR_GENESIS": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/foraging_2/hunting_weapons/worn_huntaxe.png",
   "VERMIN_VAPORIZER_GARDEN_CHIP": "/hypixel-skyblock-pack/hypixel_skyblock/item/island_relevant/garden/chips/vermin_vaporizer_chip.png",
   "VERY_CRUDE_GABAGOOL": {
     "src": "/hypixel-item-heads/09e33e565741cad2c0263deabf2f96ce9c054e41.png",

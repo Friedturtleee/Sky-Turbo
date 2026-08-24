@@ -680,7 +680,7 @@ function calculateDepth(
   };
 }
 
-type BestCandidate = {
+type ShardCandidate = {
   outputId: string;
   outputName: string;
   outputProductId: string;
@@ -690,7 +690,6 @@ type BestCandidate = {
   expectedOutput: number;
   crocodileApplied: boolean;
   salePrice: number;
-  approximateProfit: number;
   leftId: string;
   rightId: string;
   left: FusionData["shards"][string];
@@ -722,7 +721,7 @@ export function calculateShardFlips(
     : undefined;
   const marketByProduct = new Map(market.map((item) => [item.productId, item]));
   const costs = solveUnitCosts(data, marketByProduct, strategy, filters);
-  const bestCandidates = new Map<string, BestCandidate>();
+  const candidates: ShardCandidate[] = [];
 
   for (const [outputId, buckets] of Object.entries(data.recipes)) {
     const outputShard = data.shards[outputId];
@@ -743,12 +742,7 @@ export function calculateShardFlips(
         if (!left || !right || !leftCost || !rightCost) continue;
         const crocodileApplied = left.family.includes("Reptile") || right.family.includes("Reptile");
         const expectedOutput = baseOutput * (crocodileApplied ? 1 + level * 0.02 : 1);
-        const approximateInputCost =
-          leftCost.unitCost * left.fuse_amount + rightCost.unitCost * right.fuse_amount;
-        const approximateProfit = salePrice * expectedOutput * (1 - taxRate) - approximateInputCost;
-        const current = bestCandidates.get(outputId);
-        if (current && current.approximateProfit >= approximateProfit) continue;
-        bestCandidates.set(outputId, {
+        candidates.push({
           outputId,
           outputName: outputShard.name,
           outputProductId,
@@ -758,7 +752,6 @@ export function calculateShardFlips(
           expectedOutput,
           crocodileApplied,
           salePrice,
-          approximateProfit,
           leftId,
           rightId,
           left,
@@ -770,8 +763,8 @@ export function calculateShardFlips(
     }
   }
 
-  const flips: ShardFlip[] = [];
-  for (const candidate of bestCandidates.values()) {
+  const bestFlips = new Map<string, ShardFlip>();
+  for (const candidate of candidates) {
     const leftInput = { node: candidate.leftCost, quantity: candidate.left.fuse_amount };
     const rightInput = { node: candidate.rightCost, quantity: candidate.right.fuse_amount };
     let route = buildFinalRoute(
@@ -791,6 +784,7 @@ export function calculateShardFlips(
       0,
     );
     const exactMaterialPricing = priceMaterialsFromOrderBook(materials, options.orderBooks, strategy);
+    if (options.orderBooks && !exactMaterialPricing) continue;
     const inputCost = exactMaterialPricing?.total ?? approximateInputCost;
     if (exactMaterialPricing) {
       route = applyMarketUnitCosts(route, exactMaterialPricing.averageUnitCosts) as typeof route;
@@ -804,11 +798,12 @@ export function calculateShardFlips(
       strategy,
       candidate.expectedOutput,
     );
+    if (options.orderBooks && !exactOutput.filled) continue;
     const revenueAfterTax = (exactOutput.filled
       ? exactOutput.total
       : candidate.salePrice * candidate.expectedOutput) * (1 - taxRate);
     const profit = revenueAfterTax - inputCost;
-    flips.push({
+    const flip: ShardFlip = {
       shardId: candidate.outputId,
       productId: candidate.outputProductId,
       name: candidate.outputName,
@@ -857,9 +852,16 @@ export function calculateShardFlips(
         maxFusionLimit,
       ),
       path: [...candidate.leftCost.path, ...candidate.rightCost.path, candidate.outputId],
-    });
+    };
+    const current = bestFlips.get(candidate.outputId);
+    const isBetter = !current
+      || (flip.depth.available && !current.depth.available)
+      || (flip.depth.available === current.depth.available
+        && (flip.depth.available ? flip.depth.totalProfit : flip.profit)
+          > (current.depth.available ? current.depth.totalProfit : current.profit));
+    if (isBetter) bestFlips.set(candidate.outputId, flip);
   }
-  return flips.sort((a, b) => b.profit - a.profit);
+  return [...bestFlips.values()].sort((a, b) => b.profit - a.profit);
 }
 
 /**

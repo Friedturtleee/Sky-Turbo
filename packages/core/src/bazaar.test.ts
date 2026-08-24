@@ -28,6 +28,12 @@ describe("Bazaar calculations", () => {
     expect(item.coinsPerHour).toBeCloseTo(43.8125);
   });
 
+  it("uses the supplied market tax rate for mayor-dependent Bazaar calculations", () => {
+    const item = calculateMarketItem(product, 123, 0.01125 * 4)!;
+    expect(item.marginCoins).toBeCloseTo(5.05);
+    expect(item.coinsPerHour).toBeCloseTo(25.25);
+  });
+
   it("calculates percentage changes", () => {
     expect(percentageChange(110, 100)).toBe(10);
     expect(percentageChange(10, 0)).toBeUndefined();

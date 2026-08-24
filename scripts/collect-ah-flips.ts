@@ -4,6 +4,9 @@ import { resolve } from "node:path";
 import type { AhFlipSnapshot, AhHistorySummary } from "../packages/core/src/index";
 import { AhAuctionScanner } from "../packages/core/src/ah-server";
 
+const ELECTION_URL = "https://api.hypixel.net/v2/resources/skyblock/election";
+const MAYOR_CHECK_INTERVAL_MS = 20_000;
+
 const rootEnv = loadEnv({ path: ".env", quiet: true }).parsed;
 loadEnv({ path: ".env.local", override: true, quiet: true });
 if (process.env.INGEST_SECRET?.trim() === "[SENSITIVE]" && rootEnv?.INGEST_SECRET?.trim()) {
@@ -75,6 +78,27 @@ async function publish(baseUrl: string, secret: string, snapshot: AhFlipSnapshot
   if (!response.ok) throw new Error(`D1 Worker AH publish returned ${response.status}: ${await response.text()}`);
 }
 
+let derpyState = { checkedAt: 0, active: false };
+
+async function derpyIsActive(): Promise<boolean> {
+  if (Date.now() - derpyState.checkedAt < MAYOR_CHECK_INTERVAL_MS) return derpyState.active;
+  try {
+    const response = await fetch(ELECTION_URL, {
+      headers: { Accept: "application/json", "User-Agent": "Sky-Turbo/0.1" },
+      signal: AbortSignal.timeout(10_000),
+    });
+    const payload = await response.json() as { success?: boolean; mayor?: { name?: string } };
+    if (response.ok && payload.success && payload.mayor?.name) {
+      derpyState = { checkedAt: Date.now(), active: payload.mayor.name.trim().toLowerCase() === "derpy" };
+      return derpyState.active;
+    }
+  } catch {
+    // Preserve the last confirmed state; a failed mayor lookup must not erase it.
+  }
+  derpyState = { ...derpyState, checkedAt: Date.now() };
+  return derpyState.active;
+}
+
 async function main(): Promise<void> {
   const options = parseOptions(process.argv.slice(2));
   if (!options.skipExactNbt && process.env.COFLNET_USAGE_APPROVED !== "true") {
@@ -93,6 +117,13 @@ async function main(): Promise<void> {
   while (!stopped) {
     const cycleStartedAt = Date.now();
     try {
+      if (await derpyIsActive()) {
+        console.log(JSON.stringify({ event: "ah_collector_paused", reason: "Derpy closes the Auction House" }));
+        if (options.once) break;
+        const delay = Math.max(0, options.intervalMs - (Date.now() - cycleStartedAt));
+        if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
       if (edge && Date.now() - historyFetchedAt >= 5 * 60_000) {
         history = await edgeJson<AhHistorySummary>(edge.baseUrl, edge.secret, "/v1/internal/ah-history-import-meta/summary");
         historyFetchedAt = Date.now();

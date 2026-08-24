@@ -19,21 +19,21 @@
   "lastUpdated": 1787170893096,
   "itemsLastUpdated": 1787232323850,
   "bazaarProducts": 2124,
-  "targetProducts": 2356,
-  "mappedItems": 2356,
+  "targetProducts": 2370,
+  "mappedItems": 2370,
   "sourceCounts": {
-    "hypixelPack": 489,
+    "hypixelPack": 493,
     "skyShards": 320,
-    "hypixelHead": 364,
-    "minecraft": 357,
+    "hypixelHead": 368,
+    "minecraft": 363,
     "categoryFallback": 786,
     "genericFallback": 40
   },
   "copiedTextures": {
-    "hypixel": 477,
+    "hypixel": 481,
     "minecraft": 196,
     "skyShards": 320,
-    "playerHeads": 361
+    "playerHeads": 365
   },
   "unresolvedPackModels": 32,
   "failedHeads": 0,

@@ -28,6 +28,8 @@ const unknownMayor: NpcMayorContext = {
   name: "Unknown",
   lastUpdated: 0,
   shoppingSpreeActive: false,
+  derpyActive: false,
+  bazaarTaxMultiplier: 1,
 };
 
 const strategyLabels: Record<NpcStrategy, string> = {
@@ -70,7 +72,7 @@ export function NpcFlipDashboard() {
   const [sort, setSort] = useState<SortKey>("maxDailyProfit");
   const [strategy, setStrategy] = useState<NpcStrategy>("bo-so");
   const [marketFilter, setMarketFilter] = useState<MarketFilter>("all");
-  const [conditionalBonusActive, setConditionalBonusActive] = useState(false);
+  const [conditionalBonusActive, setConditionalBonusActive] = useState(true);
   const [minProfit, setMinProfit] = useState(0);
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

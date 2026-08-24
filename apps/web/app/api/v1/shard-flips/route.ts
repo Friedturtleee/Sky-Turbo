@@ -1,6 +1,7 @@
 import fusionData from "@sky-turbo/core/fusion-data";
 import {
   calculateMarketSnapshot,
+  BAZAAR_TAX_RATE,
   calculateShardFlips,
   parseCompactNumber,
   type FusionData,
@@ -12,7 +13,7 @@ import {
 } from "@sky-turbo/core";
 import { jsonError, jsonOk } from "@/lib/http";
 import { enrichMarketSummary } from "@/lib/d1-store";
-import { getBazaarResponse } from "@/lib/hypixel";
+import { getBazaarResponse, getNpcMayorContext } from "@/lib/hypixel";
 
 const strategies = new Set<ShardStrategy>(["bo-so", "ib-so", "bo-is", "ib-is"]);
 const filterKeys: MarketFilterKey[] = ["sellVolume", "buyVolume", "totalVolume"];
@@ -85,8 +86,11 @@ export async function GET(request: Request) {
     const minProfit: MinProfitThreshold = { mode: minProfitMode, value: minProfitValue };
     const minFlipProfit: MinProfitThreshold = { mode: minFlipProfitMode, value: minFlipProfitValue };
     const filters = parseFilters(search);
-    const bazaar = await getBazaarResponse();
-    const snapshot = await enrichMarketSummary(calculateMarketSnapshot(bazaar));
+    const [bazaar, mayor] = await Promise.all([getBazaarResponse(), getNpcMayorContext()]);
+    const snapshot = await enrichMarketSummary(calculateMarketSnapshot(
+      bazaar,
+      BAZAAR_TAX_RATE * mayor.bazaarTaxMultiplier,
+    ));
     const orderBooks = Object.fromEntries(
       Object.entries(bazaar.products).map(([productId, product]) => [
         productId,
@@ -114,7 +118,7 @@ export async function GET(request: Request) {
       minFlipProfit,
       maxFusions,
       filters,
-      depthModel: "Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算。",
+      depthModel: `Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算；Bazaar 稅 ${snapshot.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）" : ""}。`,
       flips,
     });
   } catch (error) {

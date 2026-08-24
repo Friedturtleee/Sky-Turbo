@@ -1,4 +1,6 @@
 import {
+  BAZAAR_TAX_RATE,
+  calculateMarketSnapshot,
   calculateNpcFlips,
   npcBazaarQuotesFromResponse,
   type MarketSnapshot,
@@ -7,8 +9,13 @@ import {
 } from "@sky-turbo/core";
 import npcShopDataJson from "@sky-turbo/core/npc-shop-data";
 import { jsonError, jsonOk } from "@/lib/http";
-import { getAuctionSevenDaySales, getExactAuctionPrices, getRoughAuctionPrices } from "@/lib/lowest-bin";
-import { getEnrichedMarketSnapshot } from "@/lib/market";
+import {
+  getAuctionSevenDaySales,
+  getExactAuctionPrices,
+  getRoughAuctionPrices,
+  type AuctionPriceQuote,
+} from "@/lib/lowest-bin";
+import { enrichMarketSummary } from "@/lib/d1-store";
 import { getBazaarResponse, getNpcMayorContext } from "@/lib/hypixel";
 
 export const dynamic = "force-dynamic";
@@ -35,13 +42,23 @@ export async function GET(request: Request) {
   try {
     const strategy = (new URL(request.url).searchParams.get("strategy") ?? "bo-so") as NpcStrategy;
     if (!strategies.has(strategy)) return jsonError("不支援的 NPC Flip 交易策略", 400);
-    const [bazaarResponse, roughAh, mayor] = await Promise.all([
+    const mayorRequest = getNpcMayorContext();
+    const roughAhRequest: Promise<{ fetchedAt: number; prices: Record<string, number> }> = mayorRequest.then((mayor) => mayor.derpyActive
+      ? { fetchedAt: 0, prices: {} }
+      : getRoughAuctionPrices());
+    const [bazaarResponse, mayor, roughAh] = await Promise.all([
       getBazaarResponse(),
-      getRoughAuctionPrices(),
-      getNpcMayorContext(),
+      mayorRequest,
+      roughAhRequest,
     ]);
-    const market = await getEnrichedMarketSnapshot(bazaarResponse);
-    const exactAh = await getExactAuctionPrices(exactPriceTargets(market));
+    const market = await enrichMarketSummary(calculateMarketSnapshot(
+      bazaarResponse,
+      BAZAAR_TAX_RATE * mayor.bazaarTaxMultiplier,
+    ));
+    // Derpy closes AH entirely: skip every SkyCofl AH call instead of showing stale prices.
+    const exactAh: { fetchedAt: number; prices: Record<string, AuctionPriceQuote> } = mayor.derpyActive
+      ? { fetchedAt: 0, prices: {} }
+      : await getExactAuctionPrices(exactPriceTargets(market));
     const auctionPrices = Object.fromEntries(Object.entries(roughAh.prices).map(([productId, price]) => [
       productId,
       { lowestBin: price, recentMedian: price, model: "adjusted-estimate" as const },
@@ -56,10 +73,9 @@ export async function GET(request: Request) {
     );
     const sortedFlips = calculated.flips.sort((left, right) => right.profit - left.profit);
     const ahProductIds = sortedFlips.filter((flip) => flip.saleSource === "ah-lowest-bin").map((flip) => flip.productId);
-    const activity = await getAuctionSevenDaySales([
-      ...exactAuctionTargets,
-      ...ahProductIds,
-    ]);
+    const activity = mayor.derpyActive
+      ? { fetchedAt: 0, sales: {} }
+      : await getAuctionSevenDaySales([...exactAuctionTargets, ...ahProductIds]);
     const flips = sortedFlips.map((flip) => flip.saleSource === "ah-lowest-bin" && activity.sales[flip.productId] !== undefined
       ? { ...flip, ahSalesLast7d: activity.sales[flip.productId] }
       : flip);
@@ -71,7 +87,7 @@ export async function GET(request: Request) {
       marketUpdatedAt: market.updatedAt,
       auctionUpdatedAt: exactAh.fetchedAt,
       shopDataGeneratedAt: npcShopData.generatedAt,
-      priceModel: `${strategy.toUpperCase()}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
+      priceModel: `${strategy.toUpperCase()}；Bazaar 稅 ${market.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）；AH 已關閉，已排除 AH 成本與成品" : ""}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
     });
   } catch (error) {
     return jsonError(

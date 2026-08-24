@@ -1,11 +1,14 @@
 import { jsonError, jsonOk } from "@/lib/http";
 import { getAhFlipSnapshot } from "@/lib/ah-market";
+import { getNpcMayorContext } from "@/lib/hypixel";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 export async function GET(request: Request) {
   try {
+    const mayor = await getNpcMayorContext();
+    if (mayor.derpyActive) return jsonError("Derpy 當選期間拍賣場關閉，無法計算 AH Flip", 503);
     const url = new URL(request.url);
     const force = url.searchParams.get("refresh") === "1";
     const snapshot = await getAhFlipSnapshot(force);

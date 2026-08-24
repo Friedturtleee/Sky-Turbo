@@ -153,7 +153,9 @@ export function calculateNpcProfitPlan(
   let high = executionPurchaseLimit;
   while (low < high) {
     const middle = Math.floor((low + high) / 2);
-    if (profitAt(middle + 1) >= profitAt(middle)) low = middle + 1;
+    // Prefer the first count at the profit peak.  On a flat peak, buying more
+    // would require extra materials without producing any extra total profit.
+    if (profitAt(middle + 1) > profitAt(middle)) low = middle + 1;
     else high = middle;
   }
   const maxProfitPurchaseCount = low;
