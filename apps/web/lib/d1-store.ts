@@ -47,6 +47,10 @@ export async function readLatestSnapshot(): Promise<MarketSnapshot | null> {
   return readOptionalJson<MarketSnapshot>("/v1/storage/latest");
 }
 
+export async function readDailyMarketHistory(): Promise<CompactHistoryPartition[]> {
+  return (await readOptionalJson<CompactHistoryPartition[]>("/v1/storage/history-daily")) ?? [];
+}
+
 export async function readLatestAhFlipSnapshot(): Promise<AhFlipSnapshot | null> {
   const value = await readOptionalJson<AhFlipSnapshot>("/v1/storage/ah-flips");
   return value?.schemaVersion === 1 && value.source === "hypixel-auctions+skycofl" ? value : null;

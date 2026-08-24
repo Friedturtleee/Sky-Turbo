@@ -136,6 +136,30 @@ export type CompactHistoryPartition = {
   items: Record<string, CompactMarketItem>;
 };
 
+export type SkyblockIndexPoint = {
+  time: number;
+  value: number;
+};
+
+export type SkyblockIndexConstituent = {
+  productId: string;
+  name: string;
+  weight: number;
+  midpoint: number;
+  weeklyMatched: number;
+};
+
+export type SkyblockIndex = {
+  baseValue: number;
+  value: number;
+  change24h?: number;
+  points: SkyblockIndexPoint[];
+  constituents: SkyblockIndexConstituent[];
+  constituentCount: number;
+  coveragePercent: number;
+  maxConstituentWeight: number;
+};
+
 export type MarketHistoryIngest = {
   snapshot: MarketSnapshot;
   compact: CompactMarketSnapshot;
