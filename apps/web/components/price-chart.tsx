@@ -3,6 +3,7 @@
 import { calculateRobustChartPriceRange, type ChartPriceRange, type PricePoint } from "@sky-turbo/core";
 import { ColorType, createChart, LineSeries, type AutoscaleInfoProvider, type IChartApi, type UTCTimestamp } from "lightweight-charts";
 import { useEffect, useRef } from "react";
+import { useI18n } from "./i18n";
 
 function createRobustAutoscaleProvider(range: ChartPriceRange | undefined): AutoscaleInfoProvider | undefined {
   if (!range) return undefined;
@@ -21,6 +22,7 @@ function createRobustAutoscaleProvider(range: ChartPriceRange | undefined): Auto
 }
 
 export function PriceChart({ points, height = 320, compact = false }: { points: PricePoint[]; height?: number; compact?: boolean }) {
+  const { t } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!containerRef.current) return;
@@ -86,9 +88,9 @@ export function PriceChart({ points, height = 320, compact = false }: { points: 
   }, [compact, height, points]);
   return <div className={`price-chart${compact ? " compact" : ""}`}>
     <div className="price-chart-canvas" ref={containerRef} />
-    <div className="price-chart-legend" aria-label="圖表圖例">
-      <span><i className="buy" />Buy Order</span>
-      <span><i className="sell" />Sell Order</span>
+    <div className="price-chart-legend" aria-label={t("chart.legend")}>
+      <span><i className="buy" />{t("chart.buyOrder")}</span>
+      <span><i className="sell" />{t("chart.sellOrder")}</span>
     </div>
   </div>;
 }

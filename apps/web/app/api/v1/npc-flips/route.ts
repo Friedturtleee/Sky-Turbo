@@ -40,7 +40,9 @@ function exactPriceTargets(
 
 export async function GET(request: Request) {
   try {
-    const strategy = (new URL(request.url).searchParams.get("strategy") ?? "bo-so") as NpcStrategy;
+    const search = new URL(request.url).searchParams;
+    const strategy = (search.get("strategy") ?? "bo-so") as NpcStrategy;
+    const english = search.get("locale") === "en";
     if (!strategies.has(strategy)) return jsonError("不支援的 NPC Flip 交易策略", 400);
     const mayorRequest = getNpcMayorContext();
     const roughAhRequest: Promise<{ fetchedAt: number; prices: Record<string, number> }> = mayorRequest.then((mayor) => mayor.derpyActive
@@ -87,7 +89,9 @@ export async function GET(request: Request) {
       marketUpdatedAt: market.updatedAt,
       auctionUpdatedAt: exactAh.fetchedAt,
       shopDataGeneratedAt: npcShopData.generatedAt,
-      priceModel: `${strategy.toUpperCase()}；Bazaar 稅 ${market.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）；AH 已關閉，已排除 AH 成本與成品" : ""}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
+      priceModel: english
+        ? `${strategy.toUpperCase()}; Bazaar tax ${market.taxRate * 100}%${mayor.derpyActive ? " (Derpy ×4); AH is closed, so AH costs and outputs are excluded" : ""}; daily limit automatically applies ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `current mayor ${mayor.name} (×1)`}`
+        : `${strategy.toUpperCase()}；Bazaar 稅 ${market.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）；AH 已關閉，已排除 AH 成本與成品" : ""}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
     });
   } catch (error) {
     return jsonError(

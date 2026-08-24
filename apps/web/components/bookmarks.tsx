@@ -2,6 +2,7 @@
 
 import { useAuth } from "@clerk/nextjs";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useI18n } from "./i18n";
 
 type BookmarkContextValue = {
   bookmarks: Set<string>;
@@ -138,12 +139,13 @@ export function useBookmarks() {
 
 export function BookmarkButton({ productId }: { productId: string }) {
   const { bookmarks, toggle } = useBookmarks();
+  const { t } = useI18n();
   const active = bookmarks.has(productId);
   return (
     <button
       className={`bookmark-button${active ? " active" : ""}`}
       type="button"
-      aria-label={active ? "取消書籤" : "加入書籤"}
+      aria-label={active ? t("bookmark.remove") : t("bookmark.add")}
       aria-pressed={active}
       onClick={(event) => {
         event.preventDefault();

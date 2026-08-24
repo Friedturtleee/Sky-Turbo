@@ -10,6 +10,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { DebouncedSearchField } from "./debounced-search-field";
 import { formatCoins, formatPercent, tone } from "./format";
 import { ItemIcon } from "./item-icon";
+import { useI18n } from "./i18n";
+import { localizeMarketLimit } from "./localized-market-text";
 import { RefreshButton } from "./refresh-button";
 import { useBackgroundRefresh } from "./use-background-refresh";
 
@@ -32,15 +34,8 @@ const unknownMayor: NpcMayorContext = {
   bazaarTaxMultiplier: 1,
 };
 
-const strategyLabels: Record<NpcStrategy, string> = {
-  "bo-so": "Buy Order → Sell Order",
-  "ib-so": "Instant Buy → Sell Order",
-  "bo-is": "Buy Order → Instant Sell",
-  "ib-is": "Instant Buy → Instant Sell",
-};
-
-function strategyLabel(flip: NpcFlip): string {
-  if (flip.saleSource === "bazaar") return strategyLabels[flip.strategy];
+function strategyLabel(flip: NpcFlip, t: ReturnType<typeof useI18n>["t"]): string {
+  if (flip.saleSource === "bazaar") return t(`strategy.${flip.strategy}`);
   return `${flip.strategy.startsWith("ib") ? "Instant Buy" : "Buy Order"} → AH`;
 }
 
@@ -48,23 +43,20 @@ function bazaarCostLabel(strategy: NpcStrategy): string {
   return strategy.startsWith("ib") ? "BZ insta buy" : "BZ buy order";
 }
 
-function productReference(productId: string): string {
-  if (productId === "INK_SACK:3") return "Cocoa Beans · Hypixel Bazaar legacy ID";
+function productReference(productId: string, t: ReturnType<typeof useI18n>["t"]): string {
+  if (productId === "INK_SACK:3") return t("npc.cocoaLegacy");
   return productId;
 }
 
-function integer(value: number): string {
-  return new Intl.NumberFormat("zh-TW", { maximumFractionDigits: 0 }).format(value);
-}
-
-function limitSourceLabel(source: NpcFlip["dailyLimitSource"]): string {
-  if (source === "shop-stock") return "商店標示庫存";
-  if (source === "standard-shop-limit") return "標準每日上限";
-  if (source === "manual-wiki") return "Wiki 商店資料";
-  return "未標示來源";
+function limitSourceLabel(source: NpcFlip["dailyLimitSource"], t: ReturnType<typeof useI18n>["t"]): string {
+  if (source === "shop-stock") return t("npc.shopStock");
+  if (source === "standard-shop-limit") return t("npc.standardLimit");
+  if (source === "manual-wiki") return t("npc.wikiData");
+  return t("npc.noLimitSource");
 }
 
 export function NpcFlipDashboard() {
+  const { locale, localeTag, number, t, time } = useI18n();
   const [data, setData] = useState<NpcFlipResponse>({
     flips: [], unpricedCount: 0, updatedAt: 0, shopDataGeneratedAt: "", priceModel: "", mayor: unknownMayor,
   });
@@ -82,9 +74,9 @@ export function NpcFlipDashboard() {
   const load = useCallback(async (signal: AbortSignal) => {
     if (!hasLoadedRef.current) setLoading(true);
     try {
-      const response = await fetch(`/api/v1/npc-flips?strategy=${strategy}`, { cache: "no-store", signal });
+      const response = await fetch(`/api/v1/npc-flips?strategy=${strategy}&locale=${locale}`, { cache: "no-store", signal });
       const payload = await response.json() as { data?: Partial<NpcFlipResponse>; error?: { message?: string } };
-      if (!response.ok) throw new Error(payload.error?.message ?? "NPC Flip 計算失敗");
+      if (!response.ok) throw new Error(payload.error?.message ?? t("npc.loadFailed"));
       setData({
         flips: payload.data?.flips ?? [],
         unpricedCount: payload.data?.unpricedCount ?? 0,
@@ -97,12 +89,12 @@ export function NpcFlipDashboard() {
       setError("");
     } catch (reason) {
       if (reason instanceof Error && reason.name === "AbortError") return;
-      setError(reason instanceof Error ? reason.message : "NPC Flip 計算失敗");
+      setError(reason instanceof Error ? reason.message : t("npc.loadFailed"));
     } finally {
       if (!signal.aborted) setLoading(false);
     }
-  }, [strategy]);
-  const { refresh, refreshing } = useBackgroundRefresh(load, `npc-flips-${strategy}`);
+  }, [locale, strategy, t]);
+  const { refresh, refreshing } = useBackgroundRefresh(load, `npc-flips-${strategy}-${locale}`);
   const diazActive = data.mayor.shoppingSpreeActive;
 
   const planFor = useCallback((flip: NpcFlip, fraction: 1 | 0.8 = 1) => calculateNpcProfitPlan(flip, {
@@ -132,62 +124,65 @@ export function NpcFlipDashboard() {
 
   return <>
     <div className="toolbar panel npc-flip-toolbar">
-      <DebouncedSearchField onSearch={setSearch} placeholder="物品、NPC、成本材料或 ID" />
-      <label><span>排序</span><select value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
-        <option value="maxDailyProfit">Max Profit</option><option value="profit">單次 Max Profit</option>
-        <option value="marginPercent">Margin (%)</option><option value="salePriceNet">稅後出售價格</option><option value="totalCost">單次成本</option>
+      <DebouncedSearchField onSearch={setSearch} placeholder={t("npc.search")} />
+      <label><span>{t("common.sort")}</span><select value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
+        <option value="maxDailyProfit">{t("common.maxProfit")}</option><option value="profit">{t("npc.singleProfit")}</option>
+        <option value="marginPercent">{t("common.margin")} (%)</option><option value="salePriceNet">{t("npc.netSale")}</option><option value="totalCost">{t("npc.singleCost")}</option>
       </select></label>
-      <label><span>交易策略</span><select value={strategy} onChange={(event) => setStrategy(event.target.value as NpcStrategy)}>
-        {Object.entries(strategyLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+      <label><span>{t("common.strategy")}</span><select value={strategy} onChange={(event) => setStrategy(event.target.value as NpcStrategy)}>
+        <option value="bo-so">{t("strategy.bo-so")}</option><option value="ib-so">{t("strategy.ib-so")}</option><option value="bo-is">{t("strategy.bo-is")}</option><option value="ib-is">{t("strategy.ib-is")}</option>
       </select></label>
-      <label><span>市場分類</span><select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value as MarketFilter)}>
-        <option value="all">全部（BZ + AH）</option><option value="bazaar">Bazaar</option><option value="ah-lowest-bin">Auction House</option>
+      <label><span>{t("npc.marketFilter")}</span><select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value as MarketFilter)}>
+        <option value="all">{t("npc.allMarkets")}</option><option value="bazaar">Bazaar</option><option value="ah-lowest-bin">Auction House</option>
       </select></label>
-      <label><span>Min 單次 Profit</span><input type="number" min="0" step="100" value={minProfit} onChange={(event) => setMinProfit(Math.max(0, Number(event.target.value) || 0))} /></label>
-      <label className="npc-bonus-toggle"><input type="checkbox" checked={conditionalBonusActive} onChange={(event) => setConditionalBonusActive(event.target.checked)} /><span>已解鎖 Kiara Abiphone（庫存 +1）</span></label>
+      <label><span>Min {t("npc.singleProfit")}</span><input type="number" min="0" step="100" value={minProfit} onChange={(event) => setMinProfit(Math.max(0, Number(event.target.value) || 0))} /></label>
+      <label className="npc-bonus-toggle"><input type="checkbox" checked={conditionalBonusActive} onChange={(event) => setConditionalBonusActive(event.target.checked)} /><span>{t("npc.kiara")}</span></label>
       <RefreshButton onRefresh={() => void refresh()} refreshing={refreshing} />
     </div>
-    <div className="depth-note npc-price-note"><span>{displayedFlips.length} 筆可定價交易 · {data.unpricedCount} 筆缺少市場價格{data.updatedAt ? ` · 更新：${new Date(data.updatedAt).toLocaleTimeString("zh-TW")}` : ""}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : data.priceModel || "Bazaar、AH、市長與 NPC 上限載入中"}</span></div>
+    <div className="depth-note npc-price-note"><span>{t("npc.priced", { count: number(displayedFlips.length) })} · {t("npc.unpriced", { count: number(data.unpricedCount) })}{data.updatedAt ? ` · ${t("common.updated", { time: time(data.updatedAt) })}` : ""}</span><span className={error && hasLoadedRef.current ? "negative" : undefined}>{error && hasLoadedRef.current ? error : data.priceModel || t("npc.priceModel")}</span></div>
     {loading && !hasLoadedRef.current
-      ? <div className="state-card"><span className="spinner" />正在取得 NPC 庫存、現任市長與市場價格…</div>
+      ? <div className="state-card"><span className="spinner" />{t("npc.loading")}</div>
       : error && !hasLoadedRef.current
         ? <div className="state-card error-state">{error}</div>
         : <div className="market-table-wrap panel npc-table-panel"><table className="market-table npc-flip-table"><thead><tr>
-          <th>NPC 商品</th><th>NPC</th><th>單次購買需求</th><th>單次成本</th><th>稅後出售價格</th><th>7日成交量</th><th>單次 Profit</th><th>執行上限</th><th>Max Profit</th>
+          <th>{t("npc.product")}</th><th>NPC</th><th>{t("npc.purchaseNeeds")}</th><th>{t("npc.singleCost")}</th><th>{t("npc.netSale")}</th><th>{t("npc.sales7d")}</th><th>{t("npc.singleProfit")}</th><th>{t("npc.executionLimit")}</th><th>{t("common.maxProfit")}</th>
         </tr></thead><tbody>{displayedFlips.slice(0, 300).map((flip) => {
           const plan = planFor(flip);
           return <tr key={flip.offerId}>
-            <td data-label="NPC 商品"><button className="npc-item-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}><span className="item-cell"><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</strong><small>{productReference(flip.productId)}</small></span></span></button></td>
+            <td data-label={t("npc.product")}><button className="npc-item-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}><span className="item-cell"><ItemIcon name={flip.name} productId={flip.productId} /><span><strong>{flip.quantity > 1 ? `${flip.quantity}× ` : ""}{flip.name}</strong><small>{productReference(flip.productId, t)}</small></span></span></button></td>
             <td data-label="NPC"><span className="stack"><strong>{flip.npc}</strong>{flip.requirement ? <small>{flip.requirement}</small> : null}</span></td>
-            <td data-label="單次購買需求"><CostList costs={flip.costs.map((cost) => ({ name: cost.name, amount: cost.amount, totalPrice: cost.totalPrice, priceSource: cost.priceSource }))} bazaarLabel={bazaarCostLabel(flip.strategy)} /></td>
-            <td data-label="單次成本">{formatCoins(flip.totalCost)}</td>
-            <td data-label="出售價格"><SalePrice flip={flip} /></td>
-            <td data-label="7日成交量">{flip.saleSource === "bazaar"
-              ? <span className="stack"><strong>{(flip.bazaarMatchedVolume7d ?? 0).toLocaleString("zh-TW")}</strong><small>近 7 天 BZ 成交</small></span>
-              : flip.ahSalesLast7d === undefined ? <span className="neutral">累積中</span> : <span className="stack"><strong>{flip.ahSalesLast7d.toLocaleString("zh-TW")} 筆</strong><small>近 7 天 AH 成交</small></span>}</td>
-            <td data-label="單次 Profit"><span className={`stack ${tone(flip.maxProfitPerPurchase)}`}><strong>{formatCoins(flip.maxProfitPerPurchase)}</strong><small>{strategyLabel(flip)} · {formatPercent(flip.totalCost > 0 ? flip.maxProfitPerPurchase / flip.totalCost * 100 : 0)}</small>{flip.saleSource === "bazaar" ? <small>Insta {formatCoins(flip.bazaarInstaSellProfit ?? 0)} · Order {formatCoins(flip.bazaarSellOrderProfit ?? 0)}</small> : null}</span></td>
-            <td data-label="執行上限">{plan ? <span className="stack"><strong>{integer(plan.maxProfitPurchaseCount)} 次 · {integer(plan.maxProfitPurchaseCount * flip.quantity)} 個</strong><small>{plan.limitedBy}{plan.depthPartial ? " · Hypixel 前 30 檔" : ""}</small></span> : <span className="stack neutral"><strong>未確認</strong><small>沒有可靠的庫存或深度資料</small></span>}</td>
-            <td data-label="Max Profit">{plan ? <span className="stack npc-max-profit"><strong className={tone(plan.totalProfit)}>{formatCoins(plan.totalProfit)}</strong><CostList costs={plan.costs.map((cost) => ({ name: cost.name, amount: cost.requiredAmount, totalPrice: cost.totalPrice, priceSource: cost.priceSource }))} bazaarLabel={bazaarCostLabel(flip.strategy)} compact /><button className="detail-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}>查看詳細</button></span> : <span className="stack"><strong>無法估算</strong><small>{formatCoins(flip.maxProfitPerPurchase)} / 次</small><button className="detail-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}>查看詳細</button></span>}</td>
+            <td data-label={t("npc.purchaseNeeds")}><CostList costs={flip.costs.map((cost) => ({ name: cost.name, amount: cost.amount, totalPrice: cost.totalPrice, priceSource: cost.priceSource }))} bazaarLabel={bazaarCostLabel(flip.strategy)} localeTag={localeTag} /></td>
+            <td data-label={t("npc.singleCost")}>{formatCoins(flip.totalCost, true, localeTag)}</td>
+            <td data-label={t("npc.netSale")}><SalePrice flip={flip} /></td>
+            <td data-label={t("npc.sales7d")}>{flip.saleSource === "bazaar"
+              ? <span className="stack"><strong>{number(flip.bazaarMatchedVolume7d ?? 0)}</strong><small>{t("npc.bazaarSales")}</small></span>
+              : flip.ahSalesLast7d === undefined ? <span className="neutral">{t("common.accumulating")}</span> : <span className="stack"><strong>{number(flip.ahSalesLast7d)} {t("common.times")}</strong><small>{t("npc.ahSales")}</small></span>}</td>
+            <td data-label={t("npc.singleProfit")}><span className={`stack ${tone(flip.maxProfitPerPurchase)}`}><strong>{formatCoins(flip.maxProfitPerPurchase, true, localeTag)}</strong><small>{strategyLabel(flip, t)} · {formatPercent(flip.totalCost > 0 ? flip.maxProfitPerPurchase / flip.totalCost * 100 : 0, t("common.accumulating"))}</small>{flip.saleSource === "bazaar" ? <small>{t("npc.instaProfit", { value: formatCoins(flip.bazaarInstaSellProfit ?? 0, true, localeTag), order: formatCoins(flip.bazaarSellOrderProfit ?? 0, true, localeTag) })}</small> : null}</span></td>
+            <td data-label={t("npc.executionLimit")}>{plan ? <span className="stack"><strong>{number(plan.maxProfitPurchaseCount)} {t("common.times")} · {number(plan.maxProfitPurchaseCount * flip.quantity)} {t("common.pieces")}</strong><small>{localizeMarketLimit(plan.limitedBy, locale)}{plan.depthPartial ? ` · ${t("common.first30")}` : ""}</small></span> : <span className="stack neutral"><strong>{t("npc.unknown")}</strong><small>{t("npc.noLimitData")}</small></span>}</td>
+            <td data-label={t("common.maxProfit")}>{plan ? <span className="stack npc-max-profit"><strong className={tone(plan.totalProfit)}>{formatCoins(plan.totalProfit, true, localeTag)}</strong><CostList costs={plan.costs.map((cost) => ({ name: cost.name, amount: cost.requiredAmount, totalPrice: cost.totalPrice, priceSource: cost.priceSource }))} bazaarLabel={bazaarCostLabel(flip.strategy)} compact localeTag={localeTag} /><button className="detail-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}>{t("common.viewDetail")}</button></span> : <span className="stack"><strong>{t("npc.notEstimated")}</strong><small>{formatCoins(flip.maxProfitPerPurchase, true, localeTag)} {t("npc.perPurchase")}</small><button className="detail-button" type="button" onClick={() => setSelectedOfferId(flip.offerId)}>{t("common.viewDetail")}</button></span>}</td>
           </tr>;
-        })}</tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">目前沒有符合條件且可完整定價的 NPC Flip。</div> : null}</div>}
-    {selectedFlip ? <NpcFlipDetailModal flip={selectedFlip} diazActive={diazActive} conditionalBonusActive={conditionalBonusActive} onConditionalBonusChange={setConditionalBonusActive} onClose={() => setSelectedOfferId(null)} mayorLabel={`自動：${data.mayor.name}`} /> : null}
-    <p className="npc-disclaimer">NPC Flip 依目前選取的 Buy Order／Instant Buy 與 Sell Order／Instant Sell 策略計算。Instant 交易會逐檔消耗 Hypixel 可見掛單並在利潤最高處停止；Order 使用目前最佳掛單價。一般可轉售商品採 640 個標準上限，Mayor 與 Diaz Shopping Spree 由 Hypixel Election API 自動套用。AH 成品的 Max Profit 預設只估算單次購買，售價使用最低 BIN／近期成交中位估價並扣除分級手續費。市場價格由 Hypixel 與 <a href="https://sky.coflnet.com/data" target="_blank" rel="noreferrer">SkyCofl</a> 提供。</p>
+        })}</tbody></table>{displayedFlips.length === 0 ? <div className="empty-state">{t("npc.noMatches")}</div> : null}</div>}
+    {selectedFlip ? <NpcFlipDetailModal flip={selectedFlip} diazActive={diazActive} conditionalBonusActive={conditionalBonusActive} onConditionalBonusChange={setConditionalBonusActive} onClose={() => setSelectedOfferId(null)} mayorLabel={t("npc.autoMayor", { name: data.mayor.name })} /> : null}
+    <p className="npc-disclaimer">{t("npc.disclaimer")}</p>
   </>;
 }
 
 function SalePrice({ flip }: { flip: NpcFlip }) {
-  return <span className="stack"><strong>{formatCoins(flip.salePriceNet)}</strong>{flip.saleSource === "bazaar"
-    ? <small><span className="market-source-badge">{flip.maxProfitStrategy === "sell-order" ? "BZ sell order" : "BZ insta sell"}</span> · 已扣稅</small>
-    : <><small><span className="market-source-badge">AH 成交估價</span> · 已扣稅</small><small className={flip.auctionPriceCapped ? "price-warning" : undefined}>{flip.auctionPriceCapped ? "已用近期成交中位價限制異常 LBIN" : flip.auctionPriceModel === "adjusted-estimate" ? "SkyCofl 批次調整估價" : "LBIN 與近期成交價交叉估算"}</small></>}
+  const { localeTag, t } = useI18n();
+  return <span className="stack"><strong>{formatCoins(flip.salePriceNet, true, localeTag)}</strong>{flip.saleSource === "bazaar"
+    ? <small><span className="market-source-badge">{flip.maxProfitStrategy === "sell-order" ? "BZ sell order" : "BZ insta sell"}</span> · {t("common.afterTax")}</small>
+    : <><small><span className="market-source-badge">{t("npc.saleEstimate")}</span> · {t("common.afterTax")}</small><small className={flip.auctionPriceCapped ? "price-warning" : undefined}>{flip.auctionPriceCapped ? t("npc.lbinCapped") : flip.auctionPriceModel === "adjusted-estimate" ? t("npc.adjustedEstimate") : t("npc.crossEstimate")}</small></>}
   </span>;
 }
 
-function CostList({ costs, bazaarLabel, compact = false }: {
+function CostList({ costs, bazaarLabel, compact = false, localeTag }: {
   costs: Array<{ name: string; amount: number; totalPrice: number; priceSource: "coins" | "bazaar" | "ah-lowest-bin" }>;
   bazaarLabel: string;
   compact?: boolean;
+  localeTag: string;
 }) {
-  return <span className={`stack npc-cost-list${compact ? " compact" : ""}`}>{costs.map((cost, index) => <span key={`${cost.name}-${index}`}><strong>{integer(cost.amount)}× {cost.name}</strong>{compact ? null : <small>{cost.priceSource === "coins" ? formatCoins(cost.totalPrice) : `${cost.priceSource === "bazaar" ? bazaarLabel : "AH LBIN"} · ${formatCoins(cost.totalPrice)}`}</small>}</span>)}</span>;
+  const { number } = useI18n();
+  return <span className={`stack npc-cost-list${compact ? " compact" : ""}`}>{costs.map((cost, index) => <span key={`${cost.name}-${index}`}><strong>{number(cost.amount)}× {cost.name}</strong>{compact ? null : <small>{cost.priceSource === "coins" ? formatCoins(cost.totalPrice, true, localeTag) : `${cost.priceSource === "bazaar" ? bazaarLabel : "AH LBIN"} · ${formatCoins(cost.totalPrice, true, localeTag)}`}</small>}</span>)}</span>;
 }
 
 function NpcFlipDetailModal({ flip, diazActive, conditionalBonusActive, onConditionalBonusChange, mayorLabel, onClose }: {
@@ -198,15 +193,16 @@ function NpcFlipDetailModal({ flip, diazActive, conditionalBonusActive, onCondit
   mayorLabel: string;
   onClose: () => void;
 }) {
+  const { locale, localeTag, number, t } = useI18n();
   const [fraction, setFraction] = useState<1 | 0.8>(1);
   const plan = calculateNpcProfitPlan(flip, { diazActive, conditionalBonusActive, fraction });
   return <div className="detail-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section className="shard-detail-modal npc-detail-modal panel" role="dialog" aria-modal="true" aria-labelledby="npc-detail-title">
-    <header><div><span className="eyebrow">NPC Max Profit detail</span><h2 id="npc-detail-title">{flip.name}</h2><code>{flip.npc} · {productReference(flip.productId)}</code></div><button type="button" aria-label="關閉" onClick={onClose}>×</button></header>
-    {plan ? <><div className="detail-profit-grid"><div><span>需要購買</span><strong>{integer(plan.purchaseCount)} 次</strong></div><div><span>取得成品</span><strong>{integer(plan.outputQuantity)} 個</strong></div><div><span>成本總額</span><strong>{formatCoins(plan.totalCost)}</strong></div><div><span>{fraction === 1 ? "Max Profit" : "80% Target Profit"}</span><strong className={tone(plan.totalProfit)}>{formatCoins(plan.totalProfit)}</strong></div></div>
-      <div className="route-multiplier npc-plan-controls"><label><span>成本規劃目標</span><select value={fraction} onChange={(event) => setFraction(Number(event.target.value) as 1 | 0.8)}><option value={1}>深度內最高利潤（100% Max Profit）</option><option value={0.8}>Max Profit 的至少 80%</option></select></label><div><span>市長（自動）</span><strong>{mayorLabel}{plan.diazApplied ? " · ×10" : " · ×1"}</strong></div><div><span>交易策略</span><strong>{strategyLabel(flip)}</strong></div><div><span>稅後總收入</span><strong>{formatCoins(plan.revenueAfterTax)}</strong></div>{flip.conditionalDailyLimitBonus ? <label className="npc-modal-checkbox"><span>{flip.conditionalLimitRequirement}</span><span><input type="checkbox" checked={conditionalBonusActive} onChange={(event) => onConditionalBonusChange(event.target.checked)} /> 套用庫存 +{flip.conditionalDailyLimitBonus}</span></label> : null}</div>
-      <div className="detail-columns"><article><div className="modal-section-title"><div><span className="eyebrow">Required costs</span><h3>{fraction === 1 ? "最高利潤方案所需成本" : "達到 80% Max Profit 所需成本"}</h3></div><small>Instant 成本為逐檔成交後的實際總額</small></div><div className="material-total-list">{plan.costs.map((cost) => <div key={cost.productId ?? cost.name}><span><strong>{cost.name}</strong><code>{cost.productId ? productReference(cost.productId) : "COINS"} · 每次 {integer(cost.amountPerPurchase)}</code></span><span><strong>{integer(cost.requiredAmount)} 個</strong><small>{formatCoins(cost.totalPrice)} · {cost.priceSource === "bazaar" ? bazaarCostLabel(flip.strategy) : cost.priceSource === "ah-lowest-bin" ? "AH LBIN" : "Coins"}</small></span></div>)}</div></article>
-        <article><div className="modal-section-title"><div><span className="eyebrow">Limit and revenue audit</span><h3>上限與收益</h3></div></div><div className="material-total-list"><div><span><strong>基礎每日庫存</strong><small>{limitSourceLabel(flip.dailyLimitSource)}</small></span><span><strong>{integer(flip.dailyLimit ?? 0)} 個</strong><small>{flip.diazEligible ? "可套用 Diaz" : "不適用 Diaz"}</small></span></div>{flip.conditionalDailyLimitBonus ? <div><span><strong>條件庫存</strong><small>{flip.conditionalLimitRequirement}</small></span><span><strong>+{flip.conditionalDailyLimitBonus}</strong><small>{plan.conditionalBonusApplied ? "已套用" : "未套用"}</small></span></div> : null}<div><span><strong>有效每日庫存</strong><small>{integer(plan.stockPurchaseLimit)} 次可購買</small></span><span><strong>{integer(plan.effectiveDailyLimit)} 個</strong><small>{plan.diazApplied ? "Shopping Spree ×10" : "×1"}</small></span></div><div><span><strong>市場執行上限</strong><small>{plan.limitedBy}</small></span><span><strong>{integer(plan.executionPurchaseLimit)} 次</strong><small>{plan.depthPartial ? "Hypixel 前 30 檔" : plan.depthLimited ? "受可見深度限制" : "受每日庫存限制"}</small></span></div><div><span><strong>最高利潤數量</strong><small>{strategyLabel(flip)}</small></span><span><strong>{integer(plan.maxProfitPurchaseCount)} 次</strong><small>{integer(plan.maxProfitPurchaseCount * flip.quantity)} 個成品</small></span></div><div><span><strong>單次 Profit</strong><small>第一批目前價格</small></span><span><strong className={tone(flip.maxProfitPerPurchase)}>{formatCoins(flip.maxProfitPerPurchase)}</strong><small>成本 {formatCoins(flip.totalCost)}</small></span></div></div><p className="npc-detail-source">資料來源：<a className="source-link" href={flip.source.url} target="_blank" rel="noreferrer">{flip.source.label}</a></p></article></div></>
-    : <div className="empty-state">這筆商品沒有足夠可靠的每日庫存資料，因此不虛構 Max Profit；仍可使用單次 Profit 判斷。</div>}
-    <footer><span>每日上限依商品數量計算；Instant 會逐檔計價並在總利潤最高處停止。</span><span>標示前 30 檔時，實際市場深度可能更高。</span></footer>
+    <header><div><span className="eyebrow">{t("npc.detail")}</span><h2 id="npc-detail-title">{flip.name}</h2><code>{flip.npc} · {productReference(flip.productId, t)}</code></div><button type="button" aria-label={t("common.close")} onClick={onClose}>×</button></header>
+    {plan ? <><div className="detail-profit-grid"><div><span>{t("npc.buyRequired")}</span><strong>{number(plan.purchaseCount)} {t("common.times")}</strong></div><div><span>{t("common.output")}</span><strong>{number(plan.outputQuantity)} {t("common.pieces")}</strong></div><div><span>{t("npc.totalCost")}</span><strong>{formatCoins(plan.totalCost, true, localeTag)}</strong></div><div><span>{fraction === 1 ? t("common.maxProfit") : "80% Target Profit"}</span><strong className={tone(plan.totalProfit)}>{formatCoins(plan.totalProfit, true, localeTag)}</strong></div></div>
+      <div className="route-multiplier npc-plan-controls"><label><span>{t("craft.planTarget")}</span><select value={fraction} onChange={(event) => setFraction(Number(event.target.value) as 1 | 0.8)}><option value={1}>{t("craft.fullTarget")}</option><option value={0.8}>{t("craft.eightyTarget")}</option></select></label><div><span>{t("npc.mayor")}</span><strong>{mayorLabel}{plan.diazApplied ? " · ×10" : " · ×1"}</strong></div><div><span>{t("common.strategy")}</span><strong>{strategyLabel(flip, t)}</strong></div><div><span>{t("npc.revenueAfterTax")}</span><strong>{formatCoins(plan.revenueAfterTax, true, localeTag)}</strong></div>{flip.conditionalDailyLimitBonus ? <label className="npc-modal-checkbox"><span>{flip.conditionalLimitRequirement}</span><span><input type="checkbox" checked={conditionalBonusActive} onChange={(event) => onConditionalBonusChange(event.target.checked)} /> {t("npc.applyStock", { count: flip.conditionalDailyLimitBonus })}</span></label> : null}</div>
+      <div className="detail-columns"><article><div className="modal-section-title"><div><span className="eyebrow">{t("common.required")}</span><h3>{fraction === 1 ? t("npc.requiredCosts") : t("npc.requiredCostsEighty")}</h3></div><small>{t("npc.instantCosts")}</small></div><div className="material-total-list">{plan.costs.map((cost) => <div key={cost.productId ?? cost.name}><span><strong>{cost.name}</strong><code>{cost.productId ? productReference(cost.productId, t) : "COINS"} · {t("common.perEach")} {number(cost.amountPerPurchase)}</code></span><span><strong>{number(cost.requiredAmount)} {t("common.pieces")}</strong><small>{formatCoins(cost.totalPrice, true, localeTag)} · {cost.priceSource === "bazaar" ? bazaarCostLabel(flip.strategy) : cost.priceSource === "ah-lowest-bin" ? "AH LBIN" : "Coins"}</small></span></div>)}</div></article>
+        <article><div className="modal-section-title"><div><span className="eyebrow">{t("npc.limitAudit")}</span><h3>{t("craft.limitRevenue")}</h3></div></div><div className="material-total-list"><div><span><strong>{t("npc.baseStock")}</strong><small>{limitSourceLabel(flip.dailyLimitSource, t)}</small></span><span><strong>{number(flip.dailyLimit ?? 0)} {t("common.pieces")}</strong><small>{flip.diazEligible ? t("npc.diazAvailable") : t("npc.diazUnavailable")}</small></span></div>{flip.conditionalDailyLimitBonus ? <div><span><strong>{t("npc.conditionalStock")}</strong><small>{flip.conditionalLimitRequirement}</small></span><span><strong>+{flip.conditionalDailyLimitBonus}</strong><small>{plan.conditionalBonusApplied ? t("npc.applied") : t("npc.notApplied")}</small></span></div> : null}<div><span><strong>{t("npc.effectiveStock")}</strong><small>{t("npc.purchases", { count: number(plan.stockPurchaseLimit) })}</small></span><span><strong>{number(plan.effectiveDailyLimit)} {t("common.pieces")}</strong><small>{plan.diazApplied ? "Shopping Spree ×10" : "×1"}</small></span></div><div><span><strong>{t("npc.marketLimit")}</strong><small>{localizeMarketLimit(plan.limitedBy, locale)}</small></span><span><strong>{number(plan.executionPurchaseLimit)} {t("common.times")}</strong><small>{plan.depthPartial ? t("common.first30") : plan.depthLimited ? t("npc.depthLimited") : t("npc.stockLimited")}</small></span></div><div><span><strong>{t("npc.maxProfitQuantity")}</strong><small>{strategyLabel(flip, t)}</small></span><span><strong>{number(plan.maxProfitPurchaseCount)} {t("common.times")}</strong><small>{t("npc.outputs", { count: number(plan.maxProfitPurchaseCount * flip.quantity) })}</small></span></div><div><span><strong>{t("npc.singleProfit")}</strong><small>{t("common.currentPrice")}</small></span><span><strong className={tone(flip.maxProfitPerPurchase)}>{formatCoins(flip.maxProfitPerPurchase, true, localeTag)}</strong><small>{t("common.cost")} {formatCoins(flip.totalCost, true, localeTag)}</small></span></div></div><p className="npc-detail-source">{t("item.price")}: <a className="source-link" href={flip.source.url} target="_blank" rel="noreferrer">{flip.source.label}</a></p></article></div></>
+    : <div className="empty-state">{t("npc.noPlan")}</div>}
+    <footer><span>{t("npc.dailyLimitNote")}</span><span>{t("npc.first30Note")}</span></footer>
   </section></div>;
 }

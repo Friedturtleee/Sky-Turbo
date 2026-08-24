@@ -1,4 +1,4 @@
-export function formatCoins(value: number, compact = true): string {
+export function formatCoins(value: number, compact = true, locale = "zh-TW"): string {
   if (!Number.isFinite(value)) return "—";
   if (compact) {
     const absolute = Math.abs(value);
@@ -11,14 +11,14 @@ export function formatCoins(value: number, compact = true): string {
     if (unit) {
       const scaled = value / unit.threshold;
       const maximumFractionDigits = Math.abs(scaled) < 10 ? 2 : Math.abs(scaled) < 100 ? 1 : 0;
-      return `${new Intl.NumberFormat("en-US", { maximumFractionDigits }).format(scaled)}${unit.suffix}`;
+      return `${new Intl.NumberFormat(locale, { maximumFractionDigits }).format(scaled)}${unit.suffix}`;
     }
   }
-  return new Intl.NumberFormat("zh-TW", { maximumFractionDigits: 2 }).format(value);
+  return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value);
 }
 
-export function formatPercent(value?: number): string {
-  if (value === undefined || !Number.isFinite(value)) return "累積中";
+export function formatPercent(value?: number, accumulating = "累積中"): string {
+  if (value === undefined || !Number.isFinite(value)) return accumulating;
   return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
 }
 

@@ -2,22 +2,23 @@
 
 import { parseCompactNumber, type MarketFilterKey } from "@sky-turbo/core";
 import { useState } from "react";
+import { useI18n, type TranslationKey } from "./i18n";
 
 export type FilterRangeDraft = { min: string; max: string };
 export type MarketFilterDrafts = Record<MarketFilterKey, FilterRangeDraft>;
 
-const labels: Record<MarketFilterKey, string> = {
-  volatility: "Volatility %",
-  sellVolume: "Sell volume",
-  buyVolume: "Buy volume",
-  totalVolume: "Total volume",
-  buyOrderPrice: "Min Cost / Buy Order ($)",
-  price: "Insta Buy Price",
-  coinsPerHour: "Coins / Hour",
-  marginCoins: "Margin ($)",
-  marginPercent: "Margin (%)",
+const labelKeys: Record<MarketFilterKey, TranslationKey> = {
+  volatility: "filter.volatility",
+  sellVolume: "filter.sellVolume",
+  buyVolume: "filter.buyVolume",
+  totalVolume: "filter.totalVolume",
+  buyOrderPrice: "filter.buyOrderPrice",
+  price: "filter.price",
+  coinsPerHour: "filter.coinsPerHour",
+  marginCoins: "filter.marginCoins",
+  marginPercent: "filter.marginPercent",
 };
-const allKeys = Object.keys(labels) as MarketFilterKey[];
+const allKeys = Object.keys(labelKeys) as MarketFilterKey[];
 const emptyRange = (): FilterRangeDraft => ({ min: "", max: "" });
 
 function createBlankMarketFilters(): MarketFilterDrafts {
@@ -59,9 +60,9 @@ export function appendMarketFilters(query: URLSearchParams, filters: MarketFilte
 
 export function MarketFilterPanel({
   onApply,
-  summary = "篩選器",
+  summary,
   explanation,
-  applyLabel = "套用篩選",
+  applyLabel,
   visibleKeys = allKeys,
   initialFilters,
 }: {
@@ -72,16 +73,17 @@ export function MarketFilterPanel({
   visibleKeys?: readonly MarketFilterKey[];
   initialFilters?: MarketFilterDrafts;
 }) {
+  const { t } = useI18n();
   // Drafts intentionally live inside this small component. Typing therefore
   // never re-renders hundreds of market rows or restarts the Shard solver.
   const [drafts, setDrafts] = useState<MarketFilterDrafts>(() => initialFilters ?? createEmptyMarketFilters());
-  return <details className="filters"><summary>{summary}</summary><div className="filter-grid">
+  return <details className="filters"><summary>{summary ?? t("common.filter")}</summary><div className="filter-grid">
     {explanation ? <p className="filter-explanation">{explanation}</p> : null}
-    {visibleKeys.map((key) => <fieldset key={key}><legend>{labels[key]}</legend>
-      <input type="text" inputMode="text" placeholder="最小 / 100k" value={drafts[key].min} onChange={(event) => setDrafts((current) => ({ ...current, [key]: { ...current[key], min: event.target.value } }))} />
-      <input type="text" inputMode="text" placeholder="最大 / 10m" value={drafts[key].max} onChange={(event) => setDrafts((current) => ({ ...current, [key]: { ...current[key], max: event.target.value } }))} />
+    {visibleKeys.map((key) => <fieldset key={key}><legend>{t(labelKeys[key])}</legend>
+      <input type="text" inputMode="text" placeholder={t("common.minimum")} value={drafts[key].min} onChange={(event) => setDrafts((current) => ({ ...current, [key]: { ...current[key], min: event.target.value } }))} />
+      <input type="text" inputMode="text" placeholder={t("common.maximum")} value={drafts[key].max} onChange={(event) => setDrafts((current) => ({ ...current, [key]: { ...current[key], max: event.target.value } }))} />
     </fieldset>)}
-    <div className="filter-actions"><button className="button" type="button" onClick={() => onApply(drafts)}>{applyLabel}</button>
-      <button className="button subtle" type="button" onClick={() => { const empty = createBlankMarketFilters(); setDrafts(empty); onApply(empty); }}>清除篩選</button></div>
+    <div className="filter-actions"><button className="button" type="button" onClick={() => onApply(drafts)}>{applyLabel ?? t("common.applyFilters")}</button>
+      <button className="button subtle" type="button" onClick={() => { const empty = createBlankMarketFilters(); setDrafts(empty); onApply(empty); }}>{t("common.clearFilters")}</button></div>
   </div></details>;
 }

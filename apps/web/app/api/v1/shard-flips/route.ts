@@ -39,6 +39,7 @@ function parseFilters(search: URLSearchParams): MarketFilters {
 export async function GET(request: Request) {
   try {
     const search = new URL(request.url).searchParams;
+    const english = search.get("locale") === "en";
     const strategy = (search.get("strategy") ?? "bo-so") as ShardStrategy;
     const crocodileLevel = Number(search.get("crocodileLevel") ?? "10");
     const minProfitMode = search.get("minProfitMode") ?? "percent";
@@ -118,7 +119,9 @@ export async function GET(request: Request) {
       minFlipProfit,
       maxFusions,
       filters,
-      depthModel: `Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算；Bazaar 稅 ${snapshot.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）" : ""}。`,
+      depthModel: english
+        ? `Instant Buy / Sell consumes Hypixel's first 30 levels one by one. Buy / Sell Order uses the current best order price; depth estimates visible queued volume only. Bazaar tax: ${snapshot.taxRate * 100}%${mayor.derpyActive ? " (Derpy ×4)" : ""}.`
+        : `Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算；Bazaar 稅 ${snapshot.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）" : ""}。`,
       flips,
     });
   } catch (error) {
