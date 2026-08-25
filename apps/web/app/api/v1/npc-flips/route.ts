@@ -8,7 +8,7 @@ import {
   type NpcStrategy,
 } from "@sky-turbo/core";
 import npcShopDataJson from "@sky-turbo/core/npc-shop-data";
-import { jsonError, jsonOk } from "@/lib/http";
+import { jsonError, jsonOk, sharedCache } from "@/lib/http";
 import {
   getAuctionSevenDaySales,
   getExactAuctionPrices,
@@ -92,7 +92,7 @@ export async function GET(request: Request) {
       priceModel: english
         ? `${strategy.toUpperCase()}; Bazaar tax ${market.taxRate * 100}%${mayor.derpyActive ? " (Derpy ×4); AH is closed, so AH costs and outputs are excluded" : ""}; daily limit automatically applies ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `current mayor ${mayor.name} (×1)`}`
         : `${strategy.toUpperCase()}；Bazaar 稅 ${market.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）；AH 已關閉，已排除 AH 成本與成品" : ""}；每日上限自動套用 ${mayor.shoppingSpreeActive ? `${mayor.shoppingSpreeHolder ?? "Diaz"} Shopping Spree ×10` : `現任市長 ${mayor.name}（×1）`}`,
-    });
+    }, { headers: sharedCache(10, 30) });
   } catch (error) {
     return jsonError(
       "無法取得 NPC Flip 行情",

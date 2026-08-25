@@ -11,7 +11,7 @@ import {
   type ShardOrderBook,
   type ShardStrategy,
 } from "@sky-turbo/core";
-import { jsonError, jsonOk } from "@/lib/http";
+import { jsonError, jsonOk, sharedCache } from "@/lib/http";
 import { enrichMarketSummary } from "@/lib/d1-store";
 import { getBazaarResponse, getNpcMayorContext } from "@/lib/hypixel";
 
@@ -123,7 +123,7 @@ export async function GET(request: Request) {
         ? `Instant Buy / Sell consumes Hypixel's first 30 levels one by one. Buy / Sell Order uses the current best order price; depth estimates visible queued volume only. Bazaar tax: ${snapshot.taxRate * 100}%${mayor.derpyActive ? " (Derpy ×4)" : ""}.`
         : `Instant Buy / Sell 逐檔吃 Hypixel 前 30 檔；Buy / Sell Order 固定使用目前最佳掛單價，深度僅代表可見排隊量估算；Bazaar 稅 ${snapshot.taxRate * 100}%${mayor.derpyActive ? "（Derpy ×4）" : ""}。`,
       flips,
-    });
+    }, { headers: sharedCache(10, 30) });
   } catch (error) {
     return jsonError("Shard Flip 計算失敗", 502, error instanceof Error ? error.message : undefined);
   }

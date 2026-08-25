@@ -30,6 +30,7 @@ const GZIP_ROW_LIMIT = 1_900_000;
 const PREFERENCE_BODY_LIMIT = 128_000;
 const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
+const HEALTH_STALE_MS = 5 * 60_000;
 
 const INDEX_HISTORY_CONFIG = {
   "1d": { tier: "5m", duration: DAY_MS, bucketMs: 300_000, cacheSeconds: 60 },
@@ -64,6 +65,33 @@ function errorResponse(env: Env, message: string, status: number): Response {
     { error: { message } },
     {
       status,
+      headers: {
+        ...corsHeaders(env),
+        "Cache-Control": "no-store",
+      },
+    },
+  );
+}
+
+async function health(env: Env): Promise<Response> {
+  const latest = await env.DB.prepare(
+    "SELECT updated_at FROM market_state WHERE key = 'latest_snapshot'",
+  ).first<{ updated_at: number }>();
+  const ageMs = latest ? Math.max(0, Date.now() - latest.updated_at) : null;
+  const healthy = ageMs !== null && ageMs <= HEALTH_STALE_MS;
+  return Response.json(
+    {
+      data: {
+        status: healthy ? "ok" : "degraded",
+        storage: "d1-free",
+        latestSnapshotAt: latest?.updated_at ?? null,
+        ageSeconds: ageMs === null ? null : Math.floor(ageMs / 1_000),
+        staleAfterSeconds: HEALTH_STALE_MS / 1_000,
+      },
+      error: null,
+    },
+    {
+      status: healthy ? 200 : 503,
       headers: {
         ...corsHeaders(env),
         "Cache-Control": "no-store",
@@ -650,7 +678,7 @@ export default {
 
     try {
       if (url.pathname === "/health" && request.method === "GET") {
-        return json(env, { status: "ok", storage: "d1-free" });
+        return health(env);
       }
       if (url.pathname === "/v1/storage/latest" && request.method === "GET") return latestSnapshot(env);
       if (url.pathname === "/v1/storage/ah-flips" && request.method === "GET") return latestAhFlips(env);

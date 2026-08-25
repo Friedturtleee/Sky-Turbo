@@ -8,7 +8,7 @@ import {
   type CraftStrategy,
   type ShardOrderBook,
 } from "@sky-turbo/core";
-import { jsonError, jsonOk } from "@/lib/http";
+import { jsonError, jsonOk, sharedCache } from "@/lib/http";
 import { getBazaarResponse, getNpcMayorContext } from "@/lib/hypixel";
 
 export const dynamic = "force-dynamic";
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
       priceModel: english
         ? `Max Profit: Instant consumes Hypixel's first 30 levels one by one; Order uses the best order price. All four strategies are limited by visible Bazaar depth and 7-day input/output liquidity; revenue includes ${snapshot.taxRate * 100}% Bazaar tax${mayor.derpyActive ? " (Derpy ×4)" : ""}.`
         : `Max Profit：Instant 逐檔使用 Hypixel 前 30 檔；Order 使用最佳掛單價，但四種策略都受對應 Bazaar 可見深度與原料／成品近 7 日流動性限制；收入扣 ${snapshot.taxRate * 100}% Bazaar 稅${mayor.derpyActive ? "（Derpy ×4）" : ""}。`,
-    });
+    }, { headers: sharedCache(10, 30) });
   } catch (error) {
     return jsonError("Craft Flip 計算失敗", 502, error instanceof Error ? error.message : undefined);
   }
