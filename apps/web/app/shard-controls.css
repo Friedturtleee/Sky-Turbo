@@ -1,198 +1,180 @@
-/* Shard toolbar refinements live separately because globals.css is intentionally compact. */
-.toolbar.shard-filter-toolbar {
-  grid-template-columns:
-    minmax(210px, 1.1fr)
-    minmax(168px, 0.65fr)
-    minmax(125px, 0.45fr)
-    repeat(2, minmax(190px, 0.7fr))
-    auto
-    auto;
-  gap: 10px;
-  padding: 16px;
-  background: linear-gradient(145deg, #13161a, #101215);
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
+/* Shard-only layout. Shared controls remain in globals.css. */
+.shard-controls {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.7fr) minmax(260px, 1fr) minmax(
+      190px,
+      0.7fr
+    );
 }
 
-.shard-filter-toolbar label > span:first-child,
-.shard-controls label > span:first-child {
-  color: #888e97;
+.shard-controls > label:first-child select,
+.shard-controls .level-control {
+  width: 100%;
+}
+
+.level-heading {
+  display: flex;
+  min-height: 18px;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.level-heading strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.level-heading small {
+  margin-left: auto;
+  color: var(--green);
+}
+
+.range-scale {
+  display: grid;
+  gap: 2px;
+}
+
+.range-scale input {
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.range-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 2px;
+  color: var(--quiet);
+  font:
+    9px ui-monospace,
+    monospace;
+}
+
+.ev-note {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 2px;
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+}
+
+.ev-note span,
+.ev-note small {
+  color: var(--muted);
   font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
 }
 
-.toolbar input,
-.toolbar select,
-.filters summary {
-  border-color: #30353c;
-  background-color: #0c0f12;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
-  transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+.ev-note strong {
+  font-size: 17px;
 }
 
-.toolbar input:hover,
-.toolbar select:hover,
-.filters summary:hover {
-  border-color: #484f59;
-  background-color: #11151a;
+.shard-filter-toolbar {
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 1.2fr) repeat(4, minmax(150px, 0.7fr))
+    auto auto;
 }
 
-.toolbar input:focus,
-.toolbar select:focus {
-  border-color: #63d99a;
-  box-shadow: 0 0 0 3px rgba(99, 217, 154, 0.1);
-}
-
-.toolbar select {
-  appearance: none;
-  padding-right: 34px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 20 20'%3E%3Cpath fill='%239da3ab' d='m5.4 7.5 4.6 4.6 4.6-4.6 1.4 1.4-6 6-6-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 14px;
-}
-
-.toolbar select option {
-  background: #101318;
-  color: #eceef1;
-}
-
-.min-profit-control {
-  min-width: 190px;
-}
-
-.max-fusion-control {
-  min-width: 125px;
-}
-
+.shard-filter-toolbar .search-field,
+.shard-filter-toolbar .search-field input,
 .max-fusion-control input {
   width: 100%;
 }
 
-.max-fusion-control input::placeholder {
-  color: #626973;
-}
-
 .min-profit-input {
-  border-radius: 7px;
-  transition: box-shadow 0.16s ease;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
 }
 
-.min-profit-input:focus-within {
-  box-shadow: 0 0 0 3px rgba(99, 217, 154, 0.1);
+.min-profit-input input {
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.min-profit-input:focus-within input,
-.min-profit-input:focus-within select {
-  box-shadow: none;
+.toolbar .min-profit-input select {
+  border-left: 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.filters summary {
-  gap: 10px;
-  justify-content: space-between;
-  font-weight: 650;
+.shard-filter-toolbar .filters {
+  margin-left: 0;
 }
 
-.filters summary::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-right: 1.5px solid #9da3ab;
-  border-bottom: 1.5px solid #9da3ab;
-  transform: rotate(45deg) translateY(-2px);
-  transition: transform 0.16s ease;
+.shard-filter-toolbar .filters[open] {
+  grid-column: 1 / -1;
 }
 
-.filters[open] summary::after {
-  transform: rotate(225deg) translate(-2px, -2px);
+.shard-table {
+  min-width: 1120px;
 }
 
-.shard-filter-toolbar .filter-grid {
-  background: linear-gradient(145deg, #15191e, #101317);
-  border-color: #343a42;
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.48);
+.shard-table th,
+.shard-table td {
+  white-space: normal;
 }
 
-.filter-grid legend {
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.route-materials {
+  width: 190px;
 }
 
-.filter-actions .button {
-  font-weight: 700;
-  transition: transform 0.15s ease, filter 0.15s ease, border-color 0.15s ease;
+.shard-depth {
+  min-width: 210px;
 }
 
-.filter-actions .button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
+.depth-summary-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
 }
 
-@media (min-width: 681px) {
+.depth-summary-line strong {
+  font-size: 11px;
+}
+
+.inline-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 7px;
+  color: var(--green);
+  font-style: normal;
+}
+
+.inline-refresh .spinner {
+  width: 9px;
+  height: 9px;
+  border-width: 1px;
+}
+
+@media (max-width: 1280px) {
   .shard-filter-toolbar {
-    position: relative;
-    z-index: 3;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
-  .shard-filter-toolbar .filters,
-  .shard-filter-toolbar .filters[open] {
-    position: relative;
-    grid-column: auto;
-    justify-self: end;
-    align-self: end;
-    flex: none;
-    width: auto;
-    margin-left: 0;
-  }
-
-  .shard-filter-toolbar .filter-grid {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    z-index: 12;
-    width: min(760px, calc(100vw - 96px));
-    margin-top: 0;
+  .shard-filter-toolbar .search-field {
+    grid-column: span 2;
   }
 }
 
-@media (max-width: 1250px) {
-  .toolbar.shard-filter-toolbar {
-    grid-template-columns: minmax(220px, 1fr) minmax(180px, 1fr);
+@media (max-width: 760px) {
+  .shard-controls,
+  .shard-filter-toolbar {
+    grid-template-columns: 1fr;
   }
 
-  .shard-filter-toolbar .filters,
-  .shard-filter-toolbar .filters[open] {
-    grid-column: auto;
-    justify-self: stretch;
-  }
-
-  .shard-filter-toolbar .filters summary {
-    justify-content: space-between;
-  }
-}
-
-@media (max-width: 680px) {
-  .toolbar.shard-filter-toolbar {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 13px;
-  }
-
-  .shard-filter-toolbar .filters,
-  .shard-filter-toolbar .filters[open] {
+  .shard-filter-toolbar .search-field {
     grid-column: 1;
-    width: 100%;
   }
 
-  .shard-filter-toolbar .filter-grid {
-    position: static;
-    width: 100%;
-    margin-top: 10px;
+  .ev-note {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+    padding: 10px 0 0;
   }
 
-  .max-fusion-control,
-  .min-profit-control {
-    min-width: 0;
+  .route-materials {
+    width: 170px;
   }
 }
