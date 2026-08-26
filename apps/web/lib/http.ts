@@ -18,8 +18,11 @@ export function sharedCache(seconds: number, staleSeconds = seconds * 3): Header
 }
 
 export function jsonError(message: string, status = 500, details?: unknown) {
+  // Upstream exceptions can contain infrastructure URLs or implementation
+  // details. Keep them useful locally without exposing them in production.
+  const safeDetails = process.env.NODE_ENV === "development" ? details : undefined;
   return NextResponse.json(
-    { data: null, error: { message, details } },
+    { data: null, error: { message, ...(safeDetails === undefined ? {} : { details: safeDetails }) } },
     { status, headers: { "Cache-Control": "no-store" } },
   );
 }

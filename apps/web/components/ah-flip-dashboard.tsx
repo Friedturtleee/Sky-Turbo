@@ -81,15 +81,11 @@ export function AhFlipDashboard() {
   const [error, setError] = useState("");
   const hasLoadedRef = useRef(false);
   const generatedAtRef = useRef(0);
-  const forceNextRef = useRef(false);
 
   const load = useCallback(async (signal: AbortSignal) => {
     if (!hasLoadedRef.current) setLoading(true);
-    const force = forceNextRef.current;
-    forceNextRef.current = false;
     const params = new URLSearchParams();
-    if (force) params.set("refresh", "1");
-    else if (generatedAtRef.current > 0) params.set("since", String(generatedAtRef.current));
+    if (generatedAtRef.current > 0) params.set("since", String(generatedAtRef.current));
     try {
       const response = await fetch(`/api/v1/ah-flips${params.size ? `?${params}` : ""}`, { cache: "no-store", signal });
       const payload = await response.json() as { data?: Partial<AhResponse> | AhUnchangedResponse; error?: { message?: string; details?: string } };
@@ -163,10 +159,7 @@ export function AhFlipDashboard() {
     window.setTimeout(() => setCopied((value) => value === flip.auctionId ? null : value), 1_500);
   }, []);
   const showDetails = useCallback((flip: AhFlip) => setSelectedId(flip.auctionId), []);
-  const manualRefresh = useCallback(() => {
-    forceNextRef.current = true;
-    void refresh();
-  }, [refresh]);
+  const manualRefresh = useCallback(() => void refresh(), [refresh]);
 
   return <>
     <div className="toolbar panel ah-flip-toolbar">

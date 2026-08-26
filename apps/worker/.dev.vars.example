@@ -1,4 +1,5 @@
 INGEST_SECRET="replace-with-a-long-random-value"
+ALLOWED_ORIGIN="http://localhost:3000"
+VERCEL_INGEST_URL="http://localhost:3000/api/v1/internal/ingest"
 CLERK_ISSUER="https://your-instance.clerk.accounts.dev"
 CLERK_JWKS_URL="https://your-instance.clerk.accounts.dev/.well-known/jwks.json"
-

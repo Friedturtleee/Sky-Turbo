@@ -2,7 +2,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SKYSHARDS_COMMIT = "2824b838ed6924705513c7247b9815dfa48bf8e2";
+// This release preserves Fusion input order. Older data mirrored every pair,
+// which introduced invalid reverse recipes for order-sensitive fusions such as
+// Queen Ant + King Cobra -> Anteater.
+const SKYSHARDS_COMMIT = "c94fc53e26b54fea59902c5eafb580babaac36be";
 const SOURCE = `https://raw.githubusercontent.com/Campionnn/SkyShards/${SKYSHARDS_COMMIT}/public/fusion-data.json`;
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const output = resolve(root, "packages/core/data/fusion-data.json");
@@ -36,4 +39,3 @@ await writeFile(
 );
 
 console.log(`Synced ${Object.keys(data.shards).length} shards from ${SKYSHARDS_COMMIT}.`);
-

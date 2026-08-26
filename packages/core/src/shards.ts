@@ -49,7 +49,15 @@ type CostPlan =
       right: { node: CostNode; quantity: number };
     };
 
-type CostNode = { unitCost: number; path: string[]; plan: CostPlan };
+type CostNode = {
+  unitCost: number;
+  totalCost: number;
+  plannedQuantity: number;
+  path: string[];
+  plan: CostPlan;
+};
+
+type QuantityCostTable = Map<number, Map<string, CostNode>>;
 
 type ShardCalculationOptions = {
   marketFilters?: MarketFilters;
@@ -65,25 +73,74 @@ type ShardCalculationOptions = {
  * Crocodile is deliberately excluded here. It changes the final recipe's EV
  * and profit, but never reduces the integer raw-material shopping plan.
  */
-function solveUnitCosts(
+function exactDemandQuantities(data: FusionData, maximum = 125): number[] {
+  const quantities = new Set<number>([1]);
+  for (const shard of Object.values(data.shards)) {
+    if (Number.isInteger(shard.fuse_amount) && shard.fuse_amount > 0) quantities.add(shard.fuse_amount);
+  }
+  const outputs = new Set<number>();
+  for (const buckets of Object.values(data.recipes)) {
+    for (const quantityText of Object.keys(buckets)) {
+      const quantity = Number(quantityText);
+      if (Number.isInteger(quantity) && quantity > 0) outputs.add(quantity);
+    }
+  }
+
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const required of [...quantities]) {
+      for (const output of outputs) {
+        const fusionCount = Math.ceil(required / output - 1e-8);
+        for (const shard of Object.values(data.shards)) {
+          const inputQuantity = fusionCount * shard.fuse_amount;
+          if (inputQuantity <= maximum && !quantities.has(inputQuantity)) {
+            quantities.add(inputQuantity);
+            changed = true;
+          }
+        }
+      }
+    }
+  }
+  return [...quantities].sort((left, right) => left - right);
+}
+
+/**
+ * Solves the displayed Fusion route with integer batch sizes. A route that
+ * produces two shards for 100 coins is cheaper per unit than a one-shard
+ * route costing 60, but it is not cheaper when exactly one shard is needed.
+ * Keeping a cost table per demanded quantity prevents that rounding error.
+ *
+ * The 125-shard bound covers a five-shard input expanded through two more
+ * five-input Fusion levels. If a
+ * path would exceed it, the direct Bazaar purchase remains the safe fallback.
+ */
+function solveQuantityCosts(
   data: FusionData,
   marketByProduct: Map<string, MarketItem>,
   strategy: ShardStrategy,
   filters: MarketFilters,
-): Map<string, CostNode> {
-  const costs = new Map<string, CostNode>();
-  for (const [shardId, shard] of Object.entries(data.shards)) {
-    const productId = shardProductId(shard);
-    const item = marketByProduct.get(productId);
-    if (!item || !marketMatchesFilters(item, filters)) continue;
-    const unitCost = inputUsesInstant(strategy) ? item.instantBuyPrice : item.buyOrderPrice;
-    if (unitCost > 0) {
-      costs.set(shardId, {
-        unitCost,
-        path: [shardId],
-        plan: { kind: "market", shardId, productId },
-      });
+): QuantityCostTable {
+  const quantities = exactDemandQuantities(data);
+  const costsByQuantity: QuantityCostTable = new Map();
+  for (const requiredQuantity of quantities) {
+    const costs = new Map<string, CostNode>();
+    for (const [shardId, shard] of Object.entries(data.shards)) {
+      const productId = shardProductId(shard);
+      const item = marketByProduct.get(productId);
+      if (!item || !marketMatchesFilters(item, filters)) continue;
+      const unitCost = inputUsesInstant(strategy) ? item.instantBuyPrice : item.buyOrderPrice;
+      if (unitCost > 0) {
+        costs.set(shardId, {
+          unitCost,
+          totalCost: Math.ceil(requiredQuantity - 1e-8) * unitCost,
+          plannedQuantity: requiredQuantity,
+          path: [shardId],
+          plan: { kind: "market", shardId, productId },
+        });
+      }
     }
+    costsByQuantity.set(requiredQuantity, costs);
   }
 
   const recipeCount = Object.values(data.recipes).reduce(
@@ -100,32 +157,44 @@ function solveUnitCosts(
         for (const [leftId, rightId] of pairs) {
           const left = data.shards[leftId];
           const right = data.shards[rightId];
-          const leftCost = costs.get(leftId);
-          const rightCost = costs.get(rightId);
-          if (!left || !right || !leftCost || !rightCost) continue;
-          if (leftCost.path.includes(outputId) || rightCost.path.includes(outputId)) continue;
-          const total = leftCost.unitCost * left.fuse_amount + rightCost.unitCost * right.fuse_amount;
-          const candidate = total / baseOutput;
-          const current = costs.get(outputId);
-          if (candidate + 1e-7 >= (current?.unitCost ?? Number.POSITIVE_INFINITY)) continue;
-          costs.set(outputId, {
-            unitCost: candidate,
-            path: [...leftCost.path, ...rightCost.path, outputId],
-            plan: {
-              kind: "fusion",
-              shardId: outputId,
-              baseOutput,
-              left: { node: leftCost, quantity: left.fuse_amount },
-              right: { node: rightCost, quantity: right.fuse_amount },
-            },
-          });
-          changed = true;
+          if (!left || !right) continue;
+          for (const requiredQuantity of quantities) {
+            const fusionCount = Math.max(1, Math.ceil(requiredQuantity / baseOutput - 1e-8));
+            const leftQuantity = fusionCount * left.fuse_amount;
+            const rightQuantity = fusionCount * right.fuse_amount;
+            const leftCost = costsByQuantity.get(leftQuantity)?.get(leftId);
+            const rightCost = costsByQuantity.get(rightQuantity)?.get(rightId);
+            if (!leftCost || !rightCost) continue;
+            if (leftCost.path.includes(outputId) || rightCost.path.includes(outputId)) continue;
+            const totalCost = leftCost.totalCost + rightCost.totalCost;
+            const costs = costsByQuantity.get(requiredQuantity)!;
+            const current = costs.get(outputId);
+            if (totalCost + 1e-7 >= (current?.totalCost ?? Number.POSITIVE_INFINITY)) continue;
+            costs.set(outputId, {
+              unitCost: totalCost / requiredQuantity,
+              totalCost,
+              plannedQuantity: requiredQuantity,
+              path: [...leftCost.path, ...rightCost.path, outputId],
+              plan: {
+                kind: "fusion",
+                shardId: outputId,
+                baseOutput,
+                left: { node: leftCost, quantity: left.fuse_amount },
+                right: { node: rightCost, quantity: right.fuse_amount },
+              },
+            });
+            changed = true;
+          }
         }
       }
     }
     if (!changed) break;
   }
-  return costs;
+  return costsByQuantity;
+}
+
+function quantityCost(costs: QuantityCostTable, shardId: string, requiredQuantity: number): CostNode | undefined {
+  return costs.get(Math.ceil(requiredQuantity - 1e-8))?.get(shardId);
 }
 
 function buildInputRoute(node: CostNode, requiredQuantity: number, data: FusionData): ShardRouteNode {
@@ -720,7 +789,7 @@ export function calculateShardFlips(
     ? Math.max(0, Math.floor(options.maxFusions))
     : undefined;
   const marketByProduct = new Map(market.map((item) => [item.productId, item]));
-  const costs = solveUnitCosts(data, marketByProduct, strategy, filters);
+  const costs = solveQuantityCosts(data, marketByProduct, strategy, filters);
   const candidates: ShardCandidate[] = [];
 
   for (const [outputId, buckets] of Object.entries(data.recipes)) {
@@ -737,9 +806,10 @@ export function calculateShardFlips(
       for (const [leftId, rightId] of pairs) {
         const left = data.shards[leftId];
         const right = data.shards[rightId];
-        const leftCost = costs.get(leftId);
-        const rightCost = costs.get(rightId);
-        if (!left || !right || !leftCost || !rightCost) continue;
+        if (!left || !right) continue;
+        const leftCost = quantityCost(costs, leftId, left.fuse_amount);
+        const rightCost = quantityCost(costs, rightId, right.fuse_amount);
+        if (!leftCost || !rightCost) continue;
         const crocodileApplied = left.family.includes("Reptile") || right.family.includes("Reptile");
         const expectedOutput = baseOutput * (crocodileApplied ? 1 + level * 0.02 : 1);
         candidates.push({

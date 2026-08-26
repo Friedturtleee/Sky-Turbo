@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "sky-turbo-edge",
   "main": "src/index.ts",
-  "compatibility_date": "2026-08-19",
+  "compatibility_date": "2026-08-26",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true,

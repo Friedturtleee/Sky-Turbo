@@ -349,6 +349,54 @@ describe("Shard fusion calculations", () => {
     expect(Number.isInteger(gamma?.materials[0]?.quantityPerFusion)).toBe(true);
   });
 
+  it("chooses the cheapest integer route instead of the cheapest fractional unit cost", () => {
+    const shard = (name: string, internalId: string) => ({
+      name,
+      family: "Forest Family",
+      type: "Global",
+      rarity: "common",
+      fuse_amount: 1,
+      internal_id: `SHARD_${internalId}`,
+    });
+    const integerData: FusionData = {
+      shards: {
+        A: shard("Alpha", "A"),
+        B: shard("Beta", "B"),
+        D: shard("Delta", "D"),
+        E: shard("Echo", "E"),
+        X: shard("Intermediate", "X"),
+        Y: shard("Output", "Y"),
+      },
+      recipes: {
+        // This route costs 100 and outputs two Intermediate shards: 50 each
+        // fractionally, but one full batch still costs 100 when only one is needed.
+        X: { "2": [["A", "B"]], "1": [["D", "E"]] },
+        Y: { "1": [["X", "A"]] },
+      },
+    };
+    const [flip] = calculateShardFlips(integerData, [
+      market("SHARD_A", 50, 50),
+      market("SHARD_B", 50, 50),
+      market("SHARD_D", 30, 30),
+      market("SHARD_E", 30, 30),
+      market("SHARD_Y", 300, 300),
+    ], "bo-so", 0);
+
+    expect(flip?.inputCost).toBe(110);
+    expect(flip?.materials.map((material) => [material.productId, material.quantityPerFusion])).toEqual([
+      ["SHARD_D", 1],
+      ["SHARD_E", 1],
+      ["SHARD_A", 1],
+    ]);
+    expect(flip?.route.kind).toBe("fusion");
+    if (!flip || flip.route.kind !== "fusion") throw new Error("Expected a Fusion route");
+    expect(flip.route.inputs[0]).toMatchObject({
+      kind: "fusion",
+      baseOutput: 1,
+      fusionCount: 1,
+    });
+  });
+
   it("does not fall back to summary prices when a supplied order book cannot fill one Fusion", () => {
     const flips = calculateShardFlips(data, [
       market("SHARD_ALPHA", 10, 11), market("SHARD_BETA", 10, 12), market("SHARD_GAMMA", 90, 100),

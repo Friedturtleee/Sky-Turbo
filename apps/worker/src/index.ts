@@ -10,13 +10,8 @@ import {
 } from "@sky-turbo/core";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-type Env = {
-  DB: D1Database;
+type WorkerEnv = Env & {
   INGEST_SECRET: string;
-  ALLOWED_ORIGIN: string;
-  VERCEL_INGEST_URL: string;
-  CLERK_ISSUER?: string;
-  CLERK_JWKS_URL?: string;
 };
 
 type StateRow = { updated_at: number; payload: string };
@@ -38,16 +33,18 @@ const INDEX_HISTORY_CONFIG = {
   "1mo": { tier: "1d", duration: 31 * DAY_MS, bucketMs: DAY_MS, cacheSeconds: 300 },
 } as const;
 
-function corsHeaders(env: Env): HeadersInit {
+function corsHeaders(env: WorkerEnv): HeadersInit {
   return {
     "Access-Control-Allow-Headers": "Authorization, Content-Type",
     "Access-Control-Allow-Methods": "GET, PUT, DELETE, POST, OPTIONS",
     "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN,
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
     Vary: "Origin",
   };
 }
 
-function json(env: Env, data: unknown, status = 200): Response {
+function json(env: WorkerEnv, data: unknown, status = 200): Response {
   return Response.json(
     { data },
     {
@@ -60,7 +57,7 @@ function json(env: Env, data: unknown, status = 200): Response {
   );
 }
 
-function errorResponse(env: Env, message: string, status: number): Response {
+function errorResponse(env: WorkerEnv, message: string, status: number): Response {
   return Response.json(
     { error: { message } },
     {
@@ -73,7 +70,7 @@ function errorResponse(env: Env, message: string, status: number): Response {
   );
 }
 
-async function health(env: Env): Promise<Response> {
+async function health(env: WorkerEnv): Promise<Response> {
   const latest = await env.DB.prepare(
     "SELECT updated_at FROM market_state WHERE key = 'latest_snapshot'",
   ).first<{ updated_at: number }>();
@@ -109,11 +106,7 @@ async function secretMatches(request: Request, expected: string): Promise<boolea
     crypto.subtle.digest("SHA-256", encoder.encode(provided)),
     crypto.subtle.digest("SHA-256", encoder.encode(expected)),
   ]);
-  const left = new Uint8Array(providedHash);
-  const right = new Uint8Array(expectedHash);
-  let difference = 0;
-  for (let index = 0; index < left.length; index += 1) difference |= left[index]! ^ right[index]!;
-  return difference === 0;
+  return crypto.subtle.timingSafeEqual(providedHash, expectedHash);
 }
 
 async function readTextLimited(request: Request, maxBytes: number): Promise<string> {
@@ -160,7 +153,7 @@ async function gunzipText(payload: number[]): Promise<string> {
   return new Response(stream).text();
 }
 
-function compressedJsonResponse(env: Env, row: BlobRow): Response {
+function compressedJsonResponse(env: WorkerEnv, row: BlobRow): Response {
   const compressed = Uint8Array.from(row.payload);
   const body = new Blob([compressed]).stream().pipeThrough(new DecompressionStream("gzip"));
   return new Response(body, {
@@ -173,17 +166,30 @@ function compressedJsonResponse(env: Env, row: BlobRow): Response {
   });
 }
 
-async function authenticate(request: Request, env: Env): Promise<string> {
+const jwksResolvers = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
+
+function jwksResolver(url: string): ReturnType<typeof createRemoteJWKSet> {
+  const cached = jwksResolvers.get(url);
+  if (cached) return cached;
+  const resolver = createRemoteJWKSet(new URL(url));
+  jwksResolvers.set(url, resolver);
+  return resolver;
+}
+
+async function authenticate(request: Request, env: WorkerEnv): Promise<string> {
   const authorization = request.headers.get("Authorization");
   const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : null;
   if (!token || !env.CLERK_ISSUER || !env.CLERK_JWKS_URL) throw new Error("Unauthorized");
-  const jwks = createRemoteJWKSet(new URL(env.CLERK_JWKS_URL));
-  const { payload } = await jwtVerify(token, jwks, { issuer: env.CLERK_ISSUER });
+  const { payload } = await jwtVerify(token, jwksResolver(env.CLERK_JWKS_URL), {
+    algorithms: ["RS256"],
+    issuer: env.CLERK_ISSUER,
+  });
+  if (payload.azp !== undefined && payload.azp !== env.ALLOWED_ORIGIN) throw new Error("Unauthorized");
   if (!payload.sub) throw new Error("Unauthorized");
   return payload.sub;
 }
 
-async function bookmarks(request: Request, env: Env, pathname: string): Promise<Response> {
+async function bookmarks(request: Request, env: WorkerEnv, pathname: string): Promise<Response> {
   let userId: string;
   try {
     userId = await authenticate(request, env);
@@ -224,7 +230,7 @@ async function bookmarks(request: Request, env: Env, pathname: string): Promise<
   return errorResponse(env, "Method not allowed", 405);
 }
 
-async function craftRequirementPreferences(request: Request, env: Env): Promise<Response> {
+async function craftRequirementPreferences(request: Request, env: WorkerEnv): Promise<Response> {
   let userId: string;
   try {
     userId = await authenticate(request, env);
@@ -354,7 +360,7 @@ async function runBatches(db: D1Database, statements: D1PreparedStatement[]): Pr
   }
 }
 
-async function persistMarketSnapshot(env: Env, ingest: MarketHistoryIngest): Promise<void> {
+async function persistMarketSnapshot(env: WorkerEnv, ingest: MarketHistoryIngest): Promise<void> {
   const current = ingest.compact;
   const priorRow = await env.DB.prepare(
     "SELECT updated_at, payload FROM market_state WHERE key = 'latest_compact'",
@@ -424,7 +430,7 @@ async function persistMarketSnapshot(env: Env, ingest: MarketHistoryIngest): Pro
 
 async function putImportedJson(
   request: Request,
-  env: Env,
+  env: WorkerEnv,
   table: "imported_history" | "imported_meta" | "imported_ah_history" | "imported_ah_meta" | "ah_flip_state",
   keyColumn: "product_id" | "key",
   key: string,
@@ -450,7 +456,7 @@ async function putImportedJson(
 
 async function importedJson(
   request: Request,
-  env: Env,
+  env: WorkerEnv,
   table: "imported_history" | "imported_meta" | "imported_ah_history" | "imported_ah_meta" | "ah_flip_state",
   keyColumn: "product_id" | "key",
   key: string,
@@ -468,7 +474,7 @@ async function importedJson(
   return errorResponse(env, "Method not allowed", 405);
 }
 
-async function latestSnapshot(env: Env): Promise<Response> {
+async function latestSnapshot(env: WorkerEnv): Promise<Response> {
   const row = await env.DB.prepare(
     "SELECT updated_at, payload FROM market_state WHERE key = 'latest_snapshot'",
   ).first<StateRow>();
@@ -483,7 +489,7 @@ async function latestSnapshot(env: Env): Promise<Response> {
   });
 }
 
-async function latestAhFlips(env: Env): Promise<Response> {
+async function latestAhFlips(env: WorkerEnv): Promise<Response> {
   const row = await env.DB.prepare(
     "SELECT updated_at, payload FROM ah_flip_state WHERE key = 'latest'",
   ).first<BlobRow>();
@@ -493,7 +499,7 @@ async function latestAhFlips(env: Env): Promise<Response> {
   return response;
 }
 
-async function liveProductHistory(env: Env, productId: string, range: string): Promise<Response> {
+async function liveProductHistory(env: WorkerEnv, productId: string, range: string): Promise<Response> {
   const config = historyRangeConfig(range);
   const cutoff = Number.isFinite(config.duration) ? Date.now() - config.duration : 0;
   const cutoffBucket = Math.floor(cutoff / config.bucketMs);
@@ -529,7 +535,7 @@ async function liveProductHistory(env: Env, productId: string, range: string): P
   });
 }
 
-async function dailyHistory(env: Env): Promise<Response> {
+async function dailyHistory(env: WorkerEnv): Promise<Response> {
   const cutoffBucket = Math.floor((Date.now() - 31 * DAY_MS) / DAY_MS);
   const rows = await env.DB.prepare(
     `SELECT payload FROM market_history
@@ -562,7 +568,7 @@ async function dailyHistory(env: Env): Promise<Response> {
   });
 }
 
-async function skyblockIndexHistory(env: Env, range: string): Promise<Response> {
+async function skyblockIndexHistory(env: WorkerEnv, range: string): Promise<Response> {
   const config = INDEX_HISTORY_CONFIG[range as keyof typeof INDEX_HISTORY_CONFIG];
   if (!config) return errorResponse(env, "Invalid index range", 400);
   const latest = await env.DB.prepare(
@@ -599,7 +605,7 @@ async function skyblockIndexHistory(env: Env, range: string): Promise<Response> 
   });
 }
 
-async function historyAt24Hours(env: Env): Promise<Response> {
+async function historyAt24Hours(env: WorkerEnv): Promise<Response> {
   const latest = await env.DB.prepare(
     "SELECT updated_at FROM market_state WHERE key = 'latest_compact'",
   ).first<{ updated_at: number }>();
@@ -656,7 +662,7 @@ async function historyAt24Hours(env: Env): Promise<Response> {
   });
 }
 
-async function triggerIngestion(env: Env): Promise<void> {
+async function triggerIngestion(env: WorkerEnv): Promise<void> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 50_000);
   try {
@@ -672,7 +678,7 @@ async function triggerIngestion(env: Env): Promise<void> {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: WorkerEnv): Promise<Response> {
     const url = new URL(request.url);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(env) });
 
@@ -748,16 +754,23 @@ export default {
       }
       return errorResponse(env, "Not found", 404);
     } catch (error) {
-      console.error("Worker request failed", { pathname: url.pathname, error });
+      console.error(JSON.stringify({
+        message: "Worker request failed",
+        pathname: url.pathname,
+        error: error instanceof Error ? error.message : String(error),
+      }));
       return errorResponse(env, "Internal server error", 500);
     }
   },
 
-  async scheduled(_controller: ScheduledController, env: Env, context: ExecutionContext): Promise<void> {
+  async scheduled(_controller: ScheduledController, env: WorkerEnv, context: ExecutionContext): Promise<void> {
     context.waitUntil(
       triggerIngestion(env).catch((error) => {
-        console.error("Scheduled ingestion failed", error);
+        console.error(JSON.stringify({
+          message: "Scheduled ingestion failed",
+          error: error instanceof Error ? error.message : String(error),
+        }));
       }),
     );
   },
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler<WorkerEnv>;

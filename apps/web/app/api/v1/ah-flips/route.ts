@@ -10,10 +10,11 @@ export async function GET(request: Request) {
     const mayor = await getNpcMayorContext();
     if (mayor.derpyActive) return jsonError("Derpy 當選期間拍賣場關閉，無法計算 AH Flip", 503);
     const url = new URL(request.url);
-    const force = url.searchParams.get("refresh") === "1";
-    const snapshot = await getAhFlipSnapshot(force);
+    // A public cache-bypass switch allowed callers to repeatedly trigger the
+    // expensive full AH scan. Refreshes now follow the server-side cadence.
+    const snapshot = await getAhFlipSnapshot(false);
     const since = Number(url.searchParams.get("since"));
-    if (!force && Number.isFinite(since) && since === snapshot.generatedAt) {
+    if (Number.isFinite(since) && since === snapshot.generatedAt) {
       return jsonOk({
         unchanged: true,
         generatedAt: snapshot.generatedAt,

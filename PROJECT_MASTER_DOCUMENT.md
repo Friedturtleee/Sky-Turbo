@@ -19,7 +19,8 @@ Sky Turbo 是面向 Hypixel SkyBlock 玩家、以決策速度為核心的 Bazaar
 ### Shard Flip
 
 - 使用固定 commit 的 SkyShards `fusion-data.json`，避免未審核上游變更直接進正式環境。
-- 對 Fusion hypergraph 進行最低單位成本迭代，允許輸入 Shard 自身由更便宜的 Fusion 路徑取得，並防止循環路徑無限展開。
+- Fusion pair 保留第一／第二輸入槽順序，不把 `[A, B]` 自動鏡像成不存在的 `[B, A]`；同步測試固定檢查 Anteater 特殊配方。
+- 對 Fusion hypergraph 進行需求量感知的整數成本迭代；每層先依實際需求向上取整 Fusion 批次，再比較完整原料總額，允許輸入 Shard 自身由更便宜的 Fusion 路徑取得並防止循環無限展開。
 - 分別計算 Buy Order → Sell Order、Instant Buy → Sell Order、Buy Order → Instant Sell、Instant Buy → Instant Sell。
 - 每個輸入槽乘以該 Shard 的 `fuse_amount`；每個輸出 Shard 僅顯示當前最佳 Fusion recipe。
 - Crocodile 等級 0–10；若最終 Fusion 任一輸入屬 Reptile Family，預期產量乘以 `1 + 0.02 × level`。畫面標示 EV，明確說明不保證單次結果。

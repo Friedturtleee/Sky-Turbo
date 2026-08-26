@@ -32,9 +32,11 @@ revenueAfterTax = selectedOutputPrice × expectedOutput × (1 − taxRate)
 profit = revenueAfterTax − inputCost
 ```
 
+Fusion pair 是有方向的：資料中的 `[A, B]` 只代表第一槽 `A`、第二槽 `B`，不得自動產生 `[B, A]`。這會影響 ID、Chameleon 與 Special Fusion 的實際候選；例如 Anteater 的特殊配方是 `Queen Ant ×5 + King Cobra ×2 → Anteater ×2`，反向不成立。
+
 Instant Buy / Instant Sell 的需求量跨越 orderbook 多檔時，`inputCost` 與 `revenueAfterTax` 必須按最佳價格順序逐檔消耗數量後加總，不得使用第一檔價格直接乘以全部數量。Buy Order / Sell Order 不會立即吃掉現有掛單，因此固定使用目前最佳掛單價；前 30 檔數量只作為可見排隊深度上限。
 
-`bo` input 使用 Buy Order，`ib` input 使用 Instant Buy；`so` output 使用 Sell Order，`is` output 使用 Instant Sell。輸入的 `unitCost` 是 direct market 與可達 Fusion 路徑中的最低值。最終 route 必須至少包含一次 Fusion。
+`bo` input 使用 Buy Order，`ib` input 使用 Instant Buy；`so` output 使用 Sell Order，`is` output 使用 Instant Sell。輸入路徑以實際需求量計算：每層 Fusion 次數皆向上取整後比較完整原料總額，不能只用產量攤平後的分數單價選路徑。最終 route 必須至少包含一次 Fusion。
 
 原料規劃只允許完整的 Fusion 操作：中間成品不足時以 `ceil(required / baseOutput)` 增加 Fusion 次數，最後所有 Bazaar 購買量都是整數。Crocodile 不降低中間 Fusion 或原材料數量，只套用在最終 Fusion 的預期成品與稅後 Profit。
 
@@ -113,7 +115,10 @@ SkyCofl 回填器逐商品抓取 day／week／history，限制為 90 req/min 並
 - Hypixel server fetch：60 秒 Next data cache，12 秒 timeout。
 - Internal ingestion 與 Cron 共用高熵 secret，production 只放 secret store。
 - Clerk JWT 以 remote JWKS 驗證 signature、expiration、issuer；JWKS resolver 可在 isolate 中安全重用。
+- Clerk JWT 額外限制 `RS256` 與 `azp = ALLOWED_ORIGIN`（token 有 `azp` 時），避免其他 authorized party 的 token 被跨站重用。
 - D1 全部使用 prepared statement，沒有字串拼接 SQL。
 - Public market response 可被 CDN 快取 60 秒；個人書籤一律 `no-store`。
 - 大型 request body 有明確上限，SkyCofl JSON 在 Worker 內壓縮後才寫入 D1。
 - 不向瀏覽器暴露 Clerk secret 或 ingestion secret；D1 以 Worker binding 存取，不需要資料庫 API key。
+- Web／Worker 回應設定防 framing、MIME sniffing 與 referrer／browser capability 限制；production API 不回傳原始 exception details。
+- AH public API 不提供強制略過 cache 的 query，避免外部請求反覆觸發完整上游掃描。
